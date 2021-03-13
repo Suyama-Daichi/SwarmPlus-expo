@@ -6,9 +6,9 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          CheckinCalendar: {
             screens: {
-              TabOneScreen: 'one',
+              CheckinCalendarScreen: 'one',
             },
           },
           TabTwo: {
