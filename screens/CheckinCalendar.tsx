@@ -1,8 +1,10 @@
-import * as React from 'react'
-import { View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text } from 'react-native'
 import { LocaleConfig, Agenda } from 'react-native-calendars'
+import { useDate } from '../hooks/useDate'
 
 export default function CheckinCalander() {
+  const { getDateString } = useDate()
   /**
    * 月ごとのチェックインを取得する
    * @param month date-string
@@ -29,6 +31,13 @@ export default function CheckinCalander() {
         onDayPress={(day) => {
           fetchCheckinForDay(day.dateString)
         }}
+        maxDate={getDateString()}
+        futureScrollRange={1}
+        renderEmptyData={() => (
+          <View>
+            <Text>チェックインはありません</Text>
+          </View>
+        )}
       />
     </View>
   )

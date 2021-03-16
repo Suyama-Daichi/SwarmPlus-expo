@@ -26,6 +26,7 @@
     "@react-navigation/bottom-tabs": "5.11.2",
     "@react-navigation/native": "~5.8.10",
     "@react-navigation/stack": "~5.12.8",
+    "date-fns": "^2.19.0",
     "expo": "~40.0.0",
     "expo-asset": "~8.2.1",
     "expo-constants": "~9.3.0",
@@ -47,8 +48,8 @@
   "devDependencies": {
     "@babel/core": "~7.9.0",
     "@types/react": "~16.9.35",
-    "@types/react-native-calendars": "^1.505.0",
     "@types/react-native": "~0.63.2",
+    "@types/react-native-calendars": "^1.505.0",
     "jest-expo": "~40.0.0",
     "standard-version": "^9.1.1",
     "standard-version-expo": "^1.0.3",
