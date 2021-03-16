@@ -23,7 +23,7 @@ export default function CheckinCalander() {
           '2020-05-22': [{ name: 'item 1 - any js object' }],
           '2020-05-23': [{ name: 'item 2 - any js object', height: 20 }],
           '2020-05-24': [],
-          '2020-05-25': [{ name: 'item 3 - any js object' }, { name: 'any js object' }],
+          '2021-03-01': [{ name: 'item 3 - any js object' }, { name: 'any js object' }],
         }}
         loadItemsForMonth={(month) => {
           fetchCheckinForMonth(month.dateString)
@@ -33,6 +33,10 @@ export default function CheckinCalander() {
         }}
         maxDate={getDateString()}
         futureScrollRange={1}
+        renderDay={(day, item) => {
+          console.log(item)
+          return <View></View>
+        }}
         renderEmptyData={() => (
           <View>
             <Text>チェックインはありません</Text>
