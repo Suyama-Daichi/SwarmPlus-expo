@@ -19,7 +19,7 @@ const responseExtractor = async (res: any) => {
 export const useFoursquare = () => {
   /**
    * ユーザーのチェックインを取得
-   * @param startEnd 月の始まりと月末のタイムスタンプ
+   * @param startEnd 日|月の始まりと末のタイムスタンプ
    * @returns チェックインのリスト
    */
   const fetchUserCheckins = (startEnd?: IStartEnd) => {

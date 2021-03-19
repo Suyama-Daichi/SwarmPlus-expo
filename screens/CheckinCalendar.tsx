@@ -5,7 +5,7 @@ import { useDate } from '../hooks/useDate'
 import { useFoursquare } from '../hooks/useFoursquare'
 
 export default function CheckinCalander() {
-  const { getDateString, getStartEndOfMonth } = useDate()
+  const { getDateString, getStartEndOfMonth, getStartEndOfDay } = useDate()
   const { fetchUserCheckins, fetchCheckinDetails } = useFoursquare()
 
   /**
@@ -21,7 +21,11 @@ export default function CheckinCalander() {
    * 日ごとのチェックインを取得する
    * @param day date-string
    */
-  const fetchCheckinForDay = (day: string) => {}
+  const fetchCheckinForDay = async (dateObject: DateObject) => {
+    const checkins = await fetchUserCheckins(getStartEndOfDay(dateObject))
+    console.log(checkins)
+  }
+
   useEffect(() => {
     return () => {}
   }, [])
@@ -40,11 +44,11 @@ export default function CheckinCalander() {
           '2020-05-24': [],
           '2021-03-01': [{ name: 'item 3 - any js object' }, { name: 'any js object' }],
         }}
-        loadItemsForMonth={(month) => {
-          fetchCheckinForMonth(month)
+        loadItemsForMonth={(dateObject) => {
+          fetchCheckinForMonth(dateObject)
         }}
-        onDayPress={(day) => {
-          fetchCheckinForDay(day.dateString)
+        onDayPress={(dateObject) => {
+          fetchCheckinForDay(dateObject)
         }}
         maxDate={getDateString()}
         futureScrollRange={1}
