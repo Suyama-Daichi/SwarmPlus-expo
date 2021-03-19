@@ -8,7 +8,12 @@ const getCredencial = () => {
 }
 
 const responseExtractor = async (res: any) => {
-  return (await res.json()).response
+  const parsedRes = await res.json()
+  if (parsedRes.meta.code !== 200) {
+    console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
+  } else {
+    return parsedRes.response
+  }
 }
 
 export const useFoursquare = () => {
