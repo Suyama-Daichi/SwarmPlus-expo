@@ -17,9 +17,13 @@ export const useDate = () => {
    * @param dateObject 月
    * @returns IStartEnd
    */
-  const getStartEndOfMonth = (dateObject: DateObject): IStartEnd => {
-    const afterTimestamp = startOfMonth(new Date(dateObject.year, dateObject.month - 1))
-    const beforeTimestamp = endOfMonth(new Date(dateObject.year, dateObject.month - 1))
+  const getStartEndOfMonth = (dateObject?: DateObject): IStartEnd => {
+    const afterTimestamp = startOfMonth(
+      dateObject ? new Date(dateObject.year, dateObject.month - 1) : new Date()
+    )
+    const beforeTimestamp = endOfMonth(
+      dateObject ? new Date(dateObject.year, dateObject.month - 1) : new Date()
+    )
     return {
       afterTimestamp: getUnixTime(afterTimestamp).toString(),
       beforeTimestamp: getUnixTime(beforeTimestamp).toString(),

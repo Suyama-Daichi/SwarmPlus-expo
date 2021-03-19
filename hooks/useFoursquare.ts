@@ -17,10 +17,12 @@ export const useFoursquare = () => {
    * @param startEnd 月の始まりと月末のタイムスタンプ
    * @returns チェックインのリスト
    */
-  const fetchUserCheckins = (startEnd: IStartEnd) => {
+  const fetchUserCheckins = (startEnd?: IStartEnd) => {
     const params = getCredencial()
-    params.append('afterTimestamp', startEnd.afterTimestamp)
-    params.append('beforeTimestamp', startEnd.beforeTimestamp)
+    if (startEnd) {
+      params.append('afterTimestamp', startEnd.afterTimestamp)
+      params.append('beforeTimestamp', startEnd.beforeTimestamp)
+    }
     return fetch(`https://api.foursquare.com/v2/users/self/checkins?${params}`, {
       method: 'GET',
     })
