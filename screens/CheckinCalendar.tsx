@@ -26,8 +26,9 @@ export default function CheckinCalander() {
     return () => {}
   }, [])
 
-  const getCHeckinDetails = () => {
-    fetchCheckinDetails('5d6a8b251a95e30008248a6a')
+  const getCHeckinDetails = async (checkinId = '5d6a8b251a95e30008248a6a') => {
+    const checkins = await fetchCheckinDetails(checkinId)
+    console.log(checkins)
   }
 
   return (
