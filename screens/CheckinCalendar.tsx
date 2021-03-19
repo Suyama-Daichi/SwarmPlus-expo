@@ -6,7 +6,8 @@ import { useFoursquare } from '../hooks/useFoursquare'
 
 export default function CheckinCalander() {
   const { getDateString, getStartEndOfMonth } = useDate()
-  const { fetchUserCheckins } = useFoursquare()
+  const { fetchUserCheckins, fetchCheckinDetails } = useFoursquare()
+
   /**
    * 月ごとのチェックインを取得する
    * @param dateObject date-string
@@ -15,15 +16,19 @@ export default function CheckinCalander() {
     const checkins = await fetchUserCheckins(getStartEndOfMonth(dateObject))
     console.log(checkins)
   }
+
   /**
    * 日ごとのチェックインを取得する
    * @param day date-string
    */
-
   const fetchCheckinForDay = (day: string) => {}
   useEffect(() => {
     return () => {}
   }, [])
+
+  const getCHeckinDetails = () => {
+    fetchCheckinDetails('5d6a8b251a95e30008248a6a')
+  }
 
   return (
     <View style={{ height: 600 }}>

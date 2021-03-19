@@ -37,5 +37,21 @@ export const useFoursquare = () => {
       .then(async (res) => await responseExtractor(res))
   }
 
-  return { fetchUserCheckins }
+  /**
+   * チェックインの詳細を取得する
+   * @param checkinId チェックインID
+   * @returns チェックインの詳細
+   */
+  const fetchCheckinDetails = (checkinId: string) => {
+    const params = getCredencial()
+    return fetch(`https://api.foursquare.com/v2/checkins/${checkinId}?${params}`, {
+      method: 'GET',
+    })
+      .catch((err) => {
+        console.error(err)
+      })
+      .then(async (res) => await responseExtractor(res))
+  }
+
+  return { fetchUserCheckins, fetchCheckinDetails }
 }
