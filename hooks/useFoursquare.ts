@@ -1,7 +1,8 @@
+import { IStartEnd } from '../interface/interface.type'
 import { config } from '../service/config'
 
 const getCredencial = () => {
-  const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301' }
+  const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250' }
   const query = new URLSearchParams(params)
   return query
 }
@@ -11,13 +12,17 @@ const responseExtractor = async (res: any) => {
 }
 
 export const useFoursquare = () => {
-  const params = getCredencial()
-
+  /**
+   * ユーザーのチェックインを取得
+   * @param startEnd 月の始まりと月末のタイムスタンプ
+   * @returns チェックインのリスト
+   */
   const fetchUserCheckins = (startEnd: IStartEnd) => {
+    const params = getCredencial()
     params.append('afterTimestamp', startEnd.afterTimestamp)
     params.append('beforeTimestamp', startEnd.beforeTimestamp)
     return fetch(`https://api.foursquare.com/v2/users/self/checkins?${params}`, {
-      method: 'get',
+      method: 'GET',
     })
       .catch((err) => {
         console.error(err)
@@ -26,9 +31,4 @@ export const useFoursquare = () => {
   }
 
   return { fetchUserCheckins }
-}
-
-interface IStartEnd {
-  afterTimestamp: string
-  beforeTimestamp: string
 }

@@ -1,4 +1,6 @@
-import { format } from 'date-fns'
+import { format, startOfMonth, endOfMonth, getUnixTime } from 'date-fns'
+import { DateObject } from 'react-native-calendars'
+import { IStartEnd } from '../interface/interface.type'
 
 export const useDate = () => {
   /**
@@ -9,7 +11,23 @@ export const useDate = () => {
   const getDateString = (date = new Date()) => {
     return format(date, 'yyyy-MM-dd')
   }
+
+  /**
+   * 月の始まりと月末のタイムスタンプを取得する
+   * @param dateObject 月
+   * @returns IStartEnd
+   */
+  const getStartEndOfMonth = (dateObject: DateObject): IStartEnd => {
+    const afterTimestamp = startOfMonth(new Date(dateObject.year, dateObject.month - 1))
+    const beforeTimestamp = endOfMonth(new Date(dateObject.year, dateObject.month - 1))
+    return {
+      afterTimestamp: getUnixTime(afterTimestamp).toString(),
+      beforeTimestamp: getUnixTime(beforeTimestamp).toString(),
+    }
+  }
+
   return {
     getDateString,
+    getStartEndOfMonth,
   }
 }

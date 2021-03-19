@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text } from 'react-native'
-import { Agenda } from 'react-native-calendars'
+import { Agenda, DateObject } from 'react-native-calendars'
 import { useDate } from '../hooks/useDate'
-import { config } from '../service/config'
 import { useFoursquare } from '../hooks/useFoursquare'
 
 export default function CheckinCalander() {
-  const { getDateString } = useDate()
+  const { getDateString, getStartEndOfMonth } = useDate()
   const { fetchUserCheckins } = useFoursquare()
   /**
    * 月ごとのチェックインを取得する
-   * @param month date-string
+   * @param dateObject date-string
    */
-  const fetchCheckinForMonth = async (month: string) => {
-    const res = await fetchUserCheckins({
-      afterTimestamp: '1614509116',
-      beforeTimestamp: '1613746644',
-    })
-    console.log(res)
+  const fetchCheckinForMonth = async (dateObject: DateObject) => {
+    const checkins = await fetchUserCheckins(getStartEndOfMonth(dateObject))
+    console.log(checkins)
   }
   /**
    * 日ごとのチェックインを取得する
@@ -39,7 +35,7 @@ export default function CheckinCalander() {
           '2021-03-01': [{ name: 'item 3 - any js object' }, { name: 'any js object' }],
         }}
         loadItemsForMonth={(month) => {
-          fetchCheckinForMonth(month.dateString)
+          fetchCheckinForMonth(month)
         }}
         onDayPress={(day) => {
           fetchCheckinForDay(day.dateString)
