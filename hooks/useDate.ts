@@ -8,8 +8,9 @@ export const useDate = () => {
    * @param date 変換対象のDateオブジェクト
    * @returns 日付文字列 ex: 2020-03-12
    */
-  const getDateString = (date = new Date()) => {
-    return format(date, 'yyyy-MM-dd')
+  const getDateString = (date: Date | number = new Date()) => {
+    const formatString = 'yyyy-MM-dd'
+    return format(typeof date === 'number' ? new Date(Number(date + '000')) : date, formatString)
   }
 
   /**
