@@ -10,7 +10,7 @@ export default function CheckinCalander() {
 
   /**
    * 月ごとのチェックインを取得する
-   * @param dateObject date-string
+   * @param dateObject DateObject
    */
   const fetchCheckinForMonth = async (dateObject: DateObject) => {
     const checkins = await fetchUserCheckins(getStartEndOfMonth(dateObject))
@@ -19,7 +19,7 @@ export default function CheckinCalander() {
 
   /**
    * 日ごとのチェックインを取得する
-   * @param day date-string
+   * @param dateObject DateObject
    */
   const fetchCheckinForDay = async (dateObject: DateObject) => {
     const checkins = await fetchUserCheckins(getStartEndOfDay(dateObject))
@@ -53,7 +53,6 @@ export default function CheckinCalander() {
         maxDate={getDateString()}
         futureScrollRange={1}
         renderDay={(day, item) => {
-          console.log(item)
           return <View></View>
         }}
         renderEmptyData={() => (
