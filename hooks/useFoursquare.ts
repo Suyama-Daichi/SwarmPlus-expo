@@ -1,5 +1,6 @@
 import { IStartEnd } from '../interface/interface.type'
 import { config } from '../service/config'
+import { Response, Checkins } from '../interface/Foursquare.type'
 
 const getCredencial = () => {
   const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250' }
@@ -7,13 +8,12 @@ const getCredencial = () => {
   return query
 }
 
-const responseExtractor = async (res: any) => {
+const responseExtractor = async (res: any): Promise<Checkins> => {
   const parsedRes = await res.json()
   if (parsedRes.meta.code !== 200) {
     console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
-  } else {
-    return parsedRes.response
   }
+  return parsedRes.response.checkins
 }
 
 export const useFoursquare = () => {
@@ -22,7 +22,7 @@ export const useFoursquare = () => {
    * @param startEnd 日|月の始まりと末のタイムスタンプ
    * @returns チェックインのリスト
    */
-  const fetchUserCheckins = (startEnd?: IStartEnd) => {
+  const fetchUserCheckins = (startEnd?: IStartEnd): Promise<Checkins> => {
     const params = getCredencial()
     if (startEnd) {
       params.append('afterTimestamp', startEnd.afterTimestamp)
