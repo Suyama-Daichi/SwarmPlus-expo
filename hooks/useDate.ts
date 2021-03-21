@@ -23,7 +23,7 @@ export const useDate = () => {
       dateObject ? new Date(dateObject.year, dateObject.month - 1) : new Date()
     )
     const beforeTimestamp = endOfMonth(
-      dateObject ? new Date(dateObject.year, dateObject.month - 1) : new Date()
+      dateObject ? new Date(dateObject.year, dateObject.month) : new Date()
     )
     return {
       afterTimestamp: getUnixTime(afterTimestamp).toString(),
