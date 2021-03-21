@@ -15,12 +15,14 @@ export default function CheckinCalander() {
   const { fetchUserCheckins, fetchCheckinDetails } = useFoursquare()
   const { convertAgendaObject } = useUtils()
   const [items, setItems] = useState({})
+  const [loading, setLoading] = useState(false)
 
   /**
    * 月ごとのチェックインを取得する
    * @param dateObject DateObject
    */
   const fetchCheckinForMonth = async (dateObject: DateObject) => {
+    setLoading(true)
     const checkins = await fetchUserCheckins(getStartEndOfMonth(dateObject))
     setItems(convertAgendaObject(checkins))
   }
@@ -42,6 +44,7 @@ export default function CheckinCalander() {
     // Object.keys(items).forEach((f) => {
     //   console.log(f, items[f].length)
     // })
+    setLoading(false)
     return () => {}
   }, [items])
 
@@ -60,6 +63,7 @@ export default function CheckinCalander() {
         onDayPress={(dateObject) => {
           fetchCheckinForDay(dateObject)
         }}
+        displayLoadingIndicator={loading}
         maxDate={getDateString()}
         futureScrollRange={1}
         renderDay={(date, item: CheckinsItem) => (
