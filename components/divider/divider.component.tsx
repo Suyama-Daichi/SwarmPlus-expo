@@ -1,18 +1,10 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { CheckinsItem } from '../../interface/Foursquare.type'
 import { DateObject } from 'react-native-calendars'
-import { Checkin } from '../card/checkin.component'
 import window from '../../constants/Layout'
 import Colors from '../../constants/Colors'
 
-export const DividerDate = ({
-  dateObject,
-  item,
-}: {
-  dateObject: DateObject | undefined
-  item: CheckinsItem
-}) => {
+export const DividerDate = ({ dateObject }: { dateObject: DateObject | undefined }) => {
   return (
     <View style={{ backgroundColor: 'white' }}>
       {dateObject && (
@@ -30,7 +22,6 @@ export const DividerDate = ({
           <Text>{dateObject?.dateString}</Text>
         </View>
       )}
-      <Checkin item={item} />
     </View>
   )
 }

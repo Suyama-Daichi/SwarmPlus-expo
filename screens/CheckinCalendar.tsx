@@ -8,6 +8,7 @@ import { useFoursquare } from '../hooks/useFoursquare'
 import { useUtils } from '../hooks/useUtils'
 import { CheckinsItem } from '../interface/Foursquare.type'
 import window from '../constants/Layout'
+import { Timeline } from '../components/Timeline.component'
 
 export default function CheckinCalander() {
   const { getDateString, getStartEndOfMonth, getStartEndOfDay } = useDate()
@@ -62,7 +63,7 @@ export default function CheckinCalander() {
         maxDate={getDateString()}
         futureScrollRange={1}
         renderDay={(date, item: CheckinsItem) => (
-          <DividerDate dateObject={date} item={item}></DividerDate>
+          <Timeline dateObject={date} item={item}></Timeline>
         )}
         renderEmptyData={() => (
           <View>
