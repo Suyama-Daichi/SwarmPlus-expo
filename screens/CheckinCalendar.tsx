@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { View, Text } from 'react-native'
 import { Agenda, DateObject, AgendaItemsMap } from 'react-native-calendars'
 import { Checkin } from '../components/card/checkin.component'
+import { DividerDate as DividerDate } from '../components/divider/divider.component'
 import { useDate } from '../hooks/useDate'
 import { useFoursquare } from '../hooks/useFoursquare'
 import { useUtils } from '../hooks/useUtils'
 import { CheckinsItem } from '../interface/Foursquare.type'
+import window from '../constants/Layout'
 
 export default function CheckinCalander() {
   const { getDateString, getStartEndOfMonth, getStartEndOfDay } = useDate()
@@ -19,7 +21,6 @@ export default function CheckinCalander() {
    */
   const fetchCheckinForMonth = async (dateObject: DateObject) => {
     const checkins = await fetchUserCheckins(getStartEndOfMonth(dateObject))
-    // console.log(convertAgendaObject(checkins))
     setItems(convertAgendaObject(checkins))
   }
 
@@ -37,9 +38,9 @@ export default function CheckinCalander() {
   }, [])
 
   useEffect(() => {
-    Object.keys(items).forEach((f) => {
-      console.log(f, items[f].length)
-    })
+    // Object.keys(items).forEach((f) => {
+    //   console.log(f, items[f].length)
+    // })
     return () => {}
   }, [items])
 
@@ -49,7 +50,7 @@ export default function CheckinCalander() {
   }
 
   return (
-    <View style={{ height: 600 }}>
+    <View style={{ height: window.window.height }}>
       <Agenda
         items={items}
         loadItemsForMonth={(dateObject) => {
@@ -60,9 +61,9 @@ export default function CheckinCalander() {
         }}
         maxDate={getDateString()}
         futureScrollRange={1}
-        renderItem={(item: CheckinsItem) => {
-          return <Checkin item={item} />
-        }}
+        renderDay={(date, item: CheckinsItem) => (
+          <DividerDate dateObject={date} item={item}></DividerDate>
+        )}
         renderEmptyData={() => (
           <View>
             <Text>チェックインはありません</Text>
