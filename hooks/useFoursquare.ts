@@ -3,7 +3,7 @@ import { config } from '../service/config'
 import { Response, Checkins } from '../interface/Foursquare.type'
 
 const getCredencial = () => {
-  const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250' }
+  const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
   const query = new URLSearchParams(params)
   return query
 }
