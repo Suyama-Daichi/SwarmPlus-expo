@@ -14,6 +14,16 @@ export const useDate = () => {
   }
 
   /**
+   * タイムスタンプ(10桁)をフォーマットする
+   * @param timestamp タイムスタンプ
+   * @param formatString 日付フォーマット
+   * @returns フォーマットされた文字列
+   */
+  const formatTimestamp = (timestamp: number, formatString: string) => {
+    return format(new Date(Number(timestamp + '000')), formatString)
+  }
+
+  /**
    * 月の始まりと月末のタイムスタンプを取得する
    * @param dateObject DateObject
    * @returns IStartEnd
@@ -51,6 +61,7 @@ export const useDate = () => {
 
   return {
     getDateString,
+    formatTimestamp,
     getStartEndOfMonth,
     getStartEndOfDay,
   }

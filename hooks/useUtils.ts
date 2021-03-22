@@ -26,5 +26,14 @@ export const useUtils = () => {
     return Object.fromEntries(hoge.map((m) => [m.currentDateStr, m.current]))
   }
 
-  return { convertAgendaObject }
+  /**
+   * 画像URLを生成
+   * @param checkin チェックインオブジェクト
+   * @returns AgendaItems: object
+   */
+  const generateImageUrl = (prefix: string, surfix: string, size: string = 'original') => {
+    return `${prefix}${size}${surfix}`
+  }
+
+  return { convertAgendaObject, generateImageUrl }
 }

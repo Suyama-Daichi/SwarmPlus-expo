@@ -2,17 +2,55 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { CheckinsItem } from '../../interface/Foursquare.type'
 import window from '../../constants/Layout'
+import { useDate } from '../../hooks/useDate'
+import { Avatar, Image } from 'react-native-elements'
+import { useUtils } from '../../hooks/useUtils'
+import { ScrollView } from 'react-native-gesture-handler'
 
 export const Checkin = ({ item }: { item: CheckinsItem }) => {
+  const { formatTimestamp } = useDate()
+  const { generateImageUrl } = useUtils()
   return (
     <View style={[styles.container, { borderColor: '#707070', borderWidth: 0.3 }]}>
-      <Text>{item?.venue.name}</Text>
+      <View style={{ flexDirection: 'row' }}>
+        <Avatar
+          rounded
+          size={'medium'}
+          source={{
+            uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+          }}
+          icon={{ name: 'person-outline' }}
+        />
+        <View style={{ paddingLeft: 8 }}>
+          <Text>{item.venue.name}</Text>
+          <Text>
+            {item.venue.location.state}
+            {item.venue.location.city}
+            {item.venue.location.address}
+          </Text>
+          <Text>{formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}</Text>
+          <ScrollView horizontal={true}>
+            {item.photos.items.map((m) => {
+              return (
+                <Image
+                  source={{
+                    uri: generateImageUrl(m.prefix, m.suffix),
+                  }}
+                  style={{ width: 100, height: 100 }}
+                  resizeMode={'contain'}
+                />
+              )
+            })}
+          </ScrollView>
+          <Text>via: {item.source.name}</Text>
+        </View>
+      </View>
     </View>
   )
 }
 const styles = StyleSheet.create({
   container: {
-    height: 80,
+    height: 'auto',
     width: window.window.width - 16,
     marginVertical: 4,
     padding: 4,
