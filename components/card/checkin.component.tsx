@@ -6,44 +6,55 @@ import { useDate } from '../../hooks/useDate'
 import { Avatar, Image } from 'react-native-elements'
 import { useUtils } from '../../hooks/useUtils'
 import { ScrollView } from 'react-native-gesture-handler'
+import colors from '../../constants/Colors'
 
 export const Checkin = ({ item }: { item: CheckinsItem }) => {
   const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
   return (
-    <View style={[styles.container, { borderColor: '#707070', borderWidth: 0.3 }]}>
-      <View style={{ flexDirection: 'row' }}>
-        <Avatar
-          rounded
-          size={'medium'}
-          source={{
-            uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-          }}
-          icon={{ name: 'person-outline' }}
-        />
-        <View style={{ paddingLeft: 8 }}>
-          <Text>{item.venue.name}</Text>
-          <Text>
-            {item.venue.location.state}
-            {item.venue.location.city}
-            {item.venue.location.address}
-          </Text>
-          <Text>{formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}</Text>
-          <ScrollView horizontal={true}>
-            {item.photos.items.map((m) => {
-              return (
-                <Image
-                  source={{
-                    uri: generateImageUrl(m.prefix, m.suffix),
-                  }}
-                  style={{ width: 100, height: 100 }}
-                  resizeMode={'contain'}
-                />
-              )
-            })}
-          </ScrollView>
-          <Text>via: {item.source.name}</Text>
-        </View>
+    <View
+      style={[
+        styles.container,
+        { borderColor: '#707070', borderWidth: 0.3 },
+        { flexDirection: 'row' },
+      ]}
+    >
+      <Avatar
+        rounded
+        size={'medium'}
+        source={{
+          uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+        }}
+        icon={{ name: 'person-outline' }}
+      />
+
+      <View style={{ paddingLeft: 8, flex: 1 }}>
+        <Text style={[styles.fontLerge, styles.venueName]} numberOfLines={2}>
+          {item.venue.name}
+        </Text>
+        <Text style={[styles.fontMidium, styles.textSub, { marginBottom: 8 }]} numberOfLines={1}>
+          {item.venue.location.state}
+          {item.venue.location.city}
+          {item.venue.location.address}
+        </Text>
+        <Text style={[styles.fontMidium, styles.textSub]}>
+          {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
+        </Text>
+        <ScrollView horizontal={true}>
+          {item.photos.items.map((m) => {
+            return (
+              <Image
+                key={m.suffix}
+                source={{
+                  uri: generateImageUrl(m.prefix, m.suffix),
+                }}
+                style={{ width: 100, height: 100 }}
+                resizeMode={'contain'}
+              />
+            )
+          })}
+        </ScrollView>
+        <Text style={[styles.fontMidium, styles.textSub]}>via: {item.source.name}</Text>
       </View>
     </View>
   )
@@ -59,5 +70,17 @@ const styles = StyleSheet.create({
   border: {
     borderWidth: 0.5,
     borderColor: 'gray',
+  },
+  venueName: {
+    color: colors.light.textBlack,
+  },
+  textSub: {
+    color: colors.light.textSub,
+  },
+  fontLerge: {
+    fontSize: 24,
+  },
+  fontMidium: {
+    fontSize: 17,
   },
 })

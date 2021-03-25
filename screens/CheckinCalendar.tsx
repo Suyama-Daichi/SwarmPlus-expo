@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text } from 'react-native'
 import { Agenda, DateObject, AgendaItemsMap } from 'react-native-calendars'
-import { Checkin } from '../components/card/checkin.component'
-import { DividerDate as DividerDate } from '../components/divider/divider.component'
 import { useDate } from '../hooks/useDate'
 import { useFoursquare } from '../hooks/useFoursquare'
 import { useUtils } from '../hooks/useUtils'

@@ -3,7 +3,8 @@ const tintColorDark = '#fff'
 
 export default {
   light: {
-    text: '#000',
+    textBlack: '#333333',
+    textSub: '#777777',
     background: '#fff',
     backgroundSecond: '#DADADA',
     tint: tintColorLight,
