@@ -52,7 +52,7 @@ export default function CheckinCalander() {
   }
 
   return (
-    <View style={{ height: window.window.height }}>
+    <View style={{ height: '100%' }}>
       <Agenda
         items={items}
         loadItemsForMonth={(dateObject) => {
