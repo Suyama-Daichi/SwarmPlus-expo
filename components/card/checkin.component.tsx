@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, Modal } from 'react-native'
 import { CheckinsItem } from '../../interface/Foursquare.type'
 import window from '../../constants/Layout'
 import { useDate } from '../../hooks/useDate'
@@ -7,8 +7,10 @@ import { Avatar, Image, Icon } from 'react-native-elements'
 import { useUtils } from '../../hooks/useUtils'
 import { ScrollView } from 'react-native-gesture-handler'
 import colors from '../../constants/Colors'
-
+import ImageViewer from 'react-native-image-zoom-viewer'
 export const Checkin = ({ item }: { item: CheckinsItem }) => {
+  const [showModal, setShowModal] = useState(false)
+  const [imageIndex, setImageIndex] = useState(0)
   const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
 
@@ -53,8 +55,18 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
         <Text style={[styles.fontMidium, styles.textSub]}>
           {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
         </Text>
+        <Modal visible={showModal} transparent={true}>
+          <ImageViewer
+            enableSwipeDown={true}
+            index={imageIndex}
+            onSwipeDown={() => setShowModal(false)}
+            imageUrls={item.photos.items.map((m) => {
+              return { url: generateImageUrl(m.prefix, m.suffix) }
+            })}
+          />
+        </Modal>
         <ScrollView horizontal={true}>
-          {item.photos.items.map((m) => {
+          {item.photos.items.map((m, i) => {
             return (
               <Image
                 key={m.suffix}
@@ -63,6 +75,10 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
                 }}
                 style={{ width: 100, height: 100 }}
                 resizeMode={'contain'}
+                onPress={() => {
+                  setShowModal(true)
+                  setImageIndex(i)
+                }}
               />
             )
           })}
