@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TutorialApp",
-    "slug": "TutorialApp",
+    "name": "SwarmPlus",
+    "slug": "SwarmPlus",
     "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1",
-      "bundleIdentifier": "com.donchan.TutorialApp"
+      "bundleIdentifier": "com.donchan.SwarmPlus"
     },
     "android": {
       "adaptiveIcon": {
