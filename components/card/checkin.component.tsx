@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import { CheckinsItem } from '../../interface/Foursquare.type'
 import window from '../../constants/Layout'
 import { useDate } from '../../hooks/useDate'
-import { Avatar, Image } from 'react-native-elements'
+import { Avatar, Image, Icon } from 'react-native-elements'
 import { useUtils } from '../../hooks/useUtils'
 import { ScrollView } from 'react-native-gesture-handler'
 import colors from '../../constants/Colors'
@@ -32,6 +32,15 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
       <View style={{ paddingLeft: 8, flex: 1 }}>
         <Text style={[styles.fontLerge, styles.venueName]} numberOfLines={2}>
           {item.venue.name}
+          {item.isMayor && (
+            <Icon
+              name={'crown'}
+              type={'font-awesome-5'}
+              size={17}
+              color={colors.light.primaryOrange}
+              style={{ paddingHorizontal: 4 }}
+            />
+          )}
         </Text>
         <Text style={[styles.fontMidium, styles.textSub, { marginBottom: 8 }]} numberOfLines={1}>
           {item.venue.location.state}
