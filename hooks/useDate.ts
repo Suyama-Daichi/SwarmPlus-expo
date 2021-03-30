@@ -1,4 +1,15 @@
-import { format, startOfMonth, endOfMonth, startOfDay, endOfDay, getUnixTime } from 'date-fns'
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  startOfDay,
+  endOfDay,
+  getUnixTime,
+  eachDayOfInterval,
+  addDays,
+  min,
+  max,
+} from 'date-fns'
 import { DateObject } from 'react-native-calendars'
 import { IStartEnd } from '../interface/interface.type'
 
@@ -59,10 +70,37 @@ export const useDate = () => {
     }
   }
 
+  /**
+   * 指定した期間の日付の配列を取得する
+   * @param start 開始日
+   * @param end 終了日
+   * @returns []: string
+   */
+  const getDateArray = (start: Date = new Date(), end: Date = addDays(new Date(), 7)) => {
+    const dateArray = eachDayOfInterval({ start, end })
+    return dateArray.map((m) => getDateString(m))
+  }
+
+  /**
+   * 最小日、最大日を取得する
+   * @param dateArray 比較対象の日付の配列: Date[]
+   * @returns {min: Date, Max: Date}
+   */
+  const getMinMaxDate = (dateArray: Date[] | string[]) => {
+    if (typeof dateArray[0] === 'string') {
+      const dateConverted = dateArray.map((m) => new Date(m))
+      return { min: min(dateConverted), max: max(dateConverted) }
+    } else {
+      return { min: min(dateArray as Date[]), max: max(dateArray as Date[]) }
+    }
+  }
+
   return {
     getDateString,
     formatTimestamp,
     getStartEndOfMonth,
     getStartEndOfDay,
+    getDateArray,
+    getMinMaxDate,
   }
 }

@@ -40,7 +40,7 @@ export default function CheckinCalander() {
 
   useEffect(() => {
     // Object.keys(items).forEach((f) => {
-    //   console.log(f, items[f].length)
+    //   if (f === '2021-03-27') console.log(items[f])
     // })
     setLoading(false)
     return () => {}
@@ -66,11 +66,6 @@ export default function CheckinCalander() {
         futureScrollRange={1}
         renderDay={(date, item: CheckinsItem) => (
           <Timeline dateObject={date} item={item}></Timeline>
-        )}
-        renderEmptyData={() => (
-          <View>
-            <Text>チェックインはありません</Text>
-          </View>
         )}
       />
     </View>
