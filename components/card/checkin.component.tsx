@@ -38,6 +38,9 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
           {item.venue.location.city}
           {item.venue.location.address}
         </Text>
+        <Text style={[styles.fontMidium, styles.textSub, { paddingVertical: 8 }]}>
+          {item.shout}
+        </Text>
         <Text style={[styles.fontMidium, styles.textSub]}>
           {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
         </Text>
