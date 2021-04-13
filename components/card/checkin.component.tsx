@@ -29,29 +29,57 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
           uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
         }}
         icon={{ name: 'person-outline' }}
-      />
+      >
+        {item.isMayor && (
+          <Avatar.Accessory
+            size={24}
+            name={'crown'}
+            type={'font-awesome-5'}
+            color={colors.light.coinCrown}
+            style={{ backgroundColor: colors.light.background }}
+            iconStyle={{ fontSize: 14 }}
+          />
+        )}
+      </Avatar>
 
       <View style={{ paddingLeft: 8, flex: 1 }}>
         <Text style={[styles.fontLerge, styles.venueName]} numberOfLines={2}>
           {item.venue.name}
-          {item.isMayor && (
-            <Icon
-              name={'crown'}
-              type={'font-awesome-5'}
-              size={17}
-              color={colors.light.primaryOrange}
-              style={{ paddingHorizontal: 4 }}
-            />
-          )}
         </Text>
+
         <Text style={[styles.fontMidium, styles.textSub, { marginBottom: 8 }]} numberOfLines={1}>
           {item.venue.location.state}
           {item.venue.location.city}
           {item.venue.location.address}
         </Text>
-        <Text style={[styles.fontMidium, styles.textSub, { paddingVertical: 8 }]}>
-          {item.shout}
-        </Text>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={[styles.fontMidium, styles.venueName, { marginRight: 8 }]} numberOfLines={2}>
+            <Icon
+              name={'heart'}
+              type={'font-awesome-5'}
+              size={16}
+              solid
+              color={colors.light.pink}
+              style={{ paddingHorizontal: 4 }}
+            />
+            {item.likes.count}
+          </Text>
+
+          <Text style={[styles.fontMidium, styles.venueName]} numberOfLines={2}>
+            <Icon
+              name={'comment'}
+              type={'font-awesome-5'}
+              size={16}
+              solid
+              color={colors.light.backgroundSecond}
+              style={{ paddingHorizontal: 4 }}
+            />
+            {item.comments.count}
+          </Text>
+        </View>
+
+        <Text style={[styles.fontMidium, styles.textSub, { marginVertical: 8 }]}>{item.shout}</Text>
         <Text style={[styles.fontMidium, styles.textSub]}>
           {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
         </Text>
