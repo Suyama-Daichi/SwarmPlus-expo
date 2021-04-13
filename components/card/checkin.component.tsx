@@ -11,11 +11,13 @@ import ImageViewer from 'react-native-image-zoom-viewer'
 import { useRecoil } from '../../hooks/useRecoil'
 
 export const Checkin = ({ item }: { item: CheckinsItem }) => {
-  const { user }: { user: User } = useRecoil()
+  const { user } = useRecoil()
   const [showModal, setShowModal] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
   const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
+
+  console.log(user)
 
   return (
     <View

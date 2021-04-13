@@ -36,7 +36,7 @@ export default function CheckinCalander() {
   }
 
   useEffect(() => {
-    if (!user) {
+    if (!user.id) {
       fetchUser().then((result) => {
         setUser(result)
       })
