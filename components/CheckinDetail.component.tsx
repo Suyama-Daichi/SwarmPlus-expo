@@ -1,27 +1,37 @@
-import React, { useState } from 'react'
-import { View, TouchableOpacity, Text, StyleSheet, Modal } from 'react-native'
-import { CheckinsItem, User } from '../../interface/Foursquare.type'
-import window from '../../constants/Layout'
-import { useDate } from '../../hooks/useDate'
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, Modal } from 'react-native'
+import window from '../constants/Layout'
+import { useDate } from '../hooks/useDate'
 import { Avatar, Image, Icon } from 'react-native-elements'
-import { useUtils } from '../../hooks/useUtils'
+import { useUtils } from '../hooks/useUtils'
 import { ScrollView } from 'react-native-gesture-handler'
-import colors from '../../constants/Colors'
+import colors from '../constants/Colors'
 import ImageViewer from 'react-native-image-zoom-viewer'
-import { useRecoil } from '../../hooks/useRecoil'
-import { useNavigation } from '@react-navigation/core'
+import { useRecoil } from '../hooks/useRecoil'
+import { useFoursquare } from '../hooks/useFoursquare'
+import { CheckinsItem } from '../interface/Foursquare.type'
 
-export const Checkin = ({ item }: { item: CheckinsItem }) => {
-  const navigation = useNavigation()
+export const CheckinDetail = ({ route }) => {
+  const { item }: { item: CheckinsItem } = route.params
   const { user } = useRecoil()
   const [showModal, setShowModal] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
+  const { fetchCheckinDetails } = useFoursquare()
   const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
 
+  const getCHeckinDetails = async () => {
+    const checkins = await fetchCheckinDetails(item.id)
+    // TODO:チェックイン詳細は取得してあるのでViewにマッピングする
+  }
+
+  useEffect(() => {
+    getCHeckinDetails()
+    return () => {}
+  }, [item])
+
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('CheckinDetail', { item })}
+    <View
       style={[
         styles.container,
         { borderColor: '#707070', borderWidth: 0.3 },
@@ -119,7 +129,7 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
         </ScrollView>
         <Text style={[styles.fontMidium, styles.textSub]}>via: {item.source.name}</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   )
 }
 const styles = StyleSheet.create({

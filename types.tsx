@@ -10,6 +10,7 @@ export type BottomTabParamList = {
 
 export type CheckinCalendarParamList = {
   CheckinCalendar: undefined
+  CheckinDetail: undefined
 }
 
 export type TabTwoParamList = {
