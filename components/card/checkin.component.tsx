@@ -17,8 +17,6 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
   const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
 
-  console.log(user)
-
   return (
     <View
       style={[

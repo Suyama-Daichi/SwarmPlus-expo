@@ -23,7 +23,7 @@ export default function BottomTabNavigator() {
         name="CheckinCalander"
         component={CheckinCalendarNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
         }}
       />
       <BottomTab.Screen
