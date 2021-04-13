@@ -1,6 +1,6 @@
 import { IStartEnd } from '../interface/interface.type'
 import { config } from '../service/config'
-import { Response, Checkins } from '../interface/Foursquare.type'
+import { Response, Checkins, User } from '../interface/Foursquare.type'
 
 const getCredencial = () => {
   const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
@@ -8,15 +8,33 @@ const getCredencial = () => {
   return query
 }
 
-const responseExtractor = async (res: any): Promise<Checkins> => {
+const responseExtractor = async ({
+  res,
+  type,
+}: {
+  res: any
+  type: 'checkins' | 'user'
+}): Promise<any> => {
+  console.log({ res })
   const parsedRes = await res.json()
   if (parsedRes.meta.code !== 200) {
     console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
   }
-  return parsedRes.response.checkins
+  return parsedRes.response[type]
 }
 
 export const useFoursquare = () => {
+  const fetchUser = (): Promise<User> => {
+    const params = getCredencial()
+    return fetch(`https://api.foursquare.com/v2/users/self?${params}`, {
+      method: 'GET',
+    })
+      .catch((err) => {
+        console.error(err)
+      })
+      .then(async (res) => await responseExtractor({ res, type: 'user' }))
+  }
+
   /**
    * ユーザーのチェックインを取得
    * @param startEnd 日|月の始まりと末のタイムスタンプ
@@ -34,7 +52,7 @@ export const useFoursquare = () => {
       .catch((err) => {
         console.error(err)
       })
-      .then(async (res) => await responseExtractor(res))
+      .then(async (res) => await responseExtractor({ res, type: 'checkins' }))
   }
 
   /**
@@ -50,8 +68,8 @@ export const useFoursquare = () => {
       .catch((err) => {
         console.error(err)
       })
-      .then(async (res) => await responseExtractor(res))
+      .then(async (res) => await responseExtractor({ res, type: 'checkins' }))
   }
 
-  return { fetchUserCheckins, fetchCheckinDetails }
+  return { fetchUser, fetchUserCheckins, fetchCheckinDetails }
 }

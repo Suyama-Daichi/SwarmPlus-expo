@@ -10,7 +10,7 @@ import { Timeline } from '../components/Timeline.component'
 
 export default function CheckinCalander() {
   const { getDateString, getStartEndOfMonth, getStartEndOfDay } = useDate()
-  const { fetchUserCheckins, fetchCheckinDetails } = useFoursquare()
+  const { fetchUserCheckins, fetchCheckinDetails, fetchUser } = useFoursquare()
   const { convertAgendaObject } = useUtils()
   const [items, setItems] = useState({})
   const [loading, setLoading] = useState(false)
@@ -35,6 +35,9 @@ export default function CheckinCalander() {
   }
 
   useEffect(() => {
+    fetchUser().then((result) => {
+      console.log(result)
+    })
     return () => {}
   }, [])
 
