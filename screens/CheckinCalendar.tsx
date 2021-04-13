@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text } from 'react-native'
 import { Agenda, DateObject, AgendaItemsMap } from 'react-native-calendars'
-import { Checkin } from '../components/card/checkin.component'
-import { DividerDate as DividerDate } from '../components/divider/divider.component'
 import { useDate } from '../hooks/useDate'
 import { useFoursquare } from '../hooks/useFoursquare'
 import { useUtils } from '../hooks/useUtils'
 import { CheckinsItem } from '../interface/Foursquare.type'
-import window from '../constants/Layout'
 import { Timeline } from '../components/Timeline.component'
+import { useRecoil } from '../hooks/useRecoil'
 
 export default function CheckinCalander() {
   const { getDateString, getStartEndOfMonth, getStartEndOfDay } = useDate()
-  const { fetchUserCheckins, fetchCheckinDetails } = useFoursquare()
+  const { setUser, user } = useRecoil()
+  const { fetchUserCheckins, fetchCheckinDetails, fetchUser } = useFoursquare()
   const { convertAgendaObject } = useUtils()
   const [items, setItems] = useState({})
   const [loading, setLoading] = useState(false)
@@ -37,12 +36,17 @@ export default function CheckinCalander() {
   }
 
   useEffect(() => {
+    if (!user) {
+      fetchUser().then((result) => {
+        setUser(result)
+      })
+    }
     return () => {}
   }, [])
 
   useEffect(() => {
     // Object.keys(items).forEach((f) => {
-    //   console.log(f, items[f].length)
+    //   if (f === '2021-03-27') console.log(items[f])
     // })
     setLoading(false)
     return () => {}
@@ -54,7 +58,7 @@ export default function CheckinCalander() {
   }
 
   return (
-    <View style={{ height: window.window.height }}>
+    <View style={{ height: '100%' }}>
       <Agenda
         items={items}
         loadItemsForMonth={(dateObject) => {
@@ -68,11 +72,6 @@ export default function CheckinCalander() {
         futureScrollRange={1}
         renderDay={(date, item: CheckinsItem) => (
           <Timeline dateObject={date} item={item}></Timeline>
-        )}
-        renderEmptyData={() => (
-          <View>
-            <Text>チェックインはありません</Text>
-          </View>
         )}
       />
     </View>

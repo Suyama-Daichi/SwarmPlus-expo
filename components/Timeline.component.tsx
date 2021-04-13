@@ -15,7 +15,7 @@ export const Timeline = ({
   return (
     <View style={{ backgroundColor: 'white' }}>
       <DividerDate dateObject={dateObject} />
-      <Checkin item={item} />
+      {item && <Checkin item={item} />}
     </View>
   )
 }
