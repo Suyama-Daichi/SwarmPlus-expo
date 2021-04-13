@@ -1,8 +1,17 @@
 import { atom, selector, useRecoilState } from 'recoil'
+import { User } from '../interface/Foursquare.type'
 
-const userState = atom({
+const userState = atom<User>({
   key: 'user',
-  default: undefined,
+  default: {
+    id: '',
+    firstName: '',
+    lastName: '',
+    gender: '',
+    countryCode: '',
+    relationship: '',
+    photo: { prefix: '', suffix: '' },
+  },
 })
 
 export const useRecoil = () => {

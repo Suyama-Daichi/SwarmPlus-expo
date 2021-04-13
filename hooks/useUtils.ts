@@ -55,7 +55,14 @@ export const useUtils = () => {
    * @param checkin チェックインオブジェクト
    * @returns AgendaItems: object
    */
-  const generateImageUrl = (prefix: string, surfix: string, size: string = 'original') => {
+  /**
+   * 画像URLを生成
+   * @param prefix
+   * @param surfix
+   * @param size サイズ
+   * @returns {string} URL
+   */
+  const generateImageUrl = (prefix: string, surfix: string, size: string = 'original'): string => {
     return `${prefix}${size}${surfix}`
   }
 

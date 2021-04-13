@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, Modal } from 'react-native'
-import { CheckinsItem } from '../../interface/Foursquare.type'
+import { CheckinsItem, User } from '../../interface/Foursquare.type'
 import window from '../../constants/Layout'
 import { useDate } from '../../hooks/useDate'
 import { Avatar, Image, Icon } from 'react-native-elements'
@@ -8,7 +8,10 @@ import { useUtils } from '../../hooks/useUtils'
 import { ScrollView } from 'react-native-gesture-handler'
 import colors from '../../constants/Colors'
 import ImageViewer from 'react-native-image-zoom-viewer'
+import { useRecoil } from '../../hooks/useRecoil'
+
 export const Checkin = ({ item }: { item: CheckinsItem }) => {
+  const { user }: { user: User } = useRecoil()
   const [showModal, setShowModal] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
   const { formatTimestamp } = useDate()
@@ -26,7 +29,7 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
         rounded
         size={'medium'}
         source={{
-          uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+          uri: generateImageUrl(user.photo.prefix, user.photo.suffix, '50'),
         }}
         icon={{ name: 'person-outline' }}
       >
