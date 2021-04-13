@@ -5,11 +5,12 @@ import { useDate } from '../hooks/useDate'
 import { useFoursquare } from '../hooks/useFoursquare'
 import { useUtils } from '../hooks/useUtils'
 import { CheckinsItem } from '../interface/Foursquare.type'
-import window from '../constants/Layout'
 import { Timeline } from '../components/Timeline.component'
+import { useRecoil } from '../hooks/useRecoil'
 
 export default function CheckinCalander() {
   const { getDateString, getStartEndOfMonth, getStartEndOfDay } = useDate()
+  const { setUser, user } = useRecoil()
   const { fetchUserCheckins, fetchCheckinDetails, fetchUser } = useFoursquare()
   const { convertAgendaObject } = useUtils()
   const [items, setItems] = useState({})
@@ -35,9 +36,11 @@ export default function CheckinCalander() {
   }
 
   useEffect(() => {
-    fetchUser().then((result) => {
-      console.log(result)
-    })
+    if (!user) {
+      fetchUser().then((result) => {
+        setUser(result)
+      })
+    }
     return () => {}
   }, [])
 
