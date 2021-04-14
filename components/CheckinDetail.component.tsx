@@ -10,9 +10,11 @@ import ImageViewer from 'react-native-image-zoom-viewer'
 import { useRecoil } from '../hooks/useRecoil'
 import { useFoursquare } from '../hooks/useFoursquare'
 import { CheckinsItem } from '../interface/Foursquare.type'
+import { commonStyles } from '../styles/styles'
 
 export const CheckinDetail = ({ route }) => {
   const { item }: { item: CheckinsItem } = route.params
+  const [checkinDetail, setCheckinDetail] = useState<CheckinsItem>()
   const { user } = useRecoil()
   const [showModal, setShowModal] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
@@ -22,6 +24,7 @@ export const CheckinDetail = ({ route }) => {
 
   const getCHeckinDetails = async () => {
     const checkins = await fetchCheckinDetails(item.id)
+    setCheckinDetail(checkins)
     // TODO:チェックイン詳細は取得してあるのでViewにマッピングする
   }
 
@@ -31,103 +34,110 @@ export const CheckinDetail = ({ route }) => {
   }, [item])
 
   return (
-    <View
-      style={[
-        styles.container,
-        { borderColor: '#707070', borderWidth: 0.3 },
-        { flexDirection: 'row' },
-      ]}
-    >
-      <Avatar
-        rounded
-        size={'medium'}
-        source={{
-          uri: generateImageUrl(user.photo.prefix, user.photo.suffix, '50'),
-        }}
-        icon={{ name: 'person-outline' }}
+    <View style={commonStyles.bk_white}>
+      <View
+        style={[
+          styles.container,
+          { borderColor: '#707070', borderWidth: 0.3 },
+          { flexDirection: 'row' },
+        ]}
       >
-        {item.isMayor && (
-          <Avatar.Accessory
-            size={24}
-            name={'crown'}
-            type={'font-awesome-5'}
-            color={colors.light.coinCrown}
-            style={{ backgroundColor: colors.light.background }}
-            iconStyle={{ fontSize: 14 }}
-          />
-        )}
-      </Avatar>
-
-      <View style={{ paddingLeft: 8, flex: 1 }}>
-        <Text style={[styles.fontLerge, styles.venueName]} numberOfLines={2}>
-          {item.venue.name}
-        </Text>
-
-        <Text style={[styles.fontMidium, styles.textSub, { marginBottom: 8 }]} numberOfLines={1}>
-          {item.venue.location.state}
-          {item.venue.location.city}
-          {item.venue.location.address}
-        </Text>
-
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={[styles.fontMidium, styles.venueName, { marginRight: 8 }]} numberOfLines={2}>
-            <Icon
-              name={'heart'}
+        <Avatar
+          rounded
+          size={'medium'}
+          source={{
+            uri: generateImageUrl(user.photo.prefix, user.photo.suffix, '50'),
+          }}
+          icon={{ name: 'person-outline' }}
+        >
+          {item.isMayor && (
+            <Avatar.Accessory
+              size={24}
+              name={'crown'}
               type={'font-awesome-5'}
-              size={16}
-              solid
-              color={colors.light.pink}
-              style={{ paddingHorizontal: 4 }}
+              color={colors.light.coinCrown}
+              style={{ backgroundColor: colors.light.background }}
+              iconStyle={{ fontSize: 14 }}
             />
-            {item.likes.count}
+          )}
+        </Avatar>
+
+        <View style={{ paddingLeft: 8, flex: 1 }}>
+          <Text style={[styles.fontLerge, styles.venueName]} numberOfLines={2}>
+            {item.venue.name}
           </Text>
 
-          <Text style={[styles.fontMidium, styles.venueName]} numberOfLines={2}>
-            <Icon
-              name={'comment'}
-              type={'font-awesome-5'}
-              size={16}
-              solid
-              color={colors.light.backgroundSecond}
-              style={{ paddingHorizontal: 4 }}
-            />
-            {item.comments.count}
+          <Text style={[styles.fontMidium, styles.textSub, { marginBottom: 8 }]} numberOfLines={1}>
+            {item.venue.location.state}
+            {item.venue.location.city}
+            {item.venue.location.address}
           </Text>
-        </View>
 
-        <Text style={[styles.fontMidium, styles.textSub, { marginVertical: 8 }]}>{item.shout}</Text>
-        <Text style={[styles.fontMidium, styles.textSub]}>
-          {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
-        </Text>
-        <Modal visible={showModal} transparent={true}>
-          <ImageViewer
-            enableSwipeDown={true}
-            index={imageIndex}
-            onSwipeDown={() => setShowModal(false)}
-            imageUrls={item.photos.items.map((m) => {
-              return { url: generateImageUrl(m.prefix, m.suffix) }
-            })}
-          />
-        </Modal>
-        <ScrollView horizontal={true}>
-          {item.photos.items.map((m, i) => {
-            return (
-              <Image
-                key={m.suffix}
-                source={{
-                  uri: generateImageUrl(m.prefix, m.suffix),
-                }}
-                style={{ width: 100, height: 100 }}
-                resizeMode={'contain'}
-                onPress={() => {
-                  setShowModal(true)
-                  setImageIndex(i)
-                }}
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text
+              style={[styles.fontMidium, styles.venueName, { marginRight: 8 }]}
+              numberOfLines={2}
+            >
+              <Icon
+                name={'heart'}
+                type={'font-awesome-5'}
+                size={16}
+                solid
+                color={colors.light.pink}
+                style={{ paddingHorizontal: 4 }}
               />
-            )
-          })}
-        </ScrollView>
-        <Text style={[styles.fontMidium, styles.textSub]}>via: {item.source.name}</Text>
+              {item.likes.count}
+            </Text>
+
+            <Text style={[styles.fontMidium, styles.venueName]} numberOfLines={2}>
+              <Icon
+                name={'comment'}
+                type={'font-awesome-5'}
+                size={16}
+                solid
+                color={colors.light.backgroundSecond}
+                style={{ paddingHorizontal: 4 }}
+              />
+              {item.comments.count}
+            </Text>
+          </View>
+
+          <Text style={[styles.fontMidium, styles.textSub, { marginVertical: 8 }]}>
+            {item.shout}
+          </Text>
+          <Text style={[styles.fontMidium, styles.textSub]}>
+            {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
+          </Text>
+          <Modal visible={showModal} transparent={true}>
+            <ImageViewer
+              enableSwipeDown={true}
+              index={imageIndex}
+              onSwipeDown={() => setShowModal(false)}
+              imageUrls={item.photos.items.map((m) => {
+                return { url: generateImageUrl(m.prefix, m.suffix) }
+              })}
+            />
+          </Modal>
+          <ScrollView horizontal={true}>
+            {item.photos.items.map((m, i) => {
+              return (
+                <Image
+                  key={m.suffix}
+                  source={{
+                    uri: generateImageUrl(m.prefix, m.suffix),
+                  }}
+                  style={{ width: 100, height: 100 }}
+                  resizeMode={'contain'}
+                  onPress={() => {
+                    setShowModal(true)
+                    setImageIndex(i)
+                  }}
+                />
+              )
+            })}
+          </ScrollView>
+          <Text style={[styles.fontMidium, styles.textSub]}>via: {item.source.name}</Text>
+        </View>
       </View>
     </View>
   )

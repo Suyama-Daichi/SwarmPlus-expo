@@ -43,10 +43,14 @@ export interface CheckinsItem {
   comments: Comments
   source: Source
   sticker?: Sticker
+  user?: User
+  checkinShortUrl?: string
+  score: CheckinScore
 }
 
 export interface Comments {
   count: number
+  items?: CommentsItem[]
 }
 
 export interface Likes {
@@ -58,7 +62,7 @@ export interface Likes {
 export interface GroupElement {
   type: string
   count: number
-  items: GroupItem[]
+  items: GroupItem[] | User[]
 }
 
 export interface GroupItem {
@@ -111,6 +115,9 @@ export interface User {
   countryCode: string
   relationship: string
   photo: Icon
+  address?: string
+  city?: string
+  state?: string
 }
 
 export interface Layout {
@@ -165,6 +172,7 @@ export interface Venue {
   categories: Category[]
   closed?: boolean
   locked?: boolean
+  reasons?: Reasons
 }
 
 export interface Category {
@@ -195,4 +203,61 @@ export interface LabeledLatLng {
   label: string
   lat: number
   lng: number
+}
+
+export interface CommentsItem {
+  id: string
+  createdAt: number
+  user: User
+  text: string
+}
+
+export interface CheckinScore {
+  total: number
+  scores: ScoreElement[]
+}
+
+export interface ScoreElement {
+  icon: string
+  message: string
+  points: number
+  target?: ScoreTarget
+}
+
+export interface ScoreTarget {
+  type: string
+  object: PurpleObject
+}
+
+export interface PurpleObject {
+  url: string
+}
+
+export interface Reasons {
+  count: number
+  items: ReasonsItem[]
+}
+
+export interface ReasonsItem {
+  summary: string
+  type: string
+  reasonName: string
+  target: ItemTarget
+}
+
+export interface ItemTarget {
+  type: string
+  object: FluffyObject
+}
+
+export interface FluffyObject {
+  id: string
+  type: string
+  target: ObjectTarget
+  ignorable: boolean
+}
+
+export interface ObjectTarget {
+  type: string
+  url: string
 }

@@ -1,6 +1,6 @@
 import { IStartEnd } from '../interface/interface.type'
 import { config } from '../service/config'
-import { Response, Checkins, User, Checkin } from '../interface/Foursquare.type'
+import { Checkins, User, CheckinsItem } from '../interface/Foursquare.type'
 
 const getCredencial = () => {
   const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
@@ -60,7 +60,7 @@ export const useFoursquare = () => {
    * @param checkinId チェックインID
    * @returns チェックインの詳細
    */
-  const fetchCheckinDetails = (checkinId: string): Promise<any> => {
+  const fetchCheckinDetails = (checkinId: string): Promise<CheckinsItem> => {
     const params = getCredencial()
     return fetch(`https://api.foursquare.com/v2/checkins/${checkinId}?${params}`, {
       method: 'GET',
