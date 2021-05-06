@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, Modal } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import { View, Text, StyleSheet, Modal, Dimensions } from 'react-native'
 import window from '../constants/Layout'
 import { useDate } from '../hooks/useDate'
 import { Avatar, Image, Icon } from 'react-native-elements'
@@ -11,19 +11,26 @@ import { useRecoil } from '../hooks/useRecoil'
 import { useFoursquare } from '../hooks/useFoursquare'
 import { CheckinsItem } from '../interface/Foursquare.type'
 import { commonStyles } from '../styles/styles'
+import Carousel from 'react-native-snap-carousel'
 
 export const CheckinDetail = ({ route }) => {
   const { item }: { item: CheckinsItem } = route.params
   const [checkinDetail, setCheckinDetail] = useState<CheckinsItem>()
   const { user } = useRecoil()
+  const [activeSlide, setActiveSlide] = useState(0)
   const [showModal, setShowModal] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
+  const [images, setImages] = useState<string[]>([])
   const { fetchCheckinDetails } = useFoursquare()
   const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
+  const carouselRef = useRef()
 
   const getCheckinDetails = async () => {
     const checkins = await fetchCheckinDetails(item.id)
+    setImages(
+      checkins.photos.items.map((item) => generateImageUrl(item.prefix, item.suffix, 'cap400'))
+    )
     setCheckinDetail(checkins)
     // TODO:チェックイン詳細は取得してあるのでViewにマッピングする
   }
@@ -32,9 +39,25 @@ export const CheckinDetail = ({ route }) => {
     getCheckinDetails()
     return () => {}
   }, [item])
-
   return (
     <View style={commonStyles.bk_white}>
+      <Carousel
+        data={images}
+        renderItem={(d: any) => {
+          return (
+            <Image
+              source={{ uri: d.item }}
+              placeholderStyle={{ backgroundColor: colors.light.background }}
+              transition
+              style={{ width: '100%', height: '100%' }}
+              resizeMode="contain"
+            />
+          )
+        }}
+        itemWidth={Dimensions.get('window').width * 1.0}
+        sliderWidth={Dimensions.get('window').width * 1.0}
+        onSnapToItem={(index: number) => setActiveSlide(index)} // for pagination
+      />
       <View
         style={[
           styles.container,
@@ -118,24 +141,6 @@ export const CheckinDetail = ({ route }) => {
               })}
             />
           </Modal>
-          <ScrollView horizontal={true}>
-            {item.photos.items.map((m, i) => {
-              return (
-                <Image
-                  key={m.suffix}
-                  source={{
-                    uri: generateImageUrl(m.prefix, m.suffix),
-                  }}
-                  style={{ width: 100, height: 100 }}
-                  resizeMode={'contain'}
-                  onPress={() => {
-                    setShowModal(true)
-                    setImageIndex(i)
-                  }}
-                />
-              )
-            })}
-          </ScrollView>
           <Text style={[styles.fontMidium, styles.textSub]}>via: {item.source.name}</Text>
         </View>
       </View>
