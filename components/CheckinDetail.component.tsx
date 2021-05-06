@@ -22,14 +22,14 @@ export const CheckinDetail = ({ route }) => {
   const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
 
-  const getCHeckinDetails = async () => {
+  const getCheckinDetails = async () => {
     const checkins = await fetchCheckinDetails(item.id)
     setCheckinDetail(checkins)
     // TODO:チェックイン詳細は取得してあるのでViewにマッピングする
   }
 
   useEffect(() => {
-    getCHeckinDetails()
+    getCheckinDetails()
     return () => {}
   }, [item])
 
