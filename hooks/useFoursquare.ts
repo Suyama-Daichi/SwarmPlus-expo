@@ -2,7 +2,7 @@ import { IStartEnd } from '../interface/interface.type'
 import { config } from '../service/config'
 import { Checkins, User, CheckinsItem } from '../interface/Foursquare.type'
 
-const getCredencial = () => {
+const getCredential = () => {
   const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
   const query = new URLSearchParams(params)
   return query
@@ -25,7 +25,7 @@ const responseExtractor = async ({
 
 export const useFoursquare = () => {
   const fetchUser = (): Promise<User> => {
-    const params = getCredencial()
+    const params = getCredential()
     return fetch(`https://api.foursquare.com/v2/users/self?${params}`, {
       method: 'GET',
     })
@@ -41,7 +41,7 @@ export const useFoursquare = () => {
    * @returns チェックインのリスト
    */
   const fetchUserCheckins = (startEnd?: IStartEnd): Promise<Checkins> => {
-    const params = getCredencial()
+    const params = getCredential()
     if (startEnd) {
       params.append('afterTimestamp', startEnd.afterTimestamp)
       params.append('beforeTimestamp', startEnd.beforeTimestamp)
@@ -61,7 +61,7 @@ export const useFoursquare = () => {
    * @returns チェックインの詳細
    */
   const fetchCheckinDetails = (checkinId: string): Promise<CheckinsItem> => {
-    const params = getCredencial()
+    const params = getCredential()
     return fetch(`https://api.foursquare.com/v2/checkins/${checkinId}?${params}`, {
       method: 'GET',
     })
