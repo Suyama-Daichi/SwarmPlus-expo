@@ -90,7 +90,7 @@ export const CheckinDetail = ({ route }) => {
             {item.venue.name}
           </Text>
 
-          <Text style={[styles.fontMidium, styles.textSub, { marginBottom: 8 }]} numberOfLines={1}>
+          <Text style={[styles.fontMedium, styles.textSub, { marginBottom: 8 }]} numberOfLines={1}>
             {item.venue.location.state}
             {item.venue.location.city}
             {item.venue.location.address}
@@ -98,7 +98,7 @@ export const CheckinDetail = ({ route }) => {
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text
-              style={[styles.fontMidium, styles.venueName, { marginRight: 8 }]}
+              style={[styles.fontMedium, styles.venueName, { marginRight: 8 }]}
               numberOfLines={2}
             >
               <Icon
@@ -112,7 +112,7 @@ export const CheckinDetail = ({ route }) => {
               {item.likes.count}
             </Text>
 
-            <Text style={[styles.fontMidium, styles.venueName]} numberOfLines={2}>
+            <Text style={[styles.fontMedium, styles.venueName]} numberOfLines={2}>
               <Icon
                 name={'comment'}
                 type={'font-awesome-5'}
@@ -125,10 +125,10 @@ export const CheckinDetail = ({ route }) => {
             </Text>
           </View>
 
-          <Text style={[styles.fontMidium, styles.textSub, { marginVertical: 8 }]}>
+          <Text style={[styles.fontMedium, styles.textSub, { marginVertical: 8 }]}>
             {item.shout}
           </Text>
-          <Text style={[styles.fontMidium, styles.textSub]}>
+          <Text style={[styles.fontMedium, styles.textSub]}>
             {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
           </Text>
           <Modal visible={showModal} transparent={true}>
@@ -141,7 +141,7 @@ export const CheckinDetail = ({ route }) => {
               })}
             />
           </Modal>
-          <Text style={[styles.fontMidium, styles.textSub]}>via: {item.source.name}</Text>
+          <Text style={[styles.fontMedium, styles.textSub]}>via: {item.source.name}</Text>
         </View>
       </View>
     </View>
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   fontLerge: {
     fontSize: 24,
   },
-  fontMidium: {
+  fontMedium: {
     fontSize: 17,
   },
 })
