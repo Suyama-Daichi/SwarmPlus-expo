@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { View, Text, StyleSheet, Modal, Dimensions } from 'react-native'
 import window from '../constants/Layout'
 import { useDate } from '../hooks/useDate'
 import { Avatar, Image, Icon } from 'react-native-elements'
 import { useUtils } from '../hooks/useUtils'
-import { ScrollView } from 'react-native-gesture-handler'
+import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import colors from '../constants/Colors'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import { useRecoil } from '../hooks/useRecoil'
 import { useFoursquare } from '../hooks/useFoursquare'
 import { CheckinsItem } from '../interface/Foursquare.type'
 import { commonStyles } from '../styles/styles'
-import Carousel from 'react-native-snap-carousel'
+import Carousel, { Pagination } from 'react-native-snap-carousel'
+
+const imageWidth = Dimensions.get('window').width * 1.0
 
 export const CheckinDetail = ({ route }) => {
   const { item }: { item: CheckinsItem } = route.params
@@ -22,7 +24,7 @@ export const CheckinDetail = ({ route }) => {
   const [imageIndex, setImageIndex] = useState(0)
   const [images, setImages] = useState<string[]>([])
   const { fetchCheckinDetails } = useFoursquare()
-  const { formatTimestamp } = useDate()
+  const { formatDistanceToNowForTimestamp, timestamp2Date } = useDate()
   const { generateImageUrl } = useUtils()
   const carouselRef = useRef()
 
@@ -39,111 +41,98 @@ export const CheckinDetail = ({ route }) => {
     getCheckinDetails()
     return () => {}
   }, [item])
-  return (
-    <View style={commonStyles.bk_white}>
-      <Carousel
-        data={images}
-        renderItem={(d: any) => {
-          return (
-            <Image
-              source={{ uri: d.item }}
-              placeholderStyle={{ backgroundColor: colors.light.background }}
-              transition
-              style={{ width: '100%', height: '100%' }}
-              resizeMode="contain"
-            />
-          )
-        }}
-        itemWidth={Dimensions.get('window').width * 1.0}
-        sliderWidth={Dimensions.get('window').width * 1.0}
-        onSnapToItem={(index: number) => setActiveSlide(index)} // for pagination
-      />
-      <View
-        style={[
-          styles.container,
-          { borderColor: '#707070', borderWidth: 0.3 },
-          { flexDirection: 'row' },
-        ]}
-      >
-        <Avatar
-          rounded
-          size={'medium'}
-          source={{
-            uri: generateImageUrl(user.photo.prefix, user.photo.suffix, '50'),
-          }}
-          icon={{ name: 'person-outline' }}
-        >
-          {item.isMayor && (
-            <Avatar.Accessory
-              size={24}
-              name={'crown'}
-              type={'font-awesome-5'}
-              color={colors.light.coinCrown}
-              style={{ backgroundColor: colors.light.background }}
-              iconStyle={{ fontSize: 14 }}
-            />
-          )}
-        </Avatar>
 
-        <View style={{ paddingLeft: 8, flex: 1 }}>
-          <Text style={[styles.fontLerge, styles.venueName]} numberOfLines={2}>
-            {item.venue.name}
+  const itemRender = useCallback(() => {
+    return (
+      <View style={{ paddingHorizontal: 8 }}>
+        <View style={[commonStyles.rowCenter]}>
+          <Text style={commonStyles.textSub}>
+            いいね！:
+            {checkinDetail?.likes.groups[0].items.map((m) => (
+              <Text> {`${m.firstName ? m.firstName : ''}${m.lastName ? m.lastName : ''}`}</Text>
+            ))}
           </Text>
-
-          <Text style={[styles.fontMedium, styles.textSub, { marginBottom: 8 }]} numberOfLines={1}>
-            {item.venue.location.state}
-            {item.venue.location.city}
-            {item.venue.location.address}
-          </Text>
-
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text
-              style={[styles.fontMedium, styles.venueName, { marginRight: 8 }]}
-              numberOfLines={2}
-            >
-              <Icon
-                name={'heart'}
-                type={'font-awesome-5'}
-                size={16}
-                solid
-                color={colors.light.pink}
-                style={{ paddingHorizontal: 4 }}
-              />
-              {item.likes.count}
-            </Text>
-
-            <Text style={[styles.fontMedium, styles.venueName]} numberOfLines={2}>
-              <Icon
-                name={'comment'}
-                type={'font-awesome-5'}
-                size={16}
-                solid
-                color={colors.light.backgroundSecond}
-                style={{ paddingHorizontal: 4 }}
-              />
-              {item.comments.count}
-            </Text>
-          </View>
-
-          <Text style={[styles.fontMedium, styles.textSub, { marginVertical: 8 }]}>
-            {item.shout}
-          </Text>
-          <Text style={[styles.fontMedium, styles.textSub]}>
-            {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
-          </Text>
-          <Modal visible={showModal} transparent={true}>
-            <ImageViewer
-              enableSwipeDown={true}
-              index={imageIndex}
-              onSwipeDown={() => setShowModal(false)}
-              imageUrls={item.photos.items.map((m) => {
-                return { url: generateImageUrl(m.prefix, m.suffix) }
-              })}
-            />
-          </Modal>
-          <Text style={[styles.fontMedium, styles.textSub]}>via: {item.source.name}</Text>
         </View>
+        <View style={[commonStyles.rowCenter]}>
+          <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
+            {checkinDetail?.venue.name}
+          </Text>
+        </View>
+        <View style={[commonStyles.rowCenter]}>
+          <Text style={[commonStyles.textSub]}>
+            {`${checkinDetail?.venue.location.state}${checkinDetail?.venue.location.city}`}
+          </Text>
+        </View>
+        <View style={[commonStyles.rowCenter]}>
+          <Text style={[commonStyles.textSub]}>{`${checkinDetail?.shout}`}</Text>
+        </View>
+
+        {checkinDetail?.comments.items?.map((comment) => (
+          <View style={[{ borderTopWidth: 0.3, borderColor: '#707070' }, commonStyles.rowCenter]}>
+            <Avatar
+              rounded
+              size={'medium'}
+              source={{
+                uri: generateImageUrl(comment.user.photo.prefix, comment.user.photo.suffix, '50'),
+              }}
+              icon={{ name: 'person-outline' }}
+            ></Avatar>
+            <View style={{ flexDirection: 'column' }}>
+              <Text>{`${comment.user.firstName ? comment.user.firstName : ''}${
+                comment.user.lastName ? comment.user.lastName : ''
+              }`}</Text>
+              <Text>{comment.text}</Text>
+              <Text>{formatDistanceToNowForTimestamp(timestamp2Date(comment.createdAt))}</Text>
+            </View>
+          </View>
+        ))}
       </View>
+    )
+  }, [checkinDetail])
+
+  return (
+    <View style={[commonStyles.bk_white]}>
+      <FlatList
+        keyExtractor={(_, _index) => _?.id + _index.toString()}
+        ListHeaderComponent={
+          <>
+            <Carousel
+              data={images}
+              renderItem={(d: any) => {
+                return (
+                  <Image
+                    source={{ uri: d.item }}
+                    placeholderStyle={{ backgroundColor: colors.light.background }}
+                    transition
+                    style={{
+                      width: imageWidth,
+                      height: imageWidth,
+                    }}
+                    resizeMode="contain"
+                  />
+                )
+              }}
+              itemWidth={imageWidth}
+              sliderWidth={imageWidth}
+              onSnapToItem={(index: number) => setActiveSlide(index)} // for pagination
+            />
+            <Pagination
+              dotsLength={checkinDetail?.photos.items.length as number} // dotの数
+              activeDotIndex={activeSlide} // どのdotをactiveにするか
+              containerStyle={{ paddingVertical: 9.19 }} // デフォルトではちと広い
+              dotStyle={{
+                width: 8,
+                height: 8,
+                borderRadius: 5,
+                marginHorizontal: 4,
+                backgroundColor: colors.light.pink,
+              }}
+            />
+          </>
+        }
+        data={[checkinDetail]}
+        renderItem={itemRender}
+      />
     </View>
   )
 }

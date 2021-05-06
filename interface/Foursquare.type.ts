@@ -62,20 +62,7 @@ export interface Likes {
 export interface GroupElement {
   type: string
   count: number
-  items: GroupItem[] | User[]
-}
-
-export interface GroupItem {
-  id: string
-  firstName: string
-  gender: string
-  countryCode: string
-  relationship: string
-  photo: Icon
-  lastName?: string
-  address?: string
-  city?: string
-  state?: string
+  items: User[]
 }
 
 export interface Icon {

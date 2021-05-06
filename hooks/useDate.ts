@@ -9,9 +9,11 @@ import {
   addDays,
   min,
   max,
+  formatDistanceToNow,
 } from 'date-fns'
 import { DateObject } from 'react-native-calendars'
 import { IStartEnd } from '../interface/interface.type'
+import { ja } from 'date-fns/locale'
 
 export const useDate = () => {
   /**
@@ -32,6 +34,16 @@ export const useDate = () => {
    */
   const formatTimestamp = (timestamp: number, formatString: string) => {
     return format(new Date(Number(timestamp + '000')), formatString)
+  }
+
+  /**
+   * タイムスタンプ(10桁)をDateに変換する
+   * @param timestamp タイムスタンプ
+   * @param date 日付フォーマット
+   * @returns フォーマットされた文字列
+   */
+  const timestamp2Date = (timestamp: number) => {
+    return new Date(Number(timestamp + '000'))
   }
 
   /**
@@ -95,6 +107,10 @@ export const useDate = () => {
     }
   }
 
+  const formatDistanceToNowForTimestamp = (date: Date) => {
+    return formatDistanceToNow(date, { addSuffix: true, locale: ja })
+  }
+
   return {
     getDateString,
     formatTimestamp,
@@ -102,5 +118,7 @@ export const useDate = () => {
     getStartEndOfDay,
     getDateArray,
     getMinMaxDate,
+    formatDistanceToNowForTimestamp,
+    timestamp2Date,
   }
 }

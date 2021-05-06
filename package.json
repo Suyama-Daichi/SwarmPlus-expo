@@ -55,6 +55,7 @@
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "@types/react-native-calendars": "^1.505.0",
+    "@types/react-native-snap-carousel": "^3.8.3",
     "babel-plugin-dotenv-import": "^2.2.0",
     "jest-expo": "~40.0.0",
     "standard-version": "^9.1.1",

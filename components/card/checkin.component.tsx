@@ -10,6 +10,7 @@ import colors from '../../constants/Colors'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import { useRecoil } from '../../hooks/useRecoil'
 import { useNavigation } from '@react-navigation/core'
+import { commonStyles } from '../../styles/styles'
 
 export const Checkin = ({ item }: { item: CheckinsItem }) => {
   const navigation = useNavigation()
@@ -49,18 +50,24 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
       </Avatar>
 
       <View style={{ paddingLeft: 8, flex: 1 }}>
-        <Text style={[styles.fontLerge, styles.venueName]} numberOfLines={2}>
+        <Text style={[styles.fontLerge, commonStyles.venueName]} numberOfLines={2}>
           {item.venue.name}
         </Text>
 
-        <Text style={[styles.fontMidium, styles.textSub, { marginBottom: 8 }]} numberOfLines={1}>
+        <Text
+          style={[commonStyles.fontMedium, commonStyles.textSub, { marginBottom: 8 }]}
+          numberOfLines={1}
+        >
           {item.venue.location.state}
           {item.venue.location.city}
           {item.venue.location.address}
         </Text>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={[styles.fontMidium, styles.venueName, { marginRight: 8 }]} numberOfLines={2}>
+          <Text
+            style={[commonStyles.fontMedium, commonStyles.venueName, { marginRight: 8 }]}
+            numberOfLines={2}
+          >
             <Icon
               name={'heart'}
               type={'font-awesome-5'}
@@ -72,7 +79,7 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
             {item.likes.count}
           </Text>
 
-          <Text style={[styles.fontMidium, styles.venueName]} numberOfLines={2}>
+          <Text style={[commonStyles.fontMedium, commonStyles.venueName]} numberOfLines={2}>
             <Icon
               name={'comment'}
               type={'font-awesome-5'}
@@ -85,8 +92,10 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
           </Text>
         </View>
 
-        <Text style={[styles.fontMidium, styles.textSub, { marginVertical: 8 }]}>{item.shout}</Text>
-        <Text style={[styles.fontMidium, styles.textSub]}>
+        <Text style={[commonStyles.fontMedium, commonStyles.textSub, { marginVertical: 8 }]}>
+          {item.shout}
+        </Text>
+        <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>
           {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
         </Text>
         <Modal visible={showModal} transparent={true}>
@@ -117,7 +126,7 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
             )
           })}
         </ScrollView>
-        <Text style={[styles.fontMidium, styles.textSub]}>via: {item.source.name}</Text>
+        <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>via: {item.source.name}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -134,16 +143,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: 'gray',
   },
-  venueName: {
-    color: colors.light.textBlack,
-  },
-  textSub: {
-    color: colors.light.textSub,
-  },
   fontLerge: {
     fontSize: 24,
-  },
-  fontMidium: {
-    fontSize: 17,
   },
 })
