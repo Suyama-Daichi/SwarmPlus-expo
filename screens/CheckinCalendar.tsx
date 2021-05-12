@@ -32,7 +32,6 @@ export default function CheckinCalander() {
    */
   const fetchCheckinForDay = async (dateObject: DateObject) => {
     // const checkins = await fetchUserCheckins(getStartEndOfDay(dateObject))
-    // console.log(checkins)
   }
 
   useEffect(() => {
@@ -45,9 +44,6 @@ export default function CheckinCalander() {
   }, [])
 
   useEffect(() => {
-    // Object.keys(items).forEach((f) => {
-    //   if (f === '2021-03-27') console.log(items[f])
-    // })
     setLoading(false)
     return () => {}
   }, [items])

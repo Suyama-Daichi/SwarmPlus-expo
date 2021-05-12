@@ -15,7 +15,6 @@ const responseExtractor = async ({
   res: any
   type: 'checkins' | 'checkin' | 'user'
 }): Promise<any> => {
-  console.log({ res })
   const parsedRes = await res.json()
   if (parsedRes.meta.code !== 200) {
     console.error({ error: 'failed', message: parsedRes.meta.errorDetail })

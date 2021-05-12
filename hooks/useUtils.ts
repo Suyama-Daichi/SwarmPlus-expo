@@ -40,7 +40,6 @@ export const useUtils = () => {
       hoge.map((m) => m.currentDateStr)
     )
 
-    // console.log(noEventDays)
     const AgendaObject = Object.fromEntries(hoge.map((m) => [m.currentDateStr, m.current]))
 
     noEventDays.forEach((f) => {
