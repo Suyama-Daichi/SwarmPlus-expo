@@ -45,14 +45,16 @@ export const CheckinDetail = ({ route }) => {
   const itemRender = useCallback(() => {
     return (
       <View style={{ paddingHorizontal: 8 }}>
-        <View style={[commonStyles.rowCenter]}>
-          <Text style={commonStyles.textSub}>
-            いいね！:
-            {checkinDetail?.likes.groups[0].items.map((m) => (
-              <Text> {`${m.firstName ? m.firstName : ''}${m.lastName ? m.lastName : ''}`}</Text>
-            ))}
-          </Text>
-        </View>
+        {checkinDetail?.likes.groups[0] && (
+          <View style={[commonStyles.rowCenter]}>
+            <Text style={commonStyles.textSub}>
+              いいね！:
+              {checkinDetail?.likes.groups[0].items.map((m) => (
+                <Text> {`${m.firstName ? m.firstName : ''}${m.lastName ? m.lastName : ''}`}</Text>
+              ))}
+            </Text>
+          </View>
+        )}
         <View style={[commonStyles.rowCenter]}>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
             {checkinDetail?.venue.name}
@@ -63,9 +65,11 @@ export const CheckinDetail = ({ route }) => {
             {`${checkinDetail?.venue.location.state}${checkinDetail?.venue.location.city}`}
           </Text>
         </View>
-        <View style={[commonStyles.rowCenter]}>
-          <Text style={[commonStyles.textSub]}>{`${checkinDetail?.shout}`}</Text>
-        </View>
+        {checkinDetail?.shout && (
+          <View style={[commonStyles.rowCenter]}>
+            <Text style={[commonStyles.textSub]}>{`${checkinDetail?.shout}`}</Text>
+          </View>
+        )}
 
         {checkinDetail?.comments.items?.map((comment) => (
           <View style={[{ borderTopWidth: 0.3, borderColor: '#707070' }, commonStyles.rowCenter]}>
