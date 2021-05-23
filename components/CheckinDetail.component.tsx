@@ -12,30 +12,28 @@ import { useFoursquare } from '../hooks/useFoursquare'
 import { CheckinsItem } from '../interface/Foursquare.type'
 import { commonStyles } from '../styles/styles'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
+import SvgUri from 'react-native-svg-uri'
 
 const imageWidth = Dimensions.get('window').width * 1.0
 
 export const CheckinDetail = ({ route }) => {
   const { item }: { item: CheckinsItem } = route.params
   const [checkinDetail, setCheckinDetail] = useState<CheckinsItem>()
-  const { user } = useRecoil()
   const [activeSlide, setActiveSlide] = useState(0)
-  const [showModal, setShowModal] = useState(false)
-  const [imageIndex, setImageIndex] = useState(0)
   const [images, setImages] = useState<string[]>([])
   const { fetchCheckinDetails } = useFoursquare()
   const { formatDistanceToNowForTimestamp, timestamp2Date } = useDate()
   const { generateImageUrl } = useUtils()
-  const carouselRef = useRef()
 
-  const getCheckinDetails = async () => {
+  const getCheckinDetails = useCallback(async () => {
     const checkins = await fetchCheckinDetails(item.id)
     setImages(
-      checkins.photos.items.map((item) => generateImageUrl(item.prefix, item.suffix, 'cap400'))
+      checkins.photos.count > 0
+        ? checkins.photos.items.map((item) => generateImageUrl(item.prefix, item.suffix, 'cap400'))
+        : ['']
     )
     setCheckinDetail(checkins)
-    // TODO:チェックイン詳細は取得してあるのでViewにマッピングする
-  }
+  }, [])
 
   useEffect(() => {
     getCheckinDetails()
@@ -105,7 +103,9 @@ export const CheckinDetail = ({ route }) => {
               renderItem={(d: any) => {
                 return (
                   <Image
-                    source={{ uri: d.item }}
+                    source={
+                      d.item ? { uri: d.item } : require('../assets/images/20200501_noimage.png')
+                    }
                     placeholderStyle={{ backgroundColor: colors.light.background }}
                     transition
                     style={{
@@ -121,7 +121,7 @@ export const CheckinDetail = ({ route }) => {
               onSnapToItem={(index: number) => setActiveSlide(index)} // for pagination
             />
             <Pagination
-              dotsLength={checkinDetail?.photos.items.length as number} // dotの数
+              dotsLength={images.length} // dotの数
               activeDotIndex={activeSlide} // どのdotをactiveにするか
               containerStyle={{ paddingVertical: 9.19 }} // デフォルトではちと広い
               dotStyle={{
