@@ -1,19 +1,17 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { View, Text, StyleSheet, Modal, Dimensions, Route } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 import window from '../constants/Layout'
 import { useDate } from '../hooks/useDate'
-import { Avatar, Image, Icon } from 'react-native-elements'
+import { Avatar } from 'react-native-elements'
 import { useUtils } from '../hooks/useUtils'
-import { FlatList, ScrollView } from 'react-native-gesture-handler'
+import { FlatList } from 'react-native-gesture-handler'
 import colors from '../constants/Colors'
-import ImageViewer from 'react-native-image-zoom-viewer'
-import { useRecoil } from '../hooks/useRecoil'
 import { useFoursquare } from '../hooks/useFoursquare'
 import { CheckinsItem } from '../interface/Foursquare.type'
 import { commonStyles } from '../styles/styles'
 import { ImageCarousel } from '../components/carousel/ImageCarousel.component'
 
-export const CheckinDetail = ({ route }: { route: Route }) => {
+export const CheckinDetail = ({ route }) => {
   const { item }: { item: CheckinsItem } = route.params
   const [checkinDetail, setCheckinDetail] = useState<CheckinsItem>()
   const [images, setImages] = useState<string[]>([])
