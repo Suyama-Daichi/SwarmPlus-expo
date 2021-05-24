@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { View, Text, StyleSheet, Modal, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Modal, Dimensions, Route } from 'react-native'
 import window from '../constants/Layout'
 import { useDate } from '../hooks/useDate'
 import { Avatar, Image, Icon } from 'react-native-elements'
@@ -13,7 +13,7 @@ import { CheckinsItem } from '../interface/Foursquare.type'
 import { commonStyles } from '../styles/styles'
 import { ImageCarousel } from '../components/carousel/ImageCarousel.component'
 
-export const CheckinDetail = ({ route }) => {
+export const CheckinDetail = ({ route }: { route: Route }) => {
   const { item }: { item: CheckinsItem } = route.params
   const [checkinDetail, setCheckinDetail] = useState<CheckinsItem>()
   const [images, setImages] = useState<string[]>([])
@@ -97,7 +97,7 @@ export const CheckinDetail = ({ route }) => {
     <View style={[commonStyles.bk_white]}>
       <FlatList
         keyExtractor={(_, _index) => _?.id + _index.toString()}
-        ListHeaderComponent={ImageCarousel}
+        ListHeaderComponent={<ImageCarousel images={images} />}
         data={[checkinDetail]}
         renderItem={itemRender}
       />
