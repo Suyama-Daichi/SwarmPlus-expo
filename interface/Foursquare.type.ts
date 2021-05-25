@@ -46,6 +46,7 @@ export interface CheckinsItem {
   user?: User
   checkinShortUrl?: string
   score: CheckinScore
+  with?: User[]
 }
 
 export interface Comments {

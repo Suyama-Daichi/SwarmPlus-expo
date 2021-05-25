@@ -7,7 +7,7 @@ import { useUtils } from '../hooks/useUtils'
 import { FlatList } from 'react-native-gesture-handler'
 import colors from '../constants/Colors'
 import { useFoursquare } from '../hooks/useFoursquare'
-import { CheckinsItem } from '../interface/Foursquare.type'
+import { CheckinsItem, User } from '../interface/Foursquare.type'
 import { commonStyles } from '../styles/styles'
 import { ImageCarousel } from '../components/carousel/ImageCarousel.component'
 
@@ -44,6 +44,18 @@ export const CheckinDetail = ({ route }) => {
               {checkinDetail?.likes.groups[0].items.map((m, i) => (
                 <Text key={i.toString()}>
                   {`${m.firstName ? m.firstName : ''}${m.lastName ? m.lastName : ''}`}
+                </Text>
+              ))}
+            </Text>
+          </View>
+        )}
+        {(checkinDetail?.with as User[]).length > 0 && (
+          <View style={[commonStyles.rowCenter]}>
+            <Text style={commonStyles.textSub}>
+              一緒:
+              {(checkinDetail?.with as User[]).map((m, i) => (
+                <Text key={i.toString()}>
+                  {`${m.firstName ? m.firstName : ''} ${m.lastName ? m.lastName : ''}`}
                 </Text>
               ))}
             </Text>
