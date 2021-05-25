@@ -43,7 +43,7 @@ export const CheckinDetail = ({ route, navigation }) => {
       if (user.lastName) return user.lastName
     })
     return (
-      <View style={[commonStyles.rowCenter, { marginBottom: 16 }]}>
+      <View style={[commonStyles.rowCenter]}>
         <Text style={commonStyles.textSub}>
           {label}: <Text>{fullNames.join('と')}</Text>
         </Text>
@@ -54,9 +54,11 @@ export const CheckinDetail = ({ route, navigation }) => {
   const itemRender = useCallback(() => {
     return (
       <View style={{ paddingHorizontal: 8 }}>
-        {checkinDetail?.likes.groups[0] &&
-          multipleNameRender(checkinDetail?.likes.groups[0].items, 'いいね！')}
-        {checkinDetail?.with && multipleNameRender(checkinDetail?.with, '一緒')}
+        <View style={{ marginBottom: 16 }}>
+          {checkinDetail?.likes.groups[0] &&
+            multipleNameRender(checkinDetail?.likes.groups[0].items, 'いいね！')}
+          {checkinDetail?.with && multipleNameRender(checkinDetail?.with, '一緒')}
+        </View>
         <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
             {checkinDetail?.venue.name}
