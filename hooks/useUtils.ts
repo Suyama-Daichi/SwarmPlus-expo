@@ -1,4 +1,5 @@
-import { Checkins, CheckinsItem } from '../interface/Foursquare.type'
+import { useCallback } from 'react'
+import { Checkins } from '../interface/Foursquare.type'
 import { useDate } from '../hooks/useDate'
 
 export const useUtils = () => {
@@ -65,5 +66,13 @@ export const useUtils = () => {
     return `${prefix}${size}${surfix}`
   }
 
-  return { convertAgendaObject, generateImageUrl }
+  /**
+   * 誰かとチェックインした場合、シャウトの末尾に付いてしまう「〇〇と一緒に」を取り除く
+   */
+  const removeShoutWith = useCallback((shout: string) => {
+    const regObj = RegExp(/(— ).*(と一緒に)/g)
+    return shout.replace(regObj, '')
+  }, [])
+
+  return { convertAgendaObject, generateImageUrl, removeShoutWith }
 }

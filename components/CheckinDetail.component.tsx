@@ -17,7 +17,7 @@ export const CheckinDetail = ({ route }) => {
   const [images, setImages] = useState<string[]>([])
   const { fetchCheckinDetails } = useFoursquare()
   const { formatDistanceToNowForTimestamp, timestamp2Date } = useDate()
-  const { generateImageUrl } = useUtils()
+  const { generateImageUrl, removeShoutWith } = useUtils()
 
   const getCheckinDetails = useCallback(async () => {
     const checkins = await fetchCheckinDetails(item.id)
@@ -61,7 +61,7 @@ export const CheckinDetail = ({ route }) => {
         </View>
         {checkinDetail?.shout && (
           <View style={[commonStyles.rowCenter]}>
-            <Text style={[commonStyles.textSub]}>{`${checkinDetail?.shout}`}</Text>
+            <Text style={[commonStyles.textSub]}>{removeShoutWith(checkinDetail?.shout)}</Text>
           </View>
         )}
 
