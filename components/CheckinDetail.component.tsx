@@ -34,11 +34,11 @@ export const CheckinDetail = ({ route }) => {
     return () => {}
   }, [item])
 
-  const multipleNameRender = useCallback((users: User[]) => {
+  const multipleNameRender = useCallback((users: User[], label) => {
     return (
       <View style={[commonStyles.rowCenter]}>
         <Text style={commonStyles.textSub}>
-          一緒:
+          {label}:
           {users.map((m, i) => (
             <Text key={i.toString()}>
               {`${m.firstName ? m.firstName : ''} ${m.lastName ? m.lastName : ''}`}
@@ -52,8 +52,9 @@ export const CheckinDetail = ({ route }) => {
   const itemRender = useCallback(() => {
     return (
       <View style={{ paddingHorizontal: 8 }}>
-        {checkinDetail?.likes.groups[0] && multipleNameRender(checkinDetail?.likes.groups[0].items)}
-        {checkinDetail?.with && multipleNameRender(checkinDetail?.with)}
+        {checkinDetail?.likes.groups[0] &&
+          multipleNameRender(checkinDetail?.likes.groups[0].items, 'いいね！')}
+        {checkinDetail?.with && multipleNameRender(checkinDetail?.with, '一緒')}
         <View style={[commonStyles.rowCenter]}>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
             {checkinDetail?.venue.name}
