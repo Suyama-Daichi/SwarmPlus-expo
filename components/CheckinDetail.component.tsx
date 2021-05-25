@@ -62,7 +62,7 @@ export const CheckinDetail = ({ route }) => {
         </View>
         <View style={[commonStyles.rowCenter]}>
           <Text style={[commonStyles.textSub]}>
-            {`${checkinDetail?.venue.location.state}${checkinDetail?.venue.location.city}`}
+            {`${checkinDetail?.venue.location.state}${checkinDetail?.venue.location.city || ''}`}
           </Text>
         </View>
         {checkinDetail?.shout && (
