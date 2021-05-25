@@ -10,8 +10,9 @@ import { useFoursquare } from '../hooks/useFoursquare'
 import { CheckinsItem, User } from '../interface/Foursquare.type'
 import { commonStyles } from '../styles/styles'
 import { ImageCarousel } from '../components/carousel/ImageCarousel.component'
+import { NavigationProp } from '@react-navigation/native'
 
-export const CheckinDetail = ({ route }) => {
+export const CheckinDetail = ({ route, navigation }) => {
   const { item }: { item: CheckinsItem } = route.params
   const [checkinDetail, setCheckinDetail] = useState<CheckinsItem>()
   const [images, setImages] = useState<string[]>([])
@@ -26,6 +27,7 @@ export const CheckinDetail = ({ route }) => {
         ? checkins.photos.items.map((item) => generateImageUrl(item.prefix, item.suffix, 'cap400'))
         : ['']
     )
+    ;(navigation as NavigationProp<any>).setOptions({ headerTitle: checkins.venue.name })
     setCheckinDetail(checkins)
   }, [])
 
