@@ -34,33 +34,26 @@ export const CheckinDetail = ({ route }) => {
     return () => {}
   }, [item])
 
+  const multipleNameRender = useCallback((users: User[]) => {
+    return (
+      <View style={[commonStyles.rowCenter]}>
+        <Text style={commonStyles.textSub}>
+          一緒:
+          {users.map((m, i) => (
+            <Text key={i.toString()}>
+              {`${m.firstName ? m.firstName : ''} ${m.lastName ? m.lastName : ''}`}
+            </Text>
+          ))}
+        </Text>
+      </View>
+    )
+  }, [])
+
   const itemRender = useCallback(() => {
     return (
       <View style={{ paddingHorizontal: 8 }}>
-        {checkinDetail?.likes.groups[0] && (
-          <View style={[commonStyles.rowCenter]}>
-            <Text style={commonStyles.textSub}>
-              いいね！:
-              {checkinDetail?.likes.groups[0].items.map((m, i) => (
-                <Text key={i.toString()}>
-                  {`${m.firstName ? m.firstName : ''}${m.lastName ? m.lastName : ''}`}
-                </Text>
-              ))}
-            </Text>
-          </View>
-        )}
-        {(checkinDetail?.with as User[]).length > 0 && (
-          <View style={[commonStyles.rowCenter]}>
-            <Text style={commonStyles.textSub}>
-              一緒:
-              {(checkinDetail?.with as User[]).map((m, i) => (
-                <Text key={i.toString()}>
-                  {`${m.firstName ? m.firstName : ''} ${m.lastName ? m.lastName : ''}`}
-                </Text>
-              ))}
-            </Text>
-          </View>
-        )}
+        {checkinDetail?.likes.groups[0] && multipleNameRender(checkinDetail?.likes.groups[0].items)}
+        {checkinDetail?.with && multipleNameRender(checkinDetail?.with)}
         <View style={[commonStyles.rowCenter]}>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
             {checkinDetail?.venue.name}
