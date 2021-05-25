@@ -37,15 +37,15 @@ export const CheckinDetail = ({ route, navigation }) => {
   }, [item])
 
   const multipleNameRender = useCallback((users: User[], label) => {
+    const fullNames = users.map((user) => {
+      if (user.lastName && user.firstName) return user.firstName + ' ' + user.lastName
+      if (user.firstName) return user.firstName
+      if (user.lastName) return user.lastName
+    })
     return (
       <View style={[commonStyles.rowCenter, { marginBottom: 16 }]}>
         <Text style={commonStyles.textSub}>
-          {label}:
-          {users.map((m, i) => (
-            <Text key={i.toString()}>
-              {`${m.firstName ? m.firstName : ''} ${m.lastName ? m.lastName : ''}`}
-            </Text>
-          ))}
+          {label}: <Text>{fullNames.join('と')}</Text>
         </Text>
       </View>
     )
