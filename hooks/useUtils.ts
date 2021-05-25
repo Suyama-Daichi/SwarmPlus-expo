@@ -70,7 +70,7 @@ export const useUtils = () => {
    * 誰かとチェックインした場合、シャウトの末尾に付いてしまう「〇〇と一緒に」を取り除く
    */
   const removeShoutWith = useCallback((shout: string) => {
-    const regObj = RegExp(/(— ).*(と一緒に)/g)
+    const regObj = RegExp(/((— |.).*(と一緒に))/g)
     return shout.replace(regObj, '')
   }, [])
 
