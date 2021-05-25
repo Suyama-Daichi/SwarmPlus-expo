@@ -36,7 +36,7 @@ export const CheckinDetail = ({ route }) => {
 
   const multipleNameRender = useCallback((users: User[], label) => {
     return (
-      <View style={[commonStyles.rowCenter]}>
+      <View style={[commonStyles.rowCenter, { marginBottom: 16 }]}>
         <Text style={commonStyles.textSub}>
           {label}:
           {users.map((m, i) => (
@@ -55,7 +55,7 @@ export const CheckinDetail = ({ route }) => {
         {checkinDetail?.likes.groups[0] &&
           multipleNameRender(checkinDetail?.likes.groups[0].items, 'いいね！')}
         {checkinDetail?.with && multipleNameRender(checkinDetail?.with, '一緒')}
-        <View style={[commonStyles.rowCenter]}>
+        <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
             {checkinDetail?.venue.name}
           </Text>
@@ -66,7 +66,7 @@ export const CheckinDetail = ({ route }) => {
           </Text>
         </View>
         {checkinDetail?.shout && (
-          <View style={[commonStyles.rowCenter]}>
+          <View style={[commonStyles.rowCenter, { marginBottom: 24 }]}>
             <Text style={[commonStyles.textSub]}>{removeShoutWith(checkinDetail?.shout)}</Text>
           </View>
         )}
@@ -74,7 +74,11 @@ export const CheckinDetail = ({ route }) => {
         {checkinDetail?.comments.items?.map((comment, i) => (
           <View
             key={i.toString()}
-            style={[{ borderTopWidth: 0.3, borderColor: '#707070' }, commonStyles.rowCenter]}
+            style={[
+              { borderTopWidth: 0.3, borderColor: '#707070' },
+              commonStyles.rowCenter,
+              { padding: 8 },
+            ]}
           >
             <Avatar
               rounded
@@ -84,12 +88,18 @@ export const CheckinDetail = ({ route }) => {
               }}
               icon={{ name: 'person-outline' }}
             ></Avatar>
-            <View style={{ flexDirection: 'column' }}>
-              <Text>{`${comment.user.firstName ? comment.user.firstName : ''}${
-                comment.user.lastName ? comment.user.lastName : ''
-              }`}</Text>
-              <Text>{comment.text}</Text>
-              <Text>{formatDistanceToNowForTimestamp(timestamp2Date(comment.createdAt))}</Text>
+            <View style={[commonStyles.rowCenter]}>
+              <View style={[{ width: window.window.width * 0.6 }, { paddingLeft: 8 }]}>
+                <Text style={{ marginBottom: 16 }}>{`${
+                  comment.user.firstName ? comment.user.firstName : ''
+                }${comment.user.lastName ? comment.user.lastName : ''}`}</Text>
+                <Text style={commonStyles.textSub}>{comment.text}</Text>
+              </View>
+              <View>
+                <Text style={commonStyles.textSub}>
+                  {formatDistanceToNowForTimestamp(timestamp2Date(comment.createdAt))}
+                </Text>
+              </View>
             </View>
           </View>
         ))}
@@ -115,10 +125,6 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     padding: 4,
     marginLeft: 8,
-  },
-  border: {
-    borderWidth: 0.5,
-    borderColor: 'gray',
   },
   venueName: {
     color: colors.light.textBlack,
