@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import window from '../constants/Layout'
 import { useDate } from '../hooks/useDate'
-import { Avatar, Image } from 'react-native-elements'
+import { Avatar, Image, Icon } from 'react-native-elements'
 import { useUtils } from '../hooks/useUtils'
 import { FlatList } from 'react-native-gesture-handler'
 import colors from '../constants/Colors'
@@ -46,7 +46,7 @@ export const CheckinDetail = ({ route, navigation }) => {
     return (
       <View style={[commonStyles.rowCenter]}>
         <Text style={commonStyles.textSub}>
-          {label}: <Text>{fullNames.join('と')}</Text>
+          <View>{label}</View> <Text>{fullNames.join('と')}</Text>
         </Text>
       </View>
     )
@@ -57,8 +57,27 @@ export const CheckinDetail = ({ route, navigation }) => {
       <View style={{ paddingHorizontal: 8 }}>
         <View style={{ marginBottom: 16 }}>
           {checkinDetail?.likes.groups[0] &&
-            multipleNameRender(checkinDetail?.likes.groups[0].items, 'いいね！')}
-          {checkinDetail?.with && multipleNameRender(checkinDetail?.with, '一緒')}
+            multipleNameRender(
+              checkinDetail?.likes.groups[0].items,
+              <Icon
+                name={'heart'}
+                color={colors.light.pink}
+                solid={true}
+                type={'font-awesome-5'}
+                size={12}
+              />
+            )}
+          {checkinDetail?.with &&
+            multipleNameRender(
+              checkinDetail?.with,
+              <Icon
+                name={'users'}
+                color={colors.light.primaryOrange}
+                solid={true}
+                type={'font-awesome-5'}
+                size={12}
+              />
+            )}
         </View>
         <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
           <View style={[{ backgroundColor: colors.light.backgroundSecond }, { marginRight: 4 }]}>
