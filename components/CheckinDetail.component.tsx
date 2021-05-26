@@ -110,10 +110,13 @@ export const CheckinDetail = ({ route, navigation }) => {
           {formatDistanceToNowForTimestamp(timestamp2Date(checkinDetail?.createdAt))})
         </Text>
         {checkinDetail?.shout && (
-          <View style={[commonStyles.rowCenter, { marginBottom: 24 }]}>
+          <View style={[commonStyles.rowCenter, { marginBottom: 16 }]}>
             <Text style={[commonStyles.textSub]}>{removeShoutWith(checkinDetail?.shout)}</Text>
           </View>
         )}
+        <View style={{ marginBottom: 8 }}>
+          <Text style={[commonStyles.textSub]}>via: {item.source.name}</Text>
+        </View>
 
         {checkinDetail?.comments.items?.map((comment, i) => (
           <View
