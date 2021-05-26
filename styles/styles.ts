@@ -6,5 +6,6 @@ export const commonStyles = StyleSheet.create({
   rowCenter: { flexDirection: 'row', alignItems: 'center' },
   textSub: { color: colors.light.textSub },
   venueName: { color: colors.light.textBlack },
+  fontSmall: { fontSize: 11 },
   fontMedium: { fontSize: 17 },
 })

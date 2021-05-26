@@ -14,6 +14,7 @@ import {
 import { DateObject } from 'react-native-calendars'
 import { IStartEnd } from '../interface/interface.type'
 import { ja } from 'date-fns/locale'
+import { useCallback } from 'react'
 
 export const useDate = () => {
   /**
@@ -32,9 +33,10 @@ export const useDate = () => {
    * @param formatString 日付フォーマット
    * @returns フォーマットされた文字列
    */
-  const formatTimestamp = (timestamp: number, formatString: string) => {
+  const formatTimestamp = useCallback((timestamp: number | undefined, formatString: string) => {
+    if (!timestamp) return
     return format(new Date(Number(timestamp + '000')), formatString)
-  }
+  }, [])
 
   /**
    * タイムスタンプ(10桁)をDateに変換する
@@ -42,9 +44,10 @@ export const useDate = () => {
    * @param date 日付フォーマット
    * @returns フォーマットされた文字列
    */
-  const timestamp2Date = (timestamp: number) => {
+  const timestamp2Date = useCallback((timestamp: number | undefined) => {
+    if (!timestamp) return
     return new Date(Number(timestamp + '000'))
-  }
+  }, [])
 
   /**
    * 月の始まりと月末のタイムスタンプを取得する
@@ -107,9 +110,10 @@ export const useDate = () => {
     }
   }
 
-  const formatDistanceToNowForTimestamp = (date: Date) => {
+  const formatDistanceToNowForTimestamp = useCallback((date: Date | undefined) => {
+    if (!date) return
     return formatDistanceToNow(date, { addSuffix: true, locale: ja })
-  }
+  }, [])
 
   return {
     getDateString,

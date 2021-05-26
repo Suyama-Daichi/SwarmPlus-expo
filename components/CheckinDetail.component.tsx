@@ -18,7 +18,7 @@ export const CheckinDetail = ({ route, navigation }) => {
   const [checkinDetail, setCheckinDetail] = useState<CheckinsItem>()
   const [images, setImages] = useState<string[]>([])
   const { fetchCheckinDetails } = useFoursquare()
-  const { formatDistanceToNowForTimestamp, timestamp2Date } = useDate()
+  const { formatDistanceToNowForTimestamp, timestamp2Date, formatTimestamp } = useDate()
   const { generateImageUrl, removeShoutWith } = useUtils()
 
   const getCheckinDetails = useCallback(async () => {
@@ -65,7 +65,7 @@ export const CheckinDetail = ({ route, navigation }) => {
             {checkinDetail?.venue.name}
           </Text>
         </View>
-        <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
+        <View style={[commonStyles.rowCenter]}>
           <Text style={[commonStyles.textSub]}>
             {`${checkinDetail?.venue.location.state}${checkinDetail?.venue.location.city || ''}`}
           </Text>
@@ -74,6 +74,10 @@ export const CheckinDetail = ({ route, navigation }) => {
             <Text style={[commonStyles.textSub]}>{`${checkinDetail?.score.total}`}</Text>
           </View>
         </View>
+        <Text style={[commonStyles.textSub, { marginBottom: 8 }]}>
+          {formatTimestamp(checkinDetail?.createdAt, 'yyyy/MM/dd HH:mm:ss')}(
+          {formatDistanceToNowForTimestamp(timestamp2Date(checkinDetail?.createdAt))})
+        </Text>
         {checkinDetail?.shout && (
           <View style={[commonStyles.rowCenter, { marginBottom: 24 }]}>
             <Text style={[commonStyles.textSub]}>{removeShoutWith(checkinDetail?.shout)}</Text>
