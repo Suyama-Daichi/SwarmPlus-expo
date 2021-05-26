@@ -55,7 +55,7 @@ export const CheckinDetail = ({ route, navigation }) => {
   const itemRender = useCallback(() => {
     return (
       <View style={{ paddingHorizontal: 8 }}>
-        <View style={{ marginBottom: 16 }}>
+        <View style={{ marginVertical: 8 }}>
           {checkinDetail?.likes.groups[0] &&
             multipleNameRender(
               checkinDetail?.likes.groups[0].items,
