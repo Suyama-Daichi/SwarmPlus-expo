@@ -65,7 +65,7 @@ export const CheckinDetail = ({ route, navigation }) => {
             {checkinDetail?.venue.name}
           </Text>
         </View>
-        <View style={[commonStyles.rowCenter]}>
+        <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
           <Text style={[commonStyles.textSub]}>
             {`${checkinDetail?.venue.location.state}${checkinDetail?.venue.location.city || ''}`}
           </Text>
