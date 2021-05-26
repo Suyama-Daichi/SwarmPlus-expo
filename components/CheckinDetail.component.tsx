@@ -11,6 +11,7 @@ import { CheckinsItem, User } from '../interface/Foursquare.type'
 import { commonStyles } from '../styles/styles'
 import { ImageCarousel } from '../components/carousel/ImageCarousel.component'
 import { NavigationProp } from '@react-navigation/native'
+import CoinIcon from './CoinIcon.component'
 
 export const CheckinDetail = ({ route, navigation }) => {
   const { item }: { item: CheckinsItem } = route.params
@@ -68,6 +69,10 @@ export const CheckinDetail = ({ route, navigation }) => {
           <Text style={[commonStyles.textSub]}>
             {`${checkinDetail?.venue.location.state}${checkinDetail?.venue.location.city || ''}`}
           </Text>
+          <View style={[commonStyles.rowCenter, { marginLeft: 8 }]}>
+            <CoinIcon />
+            <Text style={[commonStyles.textSub]}>{`${checkinDetail?.score.total}`}</Text>
+          </View>
         </View>
         {checkinDetail?.shout && (
           <View style={[commonStyles.rowCenter, { marginBottom: 24 }]}>
