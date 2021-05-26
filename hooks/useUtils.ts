@@ -58,13 +58,17 @@ export const useUtils = () => {
   /**
    * 画像URLを生成
    * @param prefix
-   * @param surfix
+   * @param suffix
    * @param size サイズ
    * @returns {string} URL
    */
-  const generateImageUrl = (prefix: string, surfix: string, size: string = 'original'): string => {
-    return `${prefix}${size}${surfix}`
-  }
+  const generateImageUrl = useCallback(
+    (prefix: string | undefined, suffix: string | undefined, size: string = 'original') => {
+      if (!prefix || !suffix) return
+      return `${prefix}${size}${suffix}`
+    },
+    []
+  )
 
   /**
    * 誰かとチェックインした場合、シャウトの末尾に付いてしまう「〇〇と一緒に」を取り除く

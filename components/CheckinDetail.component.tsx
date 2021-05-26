@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import window from '../constants/Layout'
 import { useDate } from '../hooks/useDate'
-import { Avatar } from 'react-native-elements'
+import { Avatar, Image } from 'react-native-elements'
 import { useUtils } from '../hooks/useUtils'
 import { FlatList } from 'react-native-gesture-handler'
 import colors from '../constants/Colors'
@@ -61,6 +61,18 @@ export const CheckinDetail = ({ route, navigation }) => {
           {checkinDetail?.with && multipleNameRender(checkinDetail?.with, '一緒')}
         </View>
         <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
+          <View style={[{ backgroundColor: colors.light.backgroundSecond }, { marginRight: 4 }]}>
+            <Image
+              source={{
+                uri: generateImageUrl(
+                  checkinDetail?.venue.categories[0].icon.prefix,
+                  checkinDetail?.venue.categories[0].icon.suffix,
+                  '32'
+                ),
+              }}
+              style={{ width: 24, height: 24 }}
+            />
+          </View>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
             {checkinDetail?.venue.name}
           </Text>
