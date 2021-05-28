@@ -1,4 +1,5 @@
-import { Checkins, CheckinsItem } from '../interface/Foursquare.type'
+import { useCallback } from 'react'
+import { Checkins } from '../interface/Foursquare.type'
 import { useDate } from '../hooks/useDate'
 
 export const useUtils = () => {
@@ -40,7 +41,6 @@ export const useUtils = () => {
       hoge.map((m) => m.currentDateStr)
     )
 
-    // console.log(noEventDays)
     const AgendaObject = Object.fromEntries(hoge.map((m) => [m.currentDateStr, m.current]))
 
     noEventDays.forEach((f) => {
@@ -58,13 +58,25 @@ export const useUtils = () => {
   /**
    * 画像URLを生成
    * @param prefix
-   * @param surfix
+   * @param suffix
    * @param size サイズ
    * @returns {string} URL
    */
-  const generateImageUrl = (prefix: string, surfix: string, size: string = 'original'): string => {
-    return `${prefix}${size}${surfix}`
-  }
+  const generateImageUrl = useCallback(
+    (prefix: string | undefined, suffix: string | undefined, size: string = 'original') => {
+      if (!prefix || !suffix) return
+      return `${prefix}${size}${suffix}`
+    },
+    []
+  )
 
-  return { convertAgendaObject, generateImageUrl }
+  /**
+   * 誰かとチェックインした場合、シャウトの末尾に付いてしまう「〇〇と一緒に」を取り除く
+   */
+  const removeShoutWith = useCallback((shout: string) => {
+    const regObj = RegExp(/((— |.).*(と一緒に))/g)
+    return shout.replace(regObj, '')
+  }, [])
+
+  return { convertAgendaObject, generateImageUrl, removeShoutWith }
 }

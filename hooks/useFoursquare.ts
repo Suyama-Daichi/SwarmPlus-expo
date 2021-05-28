@@ -1,8 +1,8 @@
 import { IStartEnd } from '../interface/interface.type'
 import { config } from '../service/config'
-import { Response, Checkins, User } from '../interface/Foursquare.type'
+import { Checkins, User, CheckinsItem } from '../interface/Foursquare.type'
 
-const getCredencial = () => {
+const getCredential = () => {
   const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
   const query = new URLSearchParams(params)
   return query
@@ -13,9 +13,8 @@ const responseExtractor = async ({
   type,
 }: {
   res: any
-  type: 'checkins' | 'user'
+  type: 'checkins' | 'checkin' | 'user'
 }): Promise<any> => {
-  console.log({ res })
   const parsedRes = await res.json()
   if (parsedRes.meta.code !== 200) {
     console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
@@ -25,7 +24,7 @@ const responseExtractor = async ({
 
 export const useFoursquare = () => {
   const fetchUser = (): Promise<User> => {
-    const params = getCredencial()
+    const params = getCredential()
     return fetch(`https://api.foursquare.com/v2/users/self?${params}`, {
       method: 'GET',
     })
@@ -41,7 +40,7 @@ export const useFoursquare = () => {
    * @returns チェックインのリスト
    */
   const fetchUserCheckins = (startEnd?: IStartEnd): Promise<Checkins> => {
-    const params = getCredencial()
+    const params = getCredential()
     if (startEnd) {
       params.append('afterTimestamp', startEnd.afterTimestamp)
       params.append('beforeTimestamp', startEnd.beforeTimestamp)
@@ -60,15 +59,15 @@ export const useFoursquare = () => {
    * @param checkinId チェックインID
    * @returns チェックインの詳細
    */
-  const fetchCheckinDetails = (checkinId: string) => {
-    const params = getCredencial()
+  const fetchCheckinDetails = (checkinId: string): Promise<CheckinsItem> => {
+    const params = getCredential()
     return fetch(`https://api.foursquare.com/v2/checkins/${checkinId}?${params}`, {
       method: 'GET',
     })
       .catch((err) => {
         console.error(err)
       })
-      .then(async (res) => await responseExtractor({ res, type: 'checkins' }))
+      .then(async (res) => await responseExtractor({ res, type: 'checkin' }))
   }
 
   return { fetchUser, fetchUserCheckins, fetchCheckinDetails }

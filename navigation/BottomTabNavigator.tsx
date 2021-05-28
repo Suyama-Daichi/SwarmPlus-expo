@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
+import { CheckinDetail } from '../components/CheckinDetail.component'
 
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
@@ -23,7 +24,7 @@ export default function BottomTabNavigator() {
         name="CheckinCalander"
         component={CheckinCalendarNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -49,11 +50,17 @@ const CheckinCalendarStack = createStackNavigator<CheckinCalendarParamList>()
 
 function CheckinCalendarNavigator() {
   return (
-    <CheckinCalendarStack.Navigator>
+    <CheckinCalendarStack.Navigator initialRouteName={'CheckinCalendar'} mode={'card'}>
       <CheckinCalendarStack.Screen
-        name="CheckinCalendar"
+        name={'CheckinCalendar'}
         component={CheckinCalander}
         options={{ headerTitle: 'チェックインカレンダー' }}
+      />
+
+      <CheckinCalendarStack.Screen
+        name={'CheckinDetail'}
+        component={CheckinDetail}
+        options={{ headerTitle: 'チェックインの詳細' }}
       />
     </CheckinCalendarStack.Navigator>
   )

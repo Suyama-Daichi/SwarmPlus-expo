@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Modal } from 'react-native'
+import { View, TouchableOpacity, Text, StyleSheet, Modal } from 'react-native'
 import { CheckinsItem, User } from '../../interface/Foursquare.type'
 import window from '../../constants/Layout'
 import { useDate } from '../../hooks/useDate'
@@ -9,18 +9,20 @@ import { ScrollView } from 'react-native-gesture-handler'
 import colors from '../../constants/Colors'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import { useRecoil } from '../../hooks/useRecoil'
+import { useNavigation } from '@react-navigation/core'
+import { commonStyles } from '../../styles/styles'
 
 export const Checkin = ({ item }: { item: CheckinsItem }) => {
+  const navigation = useNavigation()
   const { user } = useRecoil()
   const [showModal, setShowModal] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
   const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
 
-  console.log(user)
-
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => navigation.navigate('CheckinDetail', { item })}
       style={[
         styles.container,
         { borderColor: '#707070', borderWidth: 0.3 },
@@ -48,18 +50,24 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
       </Avatar>
 
       <View style={{ paddingLeft: 8, flex: 1 }}>
-        <Text style={[styles.fontLerge, styles.venueName]} numberOfLines={2}>
+        <Text style={[styles.fontLerge, commonStyles.venueName]} numberOfLines={2}>
           {item.venue.name}
         </Text>
 
-        <Text style={[styles.fontMidium, styles.textSub, { marginBottom: 8 }]} numberOfLines={1}>
+        <Text
+          style={[commonStyles.fontMedium, commonStyles.textSub, { marginBottom: 8 }]}
+          numberOfLines={1}
+        >
           {item.venue.location.state}
           {item.venue.location.city}
           {item.venue.location.address}
         </Text>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={[styles.fontMidium, styles.venueName, { marginRight: 8 }]} numberOfLines={2}>
+          <Text
+            style={[commonStyles.fontMedium, commonStyles.venueName, { marginRight: 8 }]}
+            numberOfLines={2}
+          >
             <Icon
               name={'heart'}
               type={'font-awesome-5'}
@@ -71,7 +79,7 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
             {item.likes.count}
           </Text>
 
-          <Text style={[styles.fontMidium, styles.venueName]} numberOfLines={2}>
+          <Text style={[commonStyles.fontMedium, commonStyles.venueName]} numberOfLines={2}>
             <Icon
               name={'comment'}
               type={'font-awesome-5'}
@@ -84,8 +92,10 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
           </Text>
         </View>
 
-        <Text style={[styles.fontMidium, styles.textSub, { marginVertical: 8 }]}>{item.shout}</Text>
-        <Text style={[styles.fontMidium, styles.textSub]}>
+        <Text style={[commonStyles.fontMedium, commonStyles.textSub, { marginVertical: 8 }]}>
+          {item.shout}
+        </Text>
+        <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>
           {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
         </Text>
         <Modal visible={showModal} transparent={true}>
@@ -116,9 +126,9 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
             )
           })}
         </ScrollView>
-        <Text style={[styles.fontMidium, styles.textSub]}>via: {item.source.name}</Text>
+        <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>via: {item.source.name}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 const styles = StyleSheet.create({
@@ -133,16 +143,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: 'gray',
   },
-  venueName: {
-    color: colors.light.textBlack,
-  },
-  textSub: {
-    color: colors.light.textSub,
-  },
   fontLerge: {
     fontSize: 24,
-  },
-  fontMidium: {
-    fontSize: 17,
   },
 })
