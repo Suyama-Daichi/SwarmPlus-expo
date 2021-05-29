@@ -1,28 +1,25 @@
 module.exports = {
   env: {
-    es6: true,
-    node: true,
-    'react-native/react-native': true,
+    browser: true,
+    es2021: true,
   },
-  parser: 'babel-eslint',
-  plugins: ['react', 'react-hooks', 'react-native', 'prettier', 'import'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+  ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    version: 2018,
-    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
+    ecmaVersion: 12,
+    sourceType: 'module',
   },
-  extends: [
-    'standard',
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:prettier/recommended',
-    'prettier/react',
-  ],
+  plugins: ['react', '@typescript-eslint'],
   rules: {
     curly: ['error', 'multi-line'],
+    'no-console': 'warn',
     'react/prop-types': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
