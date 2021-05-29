@@ -63,7 +63,7 @@ export const useUtils = () => {
    * @returns {string} URL
    */
   const generateImageUrl = useCallback(
-    (prefix: string | undefined, suffix: string | undefined, size: string = 'original') => {
+    (prefix: string | undefined, suffix: string | undefined, size = 'original') => {
       if (!prefix || !suffix) return
       return `${prefix}${size}${suffix}`
     },

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
-import { Agenda, DateObject, AgendaItemsMap } from 'react-native-calendars'
+import { View } from 'react-native'
+import { Agenda, DateObject } from 'react-native-calendars'
 import { useDate } from '../hooks/useDate'
 import { useFoursquare } from '../hooks/useFoursquare'
 import { useUtils } from '../hooks/useUtils'
@@ -9,9 +9,9 @@ import { Timeline } from '../components/Timeline.component'
 import { useRecoil } from '../hooks/useRecoil'
 
 export default function CheckinCalander() {
-  const { getDateString, getStartEndOfMonth, getStartEndOfDay } = useDate()
+  const { getDateString, getStartEndOfMonth } = useDate()
   const { setUser, user } = useRecoil()
-  const { fetchUserCheckins, fetchCheckinDetails, fetchUser } = useFoursquare()
+  const { fetchUserCheckins, fetchUser } = useFoursquare()
   const { convertAgendaObject } = useUtils()
   const [items, setItems] = useState({})
   const [loading, setLoading] = useState(false)
