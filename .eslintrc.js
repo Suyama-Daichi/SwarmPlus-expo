@@ -6,7 +6,9 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -15,8 +17,9 @@ module.exports = {
     },
     ecmaVersion: 12,
     sourceType: 'module',
+    project: 'tsconfig.json',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', 'react-hooks', 'react-native', 'import', '@typescript-eslint'],
   rules: {
     curly: ['error', 'multi-line'],
     'no-console': 'warn',
