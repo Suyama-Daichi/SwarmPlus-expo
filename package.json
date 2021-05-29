@@ -75,5 +75,9 @@
     "typescript": "~4.0.0",
     "typesync": "^0.8.0"
   },
+  "eslintIgnore": [
+    "node_modules",
+    "*.js"
+  ],
   "private": true
 }
