@@ -4,7 +4,7 @@ export type RootStackParamList = {
 }
 
 export type BottomTabParamList = {
-  CheckinCalander: undefined
+  CheckinCalender: undefined
   TabTwo: undefined
 }
 

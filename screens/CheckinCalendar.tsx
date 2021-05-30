@@ -8,7 +8,7 @@ import { CheckinsItem } from '../interface/Foursquare.type'
 import { Timeline } from '../components/Timeline.component'
 import { useRecoil } from '../hooks/useRecoil'
 
-export default function CheckinCalander() {
+export default function CheckinCalender() {
   const { getDateString, getStartEndOfMonth } = useDate()
   const { setUser, user } = useRecoil()
   const { fetchUserCheckins, fetchUser } = useFoursquare()

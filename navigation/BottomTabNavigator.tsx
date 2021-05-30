@@ -6,7 +6,7 @@ import { CheckinDetail } from '../components/CheckinDetail.component'
 
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
-import CheckinCalander from '../screens/CheckinCalendar'
+import CheckinCalender from '../screens/CheckinCalendar'
 import TabTwoScreen from '../screens/TabTwoScreen'
 import { BottomTabParamList, CheckinCalendarParamList, TabTwoParamList } from '../types'
 
@@ -17,11 +17,11 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="CheckinCalander"
+      initialRouteName="CheckinCalender"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint, showLabel: false }}
     >
       <BottomTab.Screen
-        name="CheckinCalander"
+        name="CheckinCalender"
         component={CheckinCalendarNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
@@ -53,7 +53,7 @@ function CheckinCalendarNavigator() {
     <CheckinCalendarStack.Navigator initialRouteName={'CheckinCalendar'} mode={'card'}>
       <CheckinCalendarStack.Screen
         name={'CheckinCalendar'}
-        component={CheckinCalander}
+        component={CheckinCalender}
         options={{ headerTitle: 'カレンダーで振り返る' }}
       />
 
