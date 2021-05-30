@@ -17,7 +17,7 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
   const { user } = useRecoil()
   const [showModal, setShowModal] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
-  const { formatTimestamp } = useDate()
+  const { formatDistanceToNowForTimestamp, timestamp2Date } = useDate()
   const { generateImageUrl } = useUtils()
 
   return (
@@ -96,7 +96,7 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
           {item.shout}
         </Text>
         <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>
-          {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm:ss')}
+          {formatDistanceToNowForTimestamp(timestamp2Date(item.createdAt))}
         </Text>
         <Modal visible={showModal} transparent={true}>
           <ImageViewer
