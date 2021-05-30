@@ -16,13 +16,15 @@ export const DividerDate = ({ dateObject }: { dateObject: DateObject | undefined
               borderTopRightRadius: 10,
               borderBottomRightRadius: 10,
               width: window.window.width / 3,
-              borderColor: Colors.light.backgroundSecond,
-              backgroundColor: Colors.light.backgroundSecond,
+              borderColor: Colors.light.primaryOrange,
+              backgroundColor: Colors.light.primaryOrange,
             },
             { marginVertical: 8 },
           ]}
         >
-          <Text>{dateObject?.dateString}</Text>
+          <Text style={[{ color: 'white', fontWeight: 'bold' }, { paddingLeft: 8 }]}>
+            {dateObject?.dateString}
+          </Text>
         </View>
       )}
     </View>

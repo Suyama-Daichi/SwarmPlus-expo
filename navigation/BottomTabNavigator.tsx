@@ -3,10 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import { CheckinDetail } from '../components/CheckinDetail.component'
+import HeaderBack from '../components/Header/HeaderBack.component'
 
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
-import CheckinCalander from '../screens/CheckinCalendar'
+import CheckinCalender from '../screens/CheckinCalendar'
 import TabTwoScreen from '../screens/TabTwoScreen'
 import { BottomTabParamList, CheckinCalendarParamList, TabTwoParamList } from '../types'
 
@@ -17,23 +18,23 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="CheckinCalander"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      initialRouteName="CheckinCalender"
+      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint, showLabel: false }}
     >
       <BottomTab.Screen
-        name="CheckinCalander"
+        name="CheckinCalender"
         component={CheckinCalendarNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
         }}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="TabTwo"
         component={TabTwoNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
-      />
+      /> */}
     </BottomTab.Navigator>
   )
 }
@@ -53,14 +54,17 @@ function CheckinCalendarNavigator() {
     <CheckinCalendarStack.Navigator initialRouteName={'CheckinCalendar'} mode={'card'}>
       <CheckinCalendarStack.Screen
         name={'CheckinCalendar'}
-        component={CheckinCalander}
-        options={{ headerTitle: 'チェックインカレンダー' }}
+        component={CheckinCalender}
+        options={{ headerTitle: 'カレンダーで振り返る' }}
       />
 
       <CheckinCalendarStack.Screen
         name={'CheckinDetail'}
         component={CheckinDetail}
-        options={{ headerTitle: 'チェックインの詳細' }}
+        options={{
+          headerTitle: 'チェックインの詳細',
+          headerLeft: () => <HeaderBack />,
+        }}
       />
     </CheckinCalendarStack.Navigator>
   )

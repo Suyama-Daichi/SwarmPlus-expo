@@ -36,6 +36,7 @@ module.exports = {
         'newlines-between': 'ignore',
       },
     ],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
   settings: {
     react: {
