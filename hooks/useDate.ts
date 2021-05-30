@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import {
   format,
   startOfMonth,
@@ -12,9 +13,9 @@ import {
   formatDistanceToNow,
 } from 'date-fns'
 import { DateObject } from 'react-native-calendars'
-import { IStartEnd } from '../interface/interface.type'
 import { ja } from 'date-fns/locale'
 import { useCallback } from 'react'
+import { IStartEnd } from '../interface/interface.type'
 
 export const useDate = () => {
   /**

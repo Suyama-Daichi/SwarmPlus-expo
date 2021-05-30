@@ -46,8 +46,8 @@ export default function EditScreenInfo({ path }: { path: string }) {
   )
 }
 
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
+const handleHelpPress = async () => {
+  await WebBrowser.openBrowserAsync(
     'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
   )
 }
