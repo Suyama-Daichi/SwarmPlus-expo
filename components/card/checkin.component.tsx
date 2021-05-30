@@ -91,10 +91,11 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
             {item.comments.count}
           </Text>
         </View>
-
-        <Text style={[commonStyles.fontMedium, commonStyles.textSub, { marginVertical: 8 }]}>
-          {item.shout}
-        </Text>
+        {item.shout && (
+          <Text style={[commonStyles.fontMedium, commonStyles.textSub, { marginVertical: 8 }]}>
+            {item.shout}
+          </Text>
+        )}
         <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>
           {formatDistanceToNowForTimestamp(timestamp2Date(item.createdAt))}
         </Text>
