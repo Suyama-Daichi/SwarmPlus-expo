@@ -126,7 +126,6 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
             )
           })}
         </ScrollView>
-        <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>via: {item.source.name}</Text>
       </View>
     </TouchableOpacity>
   )
