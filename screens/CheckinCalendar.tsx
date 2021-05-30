@@ -7,6 +7,7 @@ import { useUtils } from '../hooks/useUtils'
 import { CheckinsItem } from '../interface/Foursquare.type'
 import { Timeline } from '../components/Timeline.component'
 import { useRecoil } from '../hooks/useRecoil'
+import Colors from '../constants/Colors'
 
 export default function CheckinCalender() {
   const { getDateString, getStartEndOfMonth } = useDate()
@@ -64,6 +65,10 @@ export default function CheckinCalender() {
         renderDay={(date, item: CheckinsItem) => (
           <Timeline dateObject={date} item={item}></Timeline>
         )}
+        theme={{
+          agendaKnobColor: Colors.light.primaryOrange,
+          dotColor: Colors.light.primaryOrange,
+        }}
       />
     </View>
   )
