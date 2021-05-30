@@ -18,7 +18,7 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="CheckinCalander"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint, showLabel: false }}
     >
       <BottomTab.Screen
         name="CheckinCalander"
@@ -54,7 +54,7 @@ function CheckinCalendarNavigator() {
       <CheckinCalendarStack.Screen
         name={'CheckinCalendar'}
         component={CheckinCalander}
-        options={{ headerTitle: 'チェックインカレンダー' }}
+        options={{ headerTitle: 'カレンダーで振り返る' }}
       />
 
       <CheckinCalendarStack.Screen
