@@ -12,3 +12,6 @@ web-build/
 # macOS
 .DS_Store
 .env
+.vscode/.react/AppEntry.bundle
+.vscode/.react/AppEntry.map
+.vscode/.react/debuggerWorker.js
