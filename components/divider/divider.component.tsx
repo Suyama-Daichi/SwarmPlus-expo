@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { DateObject } from 'react-native-calendars'
 import window from '../../constants/Layout'
 import Colors from '../../constants/Colors'
+import { useDate } from '../../hooks/useDate'
 
 export const DividerDate = ({ dateObject }: { dateObject: DateObject | undefined }) => {
+  const { getDay, timestamp2Date } = useDate()
+  const [day, setDay] = useState()
+  useEffect(() => {
+    setDay(getDay(timestamp2Date(dateObject?.timestamp)))
+  }, [dateObject, getDay, timestamp2Date])
   return (
     <View style={{ backgroundColor: 'white', width: window.window.width }}>
       {dateObject && (
@@ -23,7 +29,7 @@ export const DividerDate = ({ dateObject }: { dateObject: DateObject | undefined
           ]}
         >
           <Text style={[{ color: 'white', fontWeight: 'bold' }, { paddingLeft: 8 }]}>
-            {dateObject?.dateString}
+            {dateObject?.dateString}({day})
           </Text>
         </View>
       )}

@@ -12,7 +12,7 @@ import {
   max,
   formatDistanceToNow,
 } from 'date-fns'
-import { DateObject } from 'react-native-calendars'
+import { DateObject, LocaleConfig } from 'react-native-calendars'
 import { ja } from 'date-fns/locale'
 import { useCallback } from 'react'
 import { IStartEnd } from '../interface/interface.type'
@@ -47,7 +47,11 @@ export const useDate = () => {
    */
   const timestamp2Date = useCallback((timestamp: number | undefined) => {
     if (!timestamp) return
-    return new Date(Number(timestamp + '000'))
+    if (timestamp > 999999999999) {
+      return new Date(Number(timestamp))
+    } else {
+      return new Date(Number(timestamp + '000'))
+    }
   }, [])
 
   /**
@@ -111,9 +115,23 @@ export const useDate = () => {
     }
   }
 
+  /**
+   * n|時間|日|月前を作る
+   * @param {Date | undefined} Dateオブジェクト
+   */
   const formatDistanceToNowForTimestamp = useCallback((date: Date | undefined) => {
     if (!date) return
     return formatDistanceToNow(date, { addSuffix: true, locale: ja })
+  }, [])
+
+  /**
+   * 曜日を取得する
+   * @param {Date} Dateオブジェクト
+   */
+  const getDay = useCallback((date: Date | undefined) => {
+    if (!date || !LocaleConfig.locales.jp.dayNamesShort) return
+    const day = LocaleConfig.locales.jp.dayNamesShort[date?.getDay()]
+    return day
   }, [])
 
   return {
@@ -123,6 +141,7 @@ export const useDate = () => {
     getStartEndOfDay,
     getDateArray,
     getMinMaxDate,
+    getDay,
     formatDistanceToNowForTimestamp,
     timestamp2Date,
   }
