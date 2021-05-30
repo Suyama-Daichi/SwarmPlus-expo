@@ -98,7 +98,9 @@ export const CheckinDetail = ({ route, navigation }) => {
         </View>
         <View style={[commonStyles.rowCenter]}>
           <Text style={[commonStyles.textSub]}>
-            {`${checkinDetail?.venue.location.state}${checkinDetail?.venue.location.city || ''}`}
+            {`${checkinDetail?.venue.location.state}${checkinDetail?.venue.location.city || ''}${
+              item.venue.location.address || ''
+            }`}
           </Text>
           <View style={[commonStyles.rowCenter, { marginLeft: 8 }]}>
             <CoinIcon />
