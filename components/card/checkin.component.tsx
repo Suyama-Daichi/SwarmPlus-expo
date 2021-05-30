@@ -60,7 +60,6 @@ export const Checkin = ({ item }: { item: CheckinsItem }) => {
         >
           {item.venue.location.state}
           {item.venue.location.city}
-          {item.venue.location.address}
         </Text>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
