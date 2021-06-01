@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { Avatar, Image, Icon } from 'react-native-elements'
-import { FlatList } from 'react-native-gesture-handler'
 import { NavigationProp } from '@react-navigation/native'
 import window from '../constants/Layout'
 import { useDate } from '../hooks/useDate'
