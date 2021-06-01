@@ -25,7 +25,7 @@ const responseExtractor = async <T>({
 export const useFoursquare = () => {
   const fetchUser = (): Promise<User> => {
     const params = getCredential()
-    return fetch(`https://api.foursquare.com/v2/users/self?${params}`, {
+    return fetch(`https://api.foursquare.com/v2/users/self?${params.toString()}`, {
       method: 'GET',
     })
       .catch((err) => {
@@ -45,7 +45,7 @@ export const useFoursquare = () => {
       params.append('afterTimestamp', startEnd.afterTimestamp)
       params.append('beforeTimestamp', startEnd.beforeTimestamp)
     }
-    return fetch(`https://api.foursquare.com/v2/users/self/checkins?${params}`, {
+    return fetch(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`, {
       method: 'GET',
     })
       .catch((err) => {
@@ -61,7 +61,7 @@ export const useFoursquare = () => {
    */
   const fetchCheckinDetails = (checkinId: string): Promise<CheckinsItem> => {
     const params = getCredential()
-    return fetch(`https://api.foursquare.com/v2/checkins/${checkinId}?${params}`, {
+    return fetch(`https://api.foursquare.com/v2/checkins/${checkinId}?${params.toString()}`, {
       method: 'GET',
     })
       .catch((err) => {
