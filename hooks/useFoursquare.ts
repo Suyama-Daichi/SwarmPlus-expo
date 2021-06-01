@@ -8,13 +8,13 @@ const getCredential = () => {
   return query
 }
 
-const responseExtractor = async ({
+const responseExtractor = async <T>({
   res,
   type,
 }: {
   res: any
   type: 'checkins' | 'checkin' | 'user'
-}): Promise<any> => {
+}): Promise<T> => {
   const parsedRes = await res.json()
   if (parsedRes.meta.code !== 200) {
     console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
@@ -31,7 +31,7 @@ export const useFoursquare = () => {
       .catch((err) => {
         console.error(err)
       })
-      .then(async (res) => await responseExtractor({ res, type: 'user' }))
+      .then(async (res) => await responseExtractor<User>({ res, type: 'user' }))
   }
 
   /**
@@ -51,7 +51,7 @@ export const useFoursquare = () => {
       .catch((err) => {
         console.error(err)
       })
-      .then(async (res) => await responseExtractor({ res, type: 'checkins' }))
+      .then(async (res) => await responseExtractor<Checkins>({ res, type: 'checkins' }))
   }
 
   /**
@@ -67,7 +67,7 @@ export const useFoursquare = () => {
       .catch((err) => {
         console.error(err)
       })
-      .then(async (res) => await responseExtractor({ res, type: 'checkin' }))
+      .then(async (res) => await responseExtractor<CheckinsItem>({ res, type: 'checkin' }))
   }
 
   return { fetchUser, fetchUserCheckins, fetchCheckinDetails }
