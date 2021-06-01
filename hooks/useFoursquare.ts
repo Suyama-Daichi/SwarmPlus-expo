@@ -1,6 +1,6 @@
 import { IStartEnd } from '../interface/interface.type'
 import { config } from '../service/config'
-import { Checkins, User, CheckinsItem } from '../interface/Foursquare.type'
+import { Checkins, User, CheckinsItem, Checkin } from '../interface/Foursquare.type'
 
 const getCredential = () => {
   const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
@@ -12,14 +12,14 @@ const responseExtractor = async <T>({
   res,
   type,
 }: {
-  res: any
+  res: Response | void
   type: 'checkins' | 'checkin' | 'user'
 }): Promise<T> => {
-  const parsedRes = await res.json()
+  const parsedRes = (await (res as Response).json()) as Checkin
   if (parsedRes.meta.code !== 200) {
     console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
   }
-  return parsedRes.response[type]
+  return parsedRes.response[type] as unknown as T
 }
 
 export const useFoursquare = () => {

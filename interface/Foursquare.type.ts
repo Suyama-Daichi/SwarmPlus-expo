@@ -7,6 +7,7 @@ export interface Checkin {
 export interface Meta {
   code: number
   requestId: string
+  errorDetail?: string
 }
 
 export interface Notification {
@@ -19,7 +20,9 @@ export interface NotificationItem {
 }
 
 export interface Response {
-  checkins: Checkins
+  checkins?: Checkins
+  checkin?: CheckinsItem
+  user?: User
 }
 
 export interface Checkins {
