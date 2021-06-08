@@ -1,6 +1,7 @@
 import { IStartEnd } from '../interface/interface.type'
 import { config } from '../service/config'
-import { Checkins, User, CheckinsItem } from '../interface/Foursquare.type'
+import { Checkins, User, CheckinsItem, Checkin } from '../interface/Foursquare.type'
+import { useCache } from './useCache'
 
 const getCredential = () => {
   const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
@@ -8,30 +9,32 @@ const getCredential = () => {
   return query
 }
 
-const responseExtractor = async ({
+const responseExtractor = async <T>({
   res,
   type,
 }: {
-  res: any
+  res: Response | void
   type: 'checkins' | 'checkin' | 'user'
-}): Promise<any> => {
-  const parsedRes = await res.json()
+}): Promise<T> => {
+  const parsedRes = (await (res as Response).json()) as Checkin
   if (parsedRes.meta.code !== 200) {
     console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
   }
-  return parsedRes.response[type]
+  return parsedRes.response[type] as unknown as T
 }
 
 export const useFoursquare = () => {
+  const { checkCache } = useCache()
+
   const fetchUser = (): Promise<User> => {
     const params = getCredential()
-    return fetch(`https://api.foursquare.com/v2/users/self?${params}`, {
+    return fetch(`https://api.foursquare.com/v2/users/self?${params.toString()}`, {
       method: 'GET',
     })
       .catch((err) => {
         console.error(err)
       })
-      .then(async (res) => await responseExtractor({ res, type: 'user' }))
+      .then(async (res) => await responseExtractor<User>({ res, type: 'user' }))
   }
 
   /**
@@ -45,13 +48,11 @@ export const useFoursquare = () => {
       params.append('afterTimestamp', startEnd.afterTimestamp)
       params.append('beforeTimestamp', startEnd.beforeTimestamp)
     }
-    return fetch(`https://api.foursquare.com/v2/users/self/checkins?${params}`, {
-      method: 'GET',
-    })
-      .catch((err) => {
-        console.error(err)
-      })
-      .then(async (res) => await responseExtractor({ res, type: 'checkins' }))
+    return checkCache<Checkins>(
+      `https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`,
+      'GET',
+      'checkins'
+    )
   }
 
   /**
@@ -61,13 +62,11 @@ export const useFoursquare = () => {
    */
   const fetchCheckinDetails = (checkinId: string): Promise<CheckinsItem> => {
     const params = getCredential()
-    return fetch(`https://api.foursquare.com/v2/checkins/${checkinId}?${params}`, {
-      method: 'GET',
-    })
-      .catch((err) => {
-        console.error(err)
-      })
-      .then(async (res) => await responseExtractor({ res, type: 'checkin' }))
+    return checkCache<CheckinsItem>(
+      `https://api.foursquare.com/v2/checkins/${checkinId}?${params.toString()}`,
+      'GET',
+      'checkin'
+    )
   }
 
   return { fetchUser, fetchUserCheckins, fetchCheckinDetails }

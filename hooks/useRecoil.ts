@@ -1,4 +1,4 @@
-import { atom, selector, useRecoilState } from 'recoil'
+import { atom, useRecoilState } from 'recoil'
 import { User } from '../interface/Foursquare.type'
 
 const userState = atom<User>({
@@ -14,11 +14,19 @@ const userState = atom<User>({
   },
 })
 
+const requestState = atom<{ url: string; request: Promise<any> }[]>({
+  key: 'request',
+  default: [],
+})
+
 export const useRecoil = () => {
   const [user, setUser] = useRecoilState(userState)
+  const [requestCache, setRequestCache] = useRecoilState(requestState)
 
   return {
     setUser,
     user,
+    requestCache,
+    setRequestCache,
   }
 }
