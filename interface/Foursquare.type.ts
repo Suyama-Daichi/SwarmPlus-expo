@@ -1,4 +1,4 @@
-export interface Checkin {
+export interface FoursquareResponse {
   meta: Meta
   notifications: Notification[]
   response: Response
@@ -21,20 +21,20 @@ export interface NotificationItem {
 
 export interface Response {
   checkins?: Checkins
-  checkin?: CheckinsItem
+  checkin?: Checkin
   user?: User
 }
 
 export interface Checkins {
   count: number
-  items: CheckinsItem[]
+  items: Checkin[]
 }
 
-export interface CheckinsItem {
+export interface Checkin {
   id: string
   createdAt: number
   type: string
-  entities?: any[]
+  entities?: []
   shout?: string
   timeZoneOffset: number
   venue: Venue
@@ -54,7 +54,7 @@ export interface CheckinsItem {
 
 export interface Comments {
   count: number
-  items?: CommentsItem[]
+  items?: Comment[]
 }
 
 export interface Likes {
@@ -76,11 +76,11 @@ export interface Icon {
 
 export interface Photos {
   count: number
-  items: PhotosItem[]
+  items: Photo[]
   layout?: Layout
 }
 
-export interface PhotosItem {
+export interface Photo {
   id: string
   createdAt: number
   source: Source
@@ -196,7 +196,7 @@ export interface LabeledLatLng {
   lng: number
 }
 
-export interface CommentsItem {
+export interface Comment {
   id: string
   createdAt: number
   user: User

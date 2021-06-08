@@ -4,7 +4,7 @@ import { Avatar, Image, Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import { useNavigation } from '@react-navigation/core'
-import { CheckinsItem } from '../../interface/Foursquare.type'
+import type { Checkin } from '../../interface/Foursquare.type'
 import window from '../../constants/Layout'
 import { useDate } from '../../hooks/useDate'
 import { useUtils } from '../../hooks/useUtils'
@@ -12,7 +12,7 @@ import colors from '../../constants/Colors'
 import { useRecoil } from '../../hooks/useRecoil'
 import { commonStyles } from '../../styles/styles'
 
-export const Checkin = ({ item }: { item: CheckinsItem }) => {
+export const CheckinCard = ({ item }: { item: Checkin }) => {
   const navigation = useNavigation()
   const { user } = useRecoil()
   const [showModal, setShowModal] = useState(false)

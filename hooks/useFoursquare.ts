@@ -1,6 +1,6 @@
 import { IStartEnd } from '../interface/interface.type'
 import { config } from '../service/config'
-import { Checkins, User, CheckinsItem, Checkin } from '../interface/Foursquare.type'
+import type { Checkins, User, Checkin, FoursquareResponse } from '../interface/Foursquare.type'
 import { useCache } from './useCache'
 
 const getCredential = () => {
@@ -16,7 +16,7 @@ const responseExtractor = async <T>({
   res: Response | void
   type: 'checkins' | 'checkin' | 'user'
 }): Promise<T> => {
-  const parsedRes = (await (res as Response).json()) as Checkin
+  const parsedRes = (await (res as Response).json()) as FoursquareResponse
   if (parsedRes.meta.code !== 200) {
     console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
   }
@@ -60,9 +60,9 @@ export const useFoursquare = () => {
    * @param checkinId チェックインID
    * @returns チェックインの詳細
    */
-  const fetchCheckinDetails = (checkinId: string): Promise<CheckinsItem> => {
+  const fetchCheckinDetails = (checkinId: string): Promise<Checkin> => {
     const params = getCredential()
-    return checkCache<CheckinsItem>(
+    return checkCache<Checkin>(
       `https://api.foursquare.com/v2/checkins/${checkinId}?${params.toString()}`,
       'GET',
       'checkin'

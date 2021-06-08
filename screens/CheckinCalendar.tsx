@@ -4,7 +4,7 @@ import { Agenda, DateObject } from 'react-native-calendars'
 import { useDate } from '../hooks/useDate'
 import { useFoursquare } from '../hooks/useFoursquare'
 import { useUtils } from '../hooks/useUtils'
-import { CheckinsItem } from '../interface/Foursquare.type'
+import type { Checkin } from '../interface/Foursquare.type'
 import { Timeline } from '../components/Timeline.component'
 import { useRecoil } from '../hooks/useRecoil'
 import Colors from '../constants/Colors'
@@ -62,9 +62,7 @@ export default function CheckinCalender() {
         displayLoadingIndicator={loading}
         maxDate={getDateString()}
         futureScrollRange={1}
-        renderDay={(date, item: CheckinsItem) => (
-          <Timeline dateObject={date} item={item}></Timeline>
-        )}
+        renderDay={(date, item: Checkin) => <Timeline dateObject={date} item={item}></Timeline>}
         theme={{
           agendaKnobColor: Colors.light.primaryOrange,
           dotColor: Colors.light.primaryOrange,

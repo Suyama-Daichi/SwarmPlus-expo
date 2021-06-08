@@ -7,14 +7,14 @@ import { useDate } from '../hooks/useDate'
 import { useUtils } from '../hooks/useUtils'
 import colors from '../constants/Colors'
 import { useFoursquare } from '../hooks/useFoursquare'
-import { CheckinsItem, User } from '../interface/Foursquare.type'
+import { Checkin, User } from '../interface/Foursquare.type'
 import { commonStyles } from '../styles/styles'
 import { ImageCarousel } from '../components/carousel/ImageCarousel.component'
 import CoinIcon from './CoinIcon.component'
 
 export const CheckinDetail = ({ route, navigation }) => {
-  const { item }: { item: CheckinsItem } = route.params
-  const [checkinDetail, setCheckinDetail] = useState<CheckinsItem>()
+  const { item }: { item: Checkin } = route.params
+  const [checkinDetail, setCheckinDetail] = useState<Checkin>()
   const [images, setImages] = useState<string[]>([])
   const { fetchCheckinDetails } = useFoursquare()
   const { formatDistanceToNowForTimestamp, timestamp2Date, formatTimestamp } = useDate()

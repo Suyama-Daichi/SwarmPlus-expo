@@ -1,4 +1,4 @@
-import { Checkin } from '../interface/Foursquare.type'
+import type { FoursquareResponse } from '../interface/Foursquare.type'
 import { useRecoil } from './useRecoil'
 
 const responseExtractor = async <T>({
@@ -8,7 +8,7 @@ const responseExtractor = async <T>({
   res: Response | void
   type: 'checkins' | 'checkin' | 'user'
 }): Promise<T> => {
-  const parsedRes = (await (res as Response).json()) as Checkin
+  const parsedRes = (await (res as Response).json()) as FoursquareResponse
   if (parsedRes.meta.code !== 200) {
     console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
   }

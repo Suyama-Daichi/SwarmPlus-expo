@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { DateObject } from 'react-native-calendars'
-import { CheckinsItem } from '../interface/Foursquare.type'
-import { Checkin } from './card/checkin.component'
+import type { Checkin } from '../interface/Foursquare.type'
+import { CheckinCard } from './card/checkin.component'
 import { DividerDate } from './divider/divider.component'
 
 export const Timeline = ({
@@ -10,12 +10,12 @@ export const Timeline = ({
   item,
 }: {
   dateObject: DateObject | undefined
-  item: CheckinsItem
+  item: Checkin
 }) => {
   return (
     <View style={{ backgroundColor: 'white' }}>
       {!!item && <DividerDate dateObject={dateObject} />}
-      {item && <Checkin item={item} />}
+      {item && <CheckinCard item={item} />}
     </View>
   )
 }
