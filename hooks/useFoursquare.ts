@@ -1,6 +1,6 @@
-import { IStartEnd } from '../interface/interface.type'
+import { IStartEnd } from '../types/type'
 import { config } from '../service/config'
-import type { Checkins, User, Checkin, FoursquareResponse } from '../interface/Foursquare.type'
+import type { Checkins, User, Checkin, FoursquareResponse } from '../types/Foursquare'
 import { useCache } from './useCache'
 
 const getCredential = () => {

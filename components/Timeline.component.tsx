@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { DateObject } from 'react-native-calendars'
-import type { Checkin } from '../interface/Foursquare.type'
+import type { Checkin } from '../types/Foursquare'
 import { CheckinCard } from './card/checkin.component'
 import { DividerDate } from './divider/divider.component'
 

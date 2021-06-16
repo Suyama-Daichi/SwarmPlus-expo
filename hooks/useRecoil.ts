@@ -1,5 +1,5 @@
 import { atom, useRecoilState } from 'recoil'
-import { User } from '../interface/Foursquare.type'
+import { User } from '../types/Foursquare'
 
 const userState = atom<User>({
   key: 'user',

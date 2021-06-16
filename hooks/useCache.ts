@@ -1,4 +1,4 @@
-import type { FoursquareResponse } from '../interface/Foursquare.type'
+import type { FoursquareResponse } from '../types/Foursquare'
 import { useRecoil } from './useRecoil'
 
 const responseExtractor = async <T>({

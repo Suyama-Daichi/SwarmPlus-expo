@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { Checkins } from '../interface/Foursquare.type'
+import { Checkins } from '../types/Foursquare'
 import { useDate } from '../hooks/useDate'
 
 export const useUtils = () => {
