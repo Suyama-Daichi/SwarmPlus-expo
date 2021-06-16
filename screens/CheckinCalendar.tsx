@@ -41,12 +41,10 @@ export default function CheckinCalender() {
         setUser(result)
       })
     }
-    return () => {}
   }, [])
 
   useEffect(() => {
     setLoading(false)
-    return () => {}
   }, [items])
 
   return (
@@ -62,7 +60,7 @@ export default function CheckinCalender() {
         displayLoadingIndicator={loading}
         maxDate={getDateString()}
         futureScrollRange={1}
-        renderDay={(date, item: Checkin) => <Timeline dateObject={date} item={item}></Timeline>}
+        renderDay={(date, item: Checkin) => <Timeline dateObject={date} item={item} />}
         theme={{
           agendaKnobColor: Colors.light.primaryOrange,
           dotColor: Colors.light.primaryOrange,

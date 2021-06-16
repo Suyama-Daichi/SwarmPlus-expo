@@ -8,8 +8,7 @@ import HeaderBack from '../components/Header/HeaderBack.component'
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
 import CheckinCalender from '../screens/CheckinCalendar'
-import TabTwoScreen from '../screens/TabTwoScreen'
-import { BottomTabParamList, CheckinCalendarParamList, TabTwoParamList } from '../types'
+import { BottomTabParamList, CheckinCalendarParamList } from '../types'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -28,13 +27,6 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
         }}
       />
-      {/* <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-        }}
-      /> */}
     </BottomTab.Navigator>
   )
 }
@@ -67,19 +59,5 @@ function CheckinCalendarNavigator() {
         }}
       />
     </CheckinCalendarStack.Navigator>
-  )
-}
-
-const TabTwoStack = createStackNavigator<TabTwoParamList>()
-
-function TabTwoNavigator() {
-  return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
-      />
-    </TabTwoStack.Navigator>
   )
 }
