@@ -1,36 +1,36 @@
-export interface FoursquareResponse {
+export type FoursquareResponse = {
   meta: Meta
   notifications: Notification[]
   response: Response
 }
 
-export interface Meta {
+export type Meta = {
   code: number
   requestId: string
   errorDetail?: string
 }
 
-export interface Notification {
+export type Notification = {
   type: string
   item: NotificationItem
 }
 
-export interface NotificationItem {
+export type NotificationItem = {
   unreadCount: number
 }
 
-export interface Response {
+export type Response = {
   checkins?: Checkins
   checkin?: Checkin
   user?: User
 }
 
-export interface Checkins {
+export type Checkins = {
   count: number
   items: Checkin[]
 }
 
-export interface Checkin {
+export type Checkin = {
   id: string
   createdAt: number
   type: string
@@ -52,35 +52,35 @@ export interface Checkin {
   with?: User[]
 }
 
-export interface Comments {
+export type Comments = {
   count: number
   items?: Comment[]
 }
 
-export interface Likes {
+export type Likes = {
   count: number
   groups: GroupElement[]
   summary?: string
 }
 
-export interface GroupElement {
+export type GroupElement = {
   type: string
   count: number
   items: User[]
 }
 
-export interface Icon {
+export type Icon = {
   prefix: string
   suffix: string
 }
 
-export interface Photos {
+export type Photos = {
   count: number
   items: Photo[]
   layout?: Layout
 }
 
-export interface Photo {
+export type Photo = {
   id: string
   createdAt: number
   source: Source
@@ -93,12 +93,12 @@ export interface Photo {
   visibility: string
 }
 
-export interface Source {
+export type Source = {
   name: string
   url: string
 }
 
-export interface User {
+export type User = {
   id: string
   firstName: string
   lastName: string
@@ -111,22 +111,22 @@ export interface User {
   state?: string
 }
 
-export interface Layout {
+export type Layout = {
   name: string
   left?: Left
   right?: Left
 }
 
-export interface Left {
+export type Left = {
   id: string
 }
 
-export interface Posts {
+export type Posts = {
   count: number
   textCount: number
 }
 
-export interface Sticker {
+export type Sticker = {
   id: string
   name: string
   image: Image
@@ -140,23 +140,23 @@ export interface Sticker {
   bonusStatus?: string
 }
 
-export interface StickerGroup {
+export type StickerGroup = {
   name: string
   index: number
 }
 
-export interface Image {
+export type Image = {
   prefix: string
   sizes: number[]
   name: string
 }
 
-export interface PickerPosition {
+export type PickerPosition = {
   page: number
   index: number
 }
 
-export interface Venue {
+export type Venue = {
   id: string
   name: string
   location: Location
@@ -166,7 +166,7 @@ export interface Venue {
   reasons?: Reasons
 }
 
-export interface Category {
+export type Category = {
   id: string
   name: string
   pluralName: string
@@ -175,7 +175,7 @@ export interface Category {
   primary: boolean
 }
 
-export interface Location {
+export type Location = {
   address: string
   crossStreet?: string
   lat: number
@@ -190,65 +190,65 @@ export interface Location {
   formattedAddress: string[]
 }
 
-export interface LabeledLatLng {
+export type LabeledLatLng = {
   label: string
   lat: number
   lng: number
 }
 
-export interface Comment {
+export type Comment = {
   id: string
   createdAt: number
   user: User
   text: string
 }
 
-export interface CheckinScore {
+export type CheckinScore = {
   total: number
   scores: ScoreElement[]
 }
 
-export interface ScoreElement {
+export type ScoreElement = {
   icon: string
   message: string
   points: number
   target?: ScoreTarget
 }
 
-export interface ScoreTarget {
+export type ScoreTarget = {
   type: string
   object: PurpleObject
 }
 
-export interface PurpleObject {
+export type PurpleObject = {
   url: string
 }
 
-export interface Reasons {
+export type Reasons = {
   count: number
   items: ReasonsItem[]
 }
 
-export interface ReasonsItem {
+export type ReasonsItem = {
   summary: string
   type: string
   reasonName: string
   target: ItemTarget
 }
 
-export interface ItemTarget {
+export type ItemTarget = {
   type: string
   object: FluffyObject
 }
 
-export interface FluffyObject {
+export type FluffyObject = {
   id: string
   type: string
   target: ObjectTarget
   ignorable: boolean
 }
 
-export interface ObjectTarget {
+export type ObjectTarget = {
   type: string
   url: string
 }
