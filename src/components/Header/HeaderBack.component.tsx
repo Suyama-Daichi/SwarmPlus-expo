@@ -2,7 +2,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import Colors from '../../constants/Colors'
+import Colors from '@/constants/Colors'
 
 const HeaderBack = () => {
   const navigation = useNavigation()

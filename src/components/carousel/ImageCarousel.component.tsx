@@ -2,7 +2,7 @@ import React, { useState, memo } from 'react'
 import { Dimensions } from 'react-native'
 import { Image } from 'react-native-elements'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
-import colors from '../../constants/Colors'
+import colors from '@/constants/Colors'
 
 const imageWidth = Dimensions.get('window').width * 1.0
 

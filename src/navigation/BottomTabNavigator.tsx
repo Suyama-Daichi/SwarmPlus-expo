@@ -2,13 +2,13 @@ import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
-import { CheckinDetail } from '../components/CheckinDetail.component'
-import HeaderBack from '../components/Header/HeaderBack.component'
+import useColorScheme from '@/hooks/useColorScheme'
+import { CheckinDetail } from '@/components/CheckinDetail.component'
+import HeaderBack from '@/components/Header/HeaderBack.component'
 
-import Colors from '../constants/Colors'
-import useColorScheme from '../hooks/useColorScheme'
-import CheckinCalender from '../screens/CheckinCalendar'
-import { BottomTabParamList, CheckinCalendarParamList } from '../types'
+import Colors from '@/constants/Colors'
+import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
+import CheckinCalender from '@/screens/CheckinCalendar'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { Checkins } from '../types/Foursquare'
-import { useDate } from '../hooks/useDate'
+import { useDate } from '@/hooks/useDate'
+import { Checkins } from '@/types/Foursquare'
 
 export const useUtils = () => {
   const { getDateString, getDateArray, getMinMaxDate } = useDate()

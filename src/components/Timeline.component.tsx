@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { DateObject } from 'react-native-calendars'
-import type { Checkin } from '../types/Foursquare'
-import { CheckinCard } from './card/checkin.component'
-import { DividerDate } from './divider/divider.component'
+import type { Checkin } from '@/types/Foursquare'
+import { CheckinCard } from '@/components/card/checkin.component'
+import { DividerDate } from '@/components/divider/divider.component'
 
 export const Timeline = ({
   dateObject,

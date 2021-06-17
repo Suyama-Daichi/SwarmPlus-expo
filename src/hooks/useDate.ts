@@ -15,7 +15,7 @@ import {
 import { DateObject, LocaleConfig } from 'react-native-calendars'
 import { ja } from 'date-fns/locale'
 import { useCallback } from 'react'
-import { IStartEnd } from '../types/type'
+import { IStartEnd } from '@/types/type'
 
 export const useDate = () => {
   /**

@@ -1,5 +1,5 @@
-import type { FoursquareResponse } from '../types/Foursquare'
-import { useRecoil } from './useRecoil'
+import type { FoursquareResponse } from '@/types/Foursquare'
+import { useRecoil } from '@/hooks/useRecoil'
 
 const responseExtractor = async <T>({
   res,

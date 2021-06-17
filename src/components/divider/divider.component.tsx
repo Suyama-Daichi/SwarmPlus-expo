@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { DateObject } from 'react-native-calendars'
-import window from '../../constants/Layout'
-import Colors from '../../constants/Colors'
-import { useDate } from '../../hooks/useDate'
+import window from '@/constants/Layout'
+import Colors from '@/constants/Colors'
+import { useDate } from '@/hooks/useDate'
 
 export const DividerDate = ({ dateObject }: { dateObject: DateObject | undefined }) => {
   const { getDay, timestamp2Date } = useDate()

@@ -4,9 +4,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { LocaleConfig } from 'react-native-calendars'
 import { RecoilRoot } from 'recoil'
 
-import useCachedResources from './src/hooks/useCachedResources'
-import useColorScheme from './src/hooks/useColorScheme'
-import Navigation from './src/navigation'
+import useCachedResources from '@/hooks/useCachedResources'
+import useColorScheme from '@/hooks/useColorScheme'
+import Navigation from '@/navigation'
 
 export default function App() {
   const isLoadingComplete = useCachedResources()

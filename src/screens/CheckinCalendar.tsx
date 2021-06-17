@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { Agenda, DateObject } from 'react-native-calendars'
-import { useDate } from '../hooks/useDate'
-import { useFoursquare } from '../hooks/useFoursquare'
-import { useUtils } from '../hooks/useUtils'
-import type { Checkin } from '../types/Foursquare'
-import { Timeline } from '../components/Timeline.component'
-import { useRecoil } from '../hooks/useRecoil'
-import Colors from '../constants/Colors'
+import { useDate } from '@/hooks/useDate'
+import { useFoursquare } from '@/hooks/useFoursquare'
+import { useUtils } from '@/hooks/useUtils'
+import { useRecoil } from '@/hooks/useRecoil'
+import Colors from '@/constants/Colors'
+import type { Checkin } from '@/types/Foursquare'
+import { Timeline } from '@/components/Timeline.component'
 
 export default function CheckinCalender() {
   const { getDateString, getStartEndOfMonth } = useDate()

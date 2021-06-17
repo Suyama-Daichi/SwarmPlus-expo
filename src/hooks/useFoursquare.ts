@@ -1,7 +1,7 @@
-import { IStartEnd } from '../types/type'
-import { config } from '../service/config'
-import type { Checkins, User, Checkin, FoursquareResponse } from '../types/Foursquare'
-import { useCache } from './useCache'
+import { IStartEnd } from '@/types/type'
+import type { Checkins, User, Checkin, FoursquareResponse } from '@/types/Foursquare'
+import { config } from '@/service/config'
+import { useCache } from '@/hooks/useCache'
 
 const getCredential = () => {
   const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
