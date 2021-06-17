@@ -4,7 +4,10 @@
     "jsx": "react",
     "allowJs": true,
     "checkJs": true,
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
@@ -13,7 +16,10 @@
     "downlevelIteration": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
-  }
+  },
+  "extends": "expo/tsconfig.base"
 }

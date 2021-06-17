@@ -1,24 +1,31 @@
 import React, { useState, memo } from 'react'
-import { Dimensions } from 'react-native'
+import { Dimensions, ImageSourcePropType } from 'react-native'
 import { Image } from 'react-native-elements'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import colors from '@/constants/Colors'
 
 const imageWidth = Dimensions.get('window').width * 1.0
 
-export const ImageCarousel = memo((props: { images: string[] }) => {
-  const { images } = props
+type Props = {
+  images: string[]
+}
+
+export const ImageCarousel = memo(({ images }: Props) => {
   const [activeSlide, setActiveSlide] = useState(0)
   return (
     <>
       <Carousel
         data={images}
-        renderItem={(d: any) => {
+        renderItem={(d) => {
+          const image = (
+            d.item
+              ? { uri: d.item as string }
+              : require('../../../assets/images/20200501_noimage.png')
+          ) as ImageSourcePropType
+
           return (
             <Image
-              source={
-                d.item ? { uri: d.item } : require('../../../assets/images/20200501_noimage.png')
-              }
+              source={image}
               placeholderStyle={{ backgroundColor: colors.light.background }}
               transition
               style={{

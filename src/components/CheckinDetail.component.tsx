@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
 import { Avatar, Image, Icon } from 'react-native-elements'
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native'
 import { ImageCarousel } from '@/components/carousel/ImageCarousel.component'
@@ -27,19 +27,21 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
   const { generateImageUrl, removeShoutWith } = useUtils()
 
   const getCheckinDetails = useCallback(async () => {
-    const checkins = await fetchCheckinDetails(item.id)
+    const checkinDetail = await fetchCheckinDetails(item.id)
     setImages(
-      checkins.photos.count > 0
-        ? checkins.photos.items.map((item) => generateImageUrl(item.prefix, item.suffix, 'cap400'))
+      checkinDetail.photos.count > 0
+        ? checkinDetail.photos.items.map((item) =>
+            generateImageUrl(item.prefix, item.suffix, 'cap400')
+          )
         : ['']
     )
-    ;(navigation as NavigationProp<any>).setOptions({ headerTitle: checkins.venue.name })
-    setCheckinDetail(checkins)
+    navigation.setOptions({ headerTitle: checkinDetail.venue.name })
+    setCheckinDetail(checkinDetail)
   }, [])
 
   useEffect(() => {
-    getCheckinDetails()
-  }, [item])
+    void getCheckinDetails()
+  }, [getCheckinDetails, item])
 
   const multipleNameRender = useCallback((users: User[], label) => {
     const fullNames = users.map((user) => {
@@ -57,12 +59,15 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
   }, [])
 
   const itemRender = useCallback(() => {
+    if (!checkinDetail) {
+      return <ActivityIndicator />
+    }
     return (
       <View style={{ paddingHorizontal: 8 }}>
         <View style={{ marginVertical: 8 }}>
-          {checkinDetail?.likes.groups[0] &&
+          {checkinDetail.likes.groups[0] &&
             multipleNameRender(
-              checkinDetail?.likes.groups[0].items,
+              checkinDetail.likes.groups[0].items,
               <Icon
                 name={'heart'}
                 color={colors.light.pink}
@@ -71,9 +76,9 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
                 size={12}
               />
             )}
-          {checkinDetail?.with &&
+          {checkinDetail.with &&
             multipleNameRender(
-              checkinDetail?.with,
+              checkinDetail.with,
               <Icon
                 name={'users'}
                 color={colors.light.primaryOrange}
@@ -88,8 +93,8 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
             <Image
               source={{
                 uri: generateImageUrl(
-                  checkinDetail?.venue.categories[0].icon.prefix,
-                  checkinDetail?.venue.categories[0].icon.suffix,
+                  checkinDetail.venue.categories[0].icon.prefix,
+                  checkinDetail.venue.categories[0].icon.suffix,
                   '32'
                 ),
               }}
@@ -97,34 +102,34 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
             />
           </View>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
-            {checkinDetail?.venue.name}
+            {checkinDetail.venue.name}
           </Text>
         </View>
         <View style={[commonStyles.rowCenter]}>
           <Text style={[commonStyles.textSub]}>
-            {`${checkinDetail?.venue.location.state}${checkinDetail?.venue.location.city || ''}${
+            {`${checkinDetail.venue.location.state}${checkinDetail.venue.location.city || ''}${
               item.venue.location.address || ''
             }`}
           </Text>
           <View style={[commonStyles.rowCenter, { marginLeft: 8 }]}>
             <CoinIcon />
-            <Text style={[commonStyles.textSub]}>{`${checkinDetail?.score.total}`}</Text>
+            <Text style={[commonStyles.textSub]}>{`${checkinDetail.score.total}`}</Text>
           </View>
         </View>
         <Text style={[commonStyles.textSub, { marginBottom: 8 }]}>
-          {formatTimestamp(checkinDetail?.createdAt, 'yyyy/MM/dd HH:mm:ss')}(
-          {formatDistanceToNowForTimestamp(timestamp2Date(checkinDetail?.createdAt))})
+          {formatTimestamp(checkinDetail.createdAt, 'yyyy/MM/dd HH:mm:ss')}(
+          {formatDistanceToNowForTimestamp(timestamp2Date(checkinDetail.createdAt))})
         </Text>
-        {checkinDetail?.shout && (
+        {checkinDetail.shout && (
           <View style={[commonStyles.rowCenter, { marginBottom: 16 }]}>
-            <Text style={[commonStyles.textSub]}>{removeShoutWith(checkinDetail?.shout)}</Text>
+            <Text style={[commonStyles.textSub]}>{removeShoutWith(checkinDetail.shout)}</Text>
           </View>
         )}
         <View style={{ marginBottom: 8 }}>
           <Text style={[commonStyles.textSub]}>via: {item.source.name}</Text>
         </View>
 
-        {checkinDetail?.comments.items?.map((comment, i) => (
+        {checkinDetail.comments.items?.map((comment, i) => (
           <View
             key={i.toString()}
             style={[
@@ -158,12 +163,12 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
         ))}
       </View>
     )
-  }, [checkinDetail])
+  }, [checkinDetail, item])
 
   return (
     <View style={[commonStyles.bk_white]}>
       <FlatList
-        keyExtractor={(_, _index) => _?.id + _index.toString()}
+        keyExtractor={(_, _index) => _?.id.toString() + _index.toString()}
         ListHeaderComponent={<ImageCarousel images={images} />}
         data={[checkinDetail]}
         renderItem={itemRender}
