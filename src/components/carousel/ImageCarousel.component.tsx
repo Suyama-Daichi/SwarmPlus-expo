@@ -17,7 +17,7 @@ export const ImageCarousel = memo((props: { images: string[] }) => {
           return (
             <Image
               source={
-                d.item ? { uri: d.item } : require('../../assets/images/20200501_noimage.png')
+                d.item ? { uri: d.item } : require('../../../assets/images/20200501_noimage.png')
               }
               placeholderStyle={{ backgroundColor: colors.light.background }}
               transition
