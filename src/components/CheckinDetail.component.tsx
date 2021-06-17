@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { Avatar, Image, Icon } from 'react-native-elements'
-import { NavigationProp } from '@react-navigation/native'
+import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native'
 import { ImageCarousel } from '@/components/carousel/ImageCarousel.component'
 import { useDate } from '@/hooks/useDate'
 import { useUtils } from '@/hooks/useUtils'
@@ -11,9 +11,15 @@ import window from '@/constants/Layout'
 import { Checkin, User } from '@/types/Foursquare'
 import { commonStyles } from '@/styles/styles'
 import CoinIcon from '@/components/CoinIcon.component'
+import { RootStackParamList } from '@/types'
 
-export const CheckinDetail = ({ route, navigation }) => {
-  const { item }: { item: Checkin } = route.params
+type Props = {
+  route: RouteProp<RootStackParamList, 'CheckinDetail'>
+  navigation: NavigationProp<ParamListBase>
+}
+
+export const CheckinDetail = ({ route, navigation }: Props) => {
+  const { item } = route.params
   const [checkinDetail, setCheckinDetail] = useState<Checkin>()
   const [images, setImages] = useState<string[]>([])
   const { fetchCheckinDetails } = useFoursquare()
@@ -33,7 +39,6 @@ export const CheckinDetail = ({ route, navigation }) => {
 
   useEffect(() => {
     getCheckinDetails()
-    return () => {}
   }, [item])
 
   const multipleNameRender = useCallback((users: User[], label) => {

@@ -12,7 +12,11 @@ import colors from '@/constants/Colors'
 import { useRecoil } from '@/hooks/useRecoil'
 import { commonStyles } from '@/styles/styles'
 
-export const CheckinCard = ({ item }: { item: Checkin }) => {
+type Props = {
+  item: Checkin
+}
+
+export const CheckinCard = ({ item }: Props) => {
   const navigation = useNavigation()
   const { user } = useRecoil()
   const [showModal, setShowModal] = useState(false)
@@ -50,7 +54,7 @@ export const CheckinCard = ({ item }: { item: Checkin }) => {
       </Avatar>
 
       <View style={{ paddingLeft: 8, flex: 1 }}>
-        <Text style={[styles.fontLerge, commonStyles.venueName]} numberOfLines={2}>
+        <Text style={[styles.fontLarge, commonStyles.venueName]} numberOfLines={2}>
           {item.venue.name}
         </Text>
 
@@ -142,7 +146,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: 'gray',
   },
-  fontLerge: {
+  fontLarge: {
     fontSize: 24,
   },
 })
