@@ -11,6 +11,8 @@ module.exports = function (api) {
           },
           extensions: ['.ts', '.tsx'],
         },
+      ],
+      [
         'dotenv-import',
         {
           moduleName: '@env',
