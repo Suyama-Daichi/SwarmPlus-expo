@@ -6,14 +6,19 @@ import Colors from '@/constants/Colors'
 import { useDate } from '@/hooks/useDate'
 import useColorScheme from '@/hooks/useColorScheme'
 
-export const DividerDate = ({ dateObject }: { dateObject: DateObject | undefined }) => {
-  const colorScheme = useColorScheme()
+type Props = {
+  dateObject: DateObject | undefined
+}
 
+export const DividerDate = ({ dateObject }: Props) => {
+  const colorScheme = useColorScheme()
   const { getDay, timestamp2Date } = useDate()
   const [day, setDay] = useState()
+
   useEffect(() => {
     setDay(getDay(timestamp2Date(dateObject?.timestamp)))
   }, [dateObject, getDay, timestamp2Date])
+
   return (
     <View style={{ backgroundColor: 'white', width: window.window.width }}>
       {dateObject && (

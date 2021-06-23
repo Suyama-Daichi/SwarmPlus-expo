@@ -5,13 +5,12 @@ import type { Checkin } from '@/types/Foursquare'
 import { CheckinCard } from '@/components/card/checkin.component'
 import { DividerDate } from '@/components/divider/divider.component'
 
-export const Timeline = ({
-  dateObject,
-  item,
-}: {
+type Props = {
   dateObject: DateObject | undefined
   item: Checkin
-}) => {
+}
+
+export const Timeline = ({ dateObject, item }: Props) => {
   return (
     <View style={{ backgroundColor: 'white' }}>
       {!!item && <DividerDate dateObject={dateObject} />}
