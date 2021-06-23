@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text } from 'react-native'
 import { DateObject } from 'react-native-calendars'
 import window from '@/constants/Layout'
 import Colors from '@/constants/Colors'
 import { useDate } from '@/hooks/useDate'
+import useColorScheme from '@/hooks/useColorScheme'
 
-export const DividerDate = ({ dateObject }: { dateObject: DateObject | undefined }) => {
+type Props = {
+  dateObject: DateObject | undefined
+}
+
+export const DividerDate = ({ dateObject }: Props) => {
+  const colorScheme = useColorScheme()
   const { getDay, timestamp2Date } = useDate()
   const [day, setDay] = useState()
+
   useEffect(() => {
     setDay(getDay(timestamp2Date(dateObject?.timestamp)))
   }, [dateObject, getDay, timestamp2Date])
+
   return (
     <View style={{ backgroundColor: 'white', width: window.window.width }}>
       {dateObject && (
@@ -22,8 +30,8 @@ export const DividerDate = ({ dateObject }: { dateObject: DateObject | undefined
               borderTopRightRadius: 10,
               borderBottomRightRadius: 10,
               width: window.window.width / 3,
-              borderColor: Colors.light.primaryOrange,
-              backgroundColor: Colors.light.primaryOrange,
+              borderColor: Colors[colorScheme].primaryOrange,
+              backgroundColor: Colors[colorScheme].primaryOrange,
             },
             { marginVertical: 8 },
           ]}
@@ -36,4 +44,3 @@ export const DividerDate = ({ dateObject }: { dateObject: DateObject | undefined
     </View>
   )
 }
-const styles = StyleSheet.create({})

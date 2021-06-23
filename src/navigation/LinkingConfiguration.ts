@@ -11,11 +11,6 @@ export default {
               CheckinCalendarScreen: 'one',
             },
           },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: 'two',
-            },
-          },
         },
       },
     },
