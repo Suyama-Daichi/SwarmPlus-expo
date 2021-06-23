@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 import { DateObject } from 'react-native-calendars'
 import type { Checkin } from '@/types/Foursquare'
 import { CheckinCard } from '@/components/card/checkin.component'
@@ -10,12 +10,11 @@ type Props = {
   item: Checkin
 }
 
-export const Timeline = ({ dateObject, item }: Props) => {
+export const Timeline = React.memo(({ dateObject, item }: Props) => {
   return (
     <View style={{ backgroundColor: 'white' }}>
       {!!item && <DividerDate dateObject={dateObject} />}
       {item && <CheckinCard item={item} />}
     </View>
   )
-}
-const styles = StyleSheet.create({})
+})

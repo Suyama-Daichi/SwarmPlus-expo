@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import useColorScheme from '@/hooks/useColorScheme'
-import { CheckinDetail } from '@/components/CheckinDetail.component'
+import { CheckinDetailScreen } from '@/components/CheckinDetail.component'
 import HeaderBack from '@/components/Header/HeaderBack.component'
 
 import Colors from '@/constants/Colors'
@@ -52,7 +52,7 @@ function CheckinCalendarNavigator() {
 
       <CheckinCalendarStack.Screen
         name={'CheckinDetail'}
-        component={CheckinDetail}
+        component={CheckinDetailScreen}
         options={{
           headerTitle: 'チェックインの詳細',
           headerLeft: () => <HeaderBack />,

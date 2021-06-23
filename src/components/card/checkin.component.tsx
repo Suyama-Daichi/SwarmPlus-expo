@@ -17,7 +17,7 @@ type Props = {
   item: Checkin
 }
 
-export const CheckinCard = ({ item }: Props) => {
+export const CheckinCard = React.memo(({ item }: Props) => {
   const colorScheme = useColorScheme()
 
   const navigation = useNavigation()
@@ -136,7 +136,7 @@ export const CheckinCard = ({ item }: Props) => {
       </View>
     </TouchableOpacity>
   )
-}
+})
 const styles = StyleSheet.create({
   container: {
     height: 'auto',
