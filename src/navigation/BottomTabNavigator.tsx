@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import useColorScheme from '@/hooks/useColorScheme'
-import { CheckinDetailScreen } from '@/components/CheckinDetail.component'
+import { CheckinDetailScreen } from '@/screens/CheckinDetail'
 import HeaderBack from '@/components/Header/HeaderBack.component'
 
 import Colors from '@/constants/Colors'
