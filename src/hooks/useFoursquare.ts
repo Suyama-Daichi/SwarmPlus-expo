@@ -1,7 +1,8 @@
 import { IStartEnd } from '@/types/type'
-import type { Checkins, User, Checkin, FoursquareResponse } from '@/types/Foursquare'
+import type { Checkins, User, Checkin, FoursquareResponse, CheckinDetail } from '@/types/Foursquare'
 import { config } from '@/service/config'
 import { useCache } from '@/hooks/useCache'
+import { useCallback } from 'react'
 
 const getCredential = () => {
   const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
@@ -60,14 +61,14 @@ export const useFoursquare = () => {
    * @param checkinId チェックインID
    * @returns チェックインの詳細
    */
-  const fetchCheckinDetails = (checkinId: string): Promise<Checkin> => {
+  const fetchCheckinDetails = useCallback((checkinId: string): Promise<CheckinDetail> => {
     const params = getCredential()
-    return checkCache<Checkin>(
+    return checkCache<CheckinDetail>(
       `https://api.foursquare.com/v2/checkins/${checkinId}?${params.toString()}`,
       'GET',
       'checkin'
     )
-  }
+  }, [])
 
   return { fetchUser, fetchUserCheckins, fetchCheckinDetails }
 }

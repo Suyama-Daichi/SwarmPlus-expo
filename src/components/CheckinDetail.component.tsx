@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, FlatList, ActivityIndicator } from 'react-native'
 import { Avatar, Image, Icon } from 'react-native-elements'
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native'
 import { ImageCarousel } from '@/components/carousel/ImageCarousel.component'
@@ -8,7 +8,7 @@ import { useUtils } from '@/hooks/useUtils'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import Colors from '@/constants/Colors'
 import window from '@/constants/Layout'
-import { Checkin, User } from '@/types/Foursquare'
+import { CheckinDetail, User } from '@/types/Foursquare'
 import { commonStyles } from '@/styles/styles'
 import CoinIcon from '@/components/CoinIcon.component'
 import { RootStackParamList } from '@/types'
@@ -19,33 +19,32 @@ type Props = {
   navigation: NavigationProp<ParamListBase>
 }
 
-export const CheckinDetail = ({ route, navigation }: Props) => {
+export const CheckinDetailScreen = ({ route, navigation }: Props) => {
   const colorScheme = useColorScheme()
   const { item } = route.params
-  const [checkinDetail, setCheckinDetail] = useState<Checkin>()
-  const [images, setImages] = useState<string[]>([])
+  const [checkinDetail, setCheckinDetail] = useState<CheckinDetail & { images: string[] }>()
   const { fetchCheckinDetails } = useFoursquare()
   const { formatDistanceToNowForTimestamp, timestamp2Date, formatTimestamp } = useDate()
   const { generateImageUrl, removeShoutWith } = useUtils()
 
   const getCheckinDetails = useCallback(async () => {
     const checkinDetail = await fetchCheckinDetails(item.id)
-    setImages(
-      checkinDetail.photos.count > 0
+    const images =
+      item.photos.count > 0
         ? checkinDetail.photos.items.map((item) =>
             generateImageUrl(item.prefix, item.suffix, 'cap400')
           )
         : ['']
-    )
-    navigation.setOptions({ headerTitle: checkinDetail.venue.name })
-    setCheckinDetail(checkinDetail)
+    setCheckinDetail({ ...checkinDetail, images })
   }, [])
 
   useEffect(() => {
+    if (!item) return
+    navigation.setOptions({ headerTitle: item.venue.name })
     void getCheckinDetails()
-  }, [getCheckinDetails, item])
+  }, [item])
 
-  const multipleNameRender = useCallback((users: User[], label) => {
+  const multipleNameRender = (users: User[], label) => {
     const fullNames = users.map((user) => {
       if (user.lastName && user.firstName) return user.firstName + ' ' + user.lastName
       if (user.firstName) return user.firstName
@@ -58,12 +57,12 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
         </Text>
       </View>
     )
-  }, [])
+  }
 
-  const itemRender = useCallback(() => {
-    if (!checkinDetail) {
-      return <ActivityIndicator />
-    }
+  if (!checkinDetail) {
+    return <ActivityIndicator />
+  }
+  const itemRender = () => {
     return (
       <View style={{ paddingHorizontal: 8 }}>
         <View style={{ marginVertical: 8 }}>
@@ -167,13 +166,13 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
         ))}
       </View>
     )
-  }, [checkinDetail, item])
+  }
 
   return (
     <View style={[commonStyles.bk_white]}>
       <FlatList
         keyExtractor={(_, _index) => _?.id.toString() + _index.toString()}
-        ListHeaderComponent={<ImageCarousel images={images} />}
+        ListHeaderComponent={<ImageCarousel images={checkinDetail.images} />}
         data={[checkinDetail]}
         renderItem={itemRender}
       />

@@ -30,6 +30,12 @@ export type Checkins = {
   items: Checkin[]
 }
 
+export type CheckinDetail = {
+  score: CheckinScore
+  user?: User
+  checkinShortUrl?: string
+} & Checkin
+
 export type Checkin = {
   id: string
   createdAt: number
@@ -46,9 +52,6 @@ export type Checkin = {
   comments: Comments
   source: Source
   sticker?: Sticker
-  user?: User
-  checkinShortUrl?: string
-  score: CheckinScore
   with?: User[]
 }
 
