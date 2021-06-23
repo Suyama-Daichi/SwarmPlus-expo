@@ -8,15 +8,18 @@ import type { Checkin } from '@/types/Foursquare'
 import window from '@/constants/Layout'
 import { useDate } from '@/hooks/useDate'
 import { useUtils } from '@/hooks/useUtils'
-import colors from '@/constants/Colors'
+import Colors from '@/constants/Colors'
 import { useRecoil } from '@/hooks/useRecoil'
 import { commonStyles } from '@/styles/styles'
+import useColorScheme from '@/hooks/useColorScheme'
 
 type Props = {
   item: Checkin
 }
 
 export const CheckinCard = ({ item }: Props) => {
+  const colorScheme = useColorScheme()
+
   const navigation = useNavigation()
   const { user } = useRecoil()
   const [showModal, setShowModal] = useState(false)
@@ -46,8 +49,8 @@ export const CheckinCard = ({ item }: Props) => {
             size={24}
             name={'crown'}
             type={'font-awesome-5'}
-            color={colors.light.coinCrown}
-            style={{ backgroundColor: colors.light.background }}
+            color={Colors[colorScheme].coinCrown}
+            style={{ backgroundColor: Colors[colorScheme].background }}
             iconStyle={{ fontSize: 14 }}
           />
         )}
@@ -76,7 +79,7 @@ export const CheckinCard = ({ item }: Props) => {
               type={'font-awesome-5'}
               size={16}
               solid
-              color={colors.light.pink}
+              color={Colors[colorScheme].pink}
               style={{ paddingHorizontal: 4 }}
             />
             {item.likes.count}
@@ -88,7 +91,7 @@ export const CheckinCard = ({ item }: Props) => {
               type={'font-awesome-5'}
               size={16}
               solid
-              color={colors.light.backgroundSecond}
+              color={Colors[colorScheme].backgroundSecond}
               style={{ paddingHorizontal: 4 }}
             />
             {item.comments.count}

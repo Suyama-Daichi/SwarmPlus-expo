@@ -6,12 +6,13 @@ import { ImageCarousel } from '@/components/carousel/ImageCarousel.component'
 import { useDate } from '@/hooks/useDate'
 import { useUtils } from '@/hooks/useUtils'
 import { useFoursquare } from '@/hooks/useFoursquare'
-import colors from '@/constants/Colors'
+import Colors from '@/constants/Colors'
 import window from '@/constants/Layout'
 import { Checkin, User } from '@/types/Foursquare'
 import { commonStyles } from '@/styles/styles'
 import CoinIcon from '@/components/CoinIcon.component'
 import { RootStackParamList } from '@/types'
+import useColorScheme from '@/hooks/useColorScheme'
 
 type Props = {
   route: RouteProp<RootStackParamList, 'CheckinDetail'>
@@ -19,6 +20,7 @@ type Props = {
 }
 
 export const CheckinDetail = ({ route, navigation }: Props) => {
+  const colorScheme = useColorScheme()
   const { item } = route.params
   const [checkinDetail, setCheckinDetail] = useState<Checkin>()
   const [images, setImages] = useState<string[]>([])
@@ -70,7 +72,7 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
               checkinDetail.likes.groups[0].items,
               <Icon
                 name={'heart'}
-                color={colors.light.pink}
+                color={Colors[colorScheme].pink}
                 solid={true}
                 type={'font-awesome-5'}
                 size={12}
@@ -81,7 +83,7 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
               checkinDetail.with,
               <Icon
                 name={'users'}
-                color={colors.light.primaryOrange}
+                color={Colors[colorScheme].primaryOrange}
                 solid={true}
                 type={'font-awesome-5'}
                 size={12}
@@ -89,7 +91,9 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
             )}
         </View>
         <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
-          <View style={[{ backgroundColor: colors.light.backgroundSecond }, { marginRight: 4 }]}>
+          <View
+            style={[{ backgroundColor: Colors[colorScheme].backgroundSecond }, { marginRight: 4 }]}
+          >
             <Image
               source={{
                 uri: generateImageUrl(
@@ -176,24 +180,3 @@ export const CheckinDetail = ({ route, navigation }: Props) => {
     </View>
   )
 }
-const styles = StyleSheet.create({
-  container: {
-    height: 'auto',
-    width: window.window.width - 16,
-    marginVertical: 4,
-    padding: 4,
-    marginLeft: 8,
-  },
-  venueName: {
-    color: colors.light.textBlack,
-  },
-  textSub: {
-    color: colors.light.textSub,
-  },
-  fontLerge: {
-    fontSize: 24,
-  },
-  fontMedium: {
-    fontSize: 17,
-  },
-})
