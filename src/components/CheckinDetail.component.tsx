@@ -53,7 +53,7 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
     return (
       <View style={[commonStyles.rowCenter]}>
         <Text style={commonStyles.textSub}>
-          <View>{label}</View> <Text>{fullNames.join('と')}</Text>
+          <View>{label}</View> <Text>{fullNames.join('と') || checkinDetail?.likes.summary}</Text>
         </Text>
       </View>
     )
