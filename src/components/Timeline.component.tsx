@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { DateObject } from 'react-native-calendars'
 import type { Checkin } from '@/types/Foursquare'
-import { CheckinCard } from '@/components/card/checkin.component'
+import { CheckinCard } from '@/components/card/CheckinCard'
 import { DividerDate } from '@/components/divider/divider.component'
 
 type Props = {

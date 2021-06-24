@@ -32,8 +32,8 @@ export const CheckinCard = React.memo(({ item }: Props) => {
       onPress={() => navigation.navigate('CheckinDetail', { item })}
       style={[
         styles.container,
-        { borderColor: '#707070', borderWidth: 0.3 },
         { flexDirection: 'row' },
+        { borderBottomColor: Colors[colorScheme].backgroundSecond, borderBottomWidth: 0.4 },
       ]}
     >
       <Avatar
