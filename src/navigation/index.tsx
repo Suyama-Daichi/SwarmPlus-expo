@@ -7,6 +7,7 @@ import { RootStackParamList } from '@/types'
 import BottomTabNavigator from '@/navigation/BottomTabNavigator'
 import LinkingConfiguration from '@/navigation/LinkingConfiguration'
 import { DarkTheme, DefaultTheme } from '@/constants/Theme'
+import AppOnboarding from '@/screens/Onboarding'
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -28,7 +29,8 @@ const Stack = createStackNavigator<RootStackParamList>()
 function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="Root" component={AppOnboarding} />
+      <Stack.Screen name="Main" component={BottomTabNavigator} />
     </Stack.Navigator>
   )
 }

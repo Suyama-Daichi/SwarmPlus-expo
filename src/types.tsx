@@ -1,6 +1,7 @@
 import { Checkin } from './types/Foursquare'
 
 export type RootStackParamList = {
+  Main: undefined
   Root: undefined
   CheckinDetail: { item: Checkin }
 }
