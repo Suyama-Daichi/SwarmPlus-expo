@@ -3,9 +3,17 @@ import type { Checkins, User, FoursquareResponse, CheckinDetail } from '@/types/
 import { config } from '@/service/config'
 import { useCache } from '@/hooks/useCache'
 import { useCallback } from 'react'
+import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
+import storage from '../service/reactNativeStorage'
 
-const getBaseParams = () => {
-  const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
+const getBaseParams = async () => {
+  const oauthToken = await storage.load<string>({ key: FOURSQUARE_ACCESS_TOKEN })
+  const params = {
+    oauth_token: oauthToken,
+    v: '20210301',
+    limit: '250',
+    locale: 'ja',
+  }
   const query = new URLSearchParams(params)
   return query
 }
@@ -27,8 +35,8 @@ const responseExtractor = async <T>({
 export const useFoursquare = () => {
   const { checkCache } = useCache()
 
-  const fetchUser = (): Promise<User> => {
-    const params = getBaseParams()
+  const fetchUser = async (): Promise<User> => {
+    const params = await getBaseParams()
     return fetch(`https://api.foursquare.com/v2/users/self?${params.toString()}`, {
       method: 'GET',
     })
@@ -43,8 +51,8 @@ export const useFoursquare = () => {
    * @param startEnd 日|月の始まりと末のタイムスタンプ
    * @returns チェックインのリスト
    */
-  const fetchUserCheckins = (startEnd?: IStartEnd): Promise<Checkins> => {
-    const params = getBaseParams()
+  const fetchUserCheckins = useCallback(async (startEnd?: IStartEnd): Promise<Checkins> => {
+    const params = await getBaseParams()
     if (startEnd) {
       params.append('afterTimestamp', startEnd.afterTimestamp)
       params.append('beforeTimestamp', startEnd.beforeTimestamp)
@@ -55,15 +63,15 @@ export const useFoursquare = () => {
       'GET',
       'checkins'
     )
-  }
+  }, [])
 
   /**
    * チェックインの詳細を取得する
    * @param checkinId チェックインID
    * @returns チェックインの詳細
    */
-  const fetchCheckinDetails = useCallback((checkinId: string): Promise<CheckinDetail> => {
-    const params = getBaseParams()
+  const fetchCheckinDetails = useCallback(async (checkinId: string): Promise<CheckinDetail> => {
+    const params = await getBaseParams()
     return checkCache<CheckinDetail>(
       `https://api.foursquare.com/v2/checkins/${checkinId}?${params.toString()}`,
       'GET',
@@ -71,8 +79,13 @@ export const useFoursquare = () => {
     )
   }, [])
 
+  /**
+   * ユーザーのFoursquareアクセストークン(OauthToken)を取得
+   * @param code コード
+   * @returns アクセストークン
+   */
   const fetchAccessToken = async (code: string) => {
-    const { CLIENT_ID, CLIENT_SECRET, OAUTH_TOKEN, REDIRECT_URI } = config()
+    const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } = config()
 
     const request = await fetch(
       `https://foursquare.com/oauth2/access_token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=authorization_code&redirect_uri=${REDIRECT_URI}&code=${code}`,
