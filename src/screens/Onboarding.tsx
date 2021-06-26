@@ -9,7 +9,7 @@ const AppOnboarding = () => {
   return (
     <Onboarding
       onDone={() => {
-        navigation.navigate('Main')
+        navigation.navigate('Auth')
       }}
       pages={[
         {

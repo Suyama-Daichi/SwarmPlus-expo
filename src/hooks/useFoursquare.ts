@@ -1,10 +1,10 @@
-import { IStartEnd } from '@/types/type'
-import type { Checkins, User, Checkin, FoursquareResponse, CheckinDetail } from '@/types/Foursquare'
+import { AccessToken, IStartEnd } from '@/types/type'
+import type { Checkins, User, FoursquareResponse, CheckinDetail } from '@/types/Foursquare'
 import { config } from '@/service/config'
 import { useCache } from '@/hooks/useCache'
 import { useCallback } from 'react'
 
-const getCredential = () => {
+const getBaseParams = () => {
   const params = { oauth_token: config().OAUTH_TOKEN, v: '20210301', limit: '250', locale: 'ja' }
   const query = new URLSearchParams(params)
   return query
@@ -28,7 +28,7 @@ export const useFoursquare = () => {
   const { checkCache } = useCache()
 
   const fetchUser = (): Promise<User> => {
-    const params = getCredential()
+    const params = getBaseParams()
     return fetch(`https://api.foursquare.com/v2/users/self?${params.toString()}`, {
       method: 'GET',
     })
@@ -44,7 +44,7 @@ export const useFoursquare = () => {
    * @returns チェックインのリスト
    */
   const fetchUserCheckins = (startEnd?: IStartEnd): Promise<Checkins> => {
-    const params = getCredential()
+    const params = getBaseParams()
     if (startEnd) {
       params.append('afterTimestamp', startEnd.afterTimestamp)
       params.append('beforeTimestamp', startEnd.beforeTimestamp)
@@ -63,7 +63,7 @@ export const useFoursquare = () => {
    * @returns チェックインの詳細
    */
   const fetchCheckinDetails = useCallback((checkinId: string): Promise<CheckinDetail> => {
-    const params = getCredential()
+    const params = getBaseParams()
     return checkCache<CheckinDetail>(
       `https://api.foursquare.com/v2/checkins/${checkinId}?${params.toString()}`,
       'GET',
@@ -71,5 +71,16 @@ export const useFoursquare = () => {
     )
   }, [])
 
-  return { fetchUser, fetchUserCheckins, fetchCheckinDetails }
+  const fetchAccessToken = async (code: string) => {
+    const { CLIENT_ID, CLIENT_SECRET, OAUTH_TOKEN, REDIRECT_URI } = config()
+
+    const request = await fetch(
+      `https://foursquare.com/oauth2/access_token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=authorization_code&redirect_uri=${REDIRECT_URI}&code=${code}`,
+      { method: 'GET' }
+    )
+
+    return (await (request.json() as Promise<AccessToken>)).access_token
+  }
+
+  return { fetchUser, fetchUserCheckins, fetchCheckinDetails, fetchAccessToken }
 }

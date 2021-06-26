@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { useDate } from '@/hooks/useDate'
 import { Checkins } from '@/types/Foursquare'
+import { URL } from 'react-native-url-polyfill'
 
 export const useUtils = () => {
   const { getDateString, getDateArray, getMinMaxDate } = useDate()
@@ -77,5 +78,20 @@ export const useUtils = () => {
     return shout.replace(regObj, '')
   }, [])
 
-  return { convertAgendaObject, generateImageUrl, removeShoutWith }
+  /**
+   * URLのパラメータから指定のキーの値を取得する
+   * @param rawUrl 対象のURL
+   * @param key 取得したいパラメータのキー
+   * @returns 取得した値
+   */
+  const parseURLParams = (rawUrl: string, key: string) => {
+    const url = new URL(rawUrl)
+    const params = url.searchParams
+
+    if (params.has(key)) {
+      return params.get(key)
+    }
+  }
+
+  return { convertAgendaObject, generateImageUrl, removeShoutWith, parseURLParams }
 }

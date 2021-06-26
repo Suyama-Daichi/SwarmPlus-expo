@@ -8,6 +8,7 @@ import BottomTabNavigator from '@/navigation/BottomTabNavigator'
 import LinkingConfiguration from '@/navigation/LinkingConfiguration'
 import { DarkTheme, DefaultTheme } from '@/constants/Theme'
 import AppOnboarding from '@/screens/Onboarding'
+import SignInByFoursquare from '@/screens/SignInByFoursquare'
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -30,6 +31,11 @@ function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Root" component={AppOnboarding} />
+      <Stack.Screen
+        name="Auth"
+        component={SignInByFoursquare}
+        options={{ headerShown: true, title: '認証', headerLeft: () => null }}
+      />
       <Stack.Screen name="Main" component={BottomTabNavigator} />
     </Stack.Navigator>
   )
