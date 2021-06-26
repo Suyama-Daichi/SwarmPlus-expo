@@ -48,6 +48,7 @@ export const useFoursquare = () => {
     if (startEnd) {
       params.append('afterTimestamp', startEnd.afterTimestamp)
       params.append('beforeTimestamp', startEnd.beforeTimestamp)
+      params.append('sort', 'oldestfirst')
     }
     return checkCache<Checkins>(
       `https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`,
