@@ -24,7 +24,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
   const { user } = useRecoil()
   const [showModal, setShowModal] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
-  const { formatDistanceToNowForTimestamp, timestamp2Date } = useDate()
+  const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
 
   return (
@@ -103,7 +103,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
           </Text>
         )}
         <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>
-          {formatDistanceToNowForTimestamp(timestamp2Date(item.createdAt))}
+          {formatTimestamp(item.createdAt, 'yyyy/MM/dd hh:mm')}
         </Text>
         <Modal visible={showModal} transparent={true}>
           <ImageViewer
