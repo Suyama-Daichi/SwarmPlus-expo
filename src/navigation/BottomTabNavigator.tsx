@@ -47,7 +47,7 @@ function CheckinCalendarNavigator() {
       <CheckinCalendarStack.Screen
         name={'CheckinCalendar'}
         component={CheckinCalender}
-        options={{ headerTitle: 'カレンダーで振り返る' }}
+        options={{ headerTitle: 'カレンダーで振り返る', headerLeft: () => null }}
       />
 
       <CheckinCalendarStack.Screen
