@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import { ActivityIndicator, ColorSchemeName } from 'react-native'
@@ -9,15 +9,25 @@ import LinkingConfiguration from '@/navigation/LinkingConfiguration'
 import { DarkTheme, DefaultTheme } from '@/constants/Theme'
 import AppOnboarding from '@/screens/Onboarding'
 import SignInByFoursquare from '@/screens/SignInByFoursquare'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import storage from '../service/reactNativeStorage'
 import { FOURSQUARE_ACCESS_TOKEN } from '../constants/StorageKeys'
+import { setCurrentScreen } from '../hooks/useAnalytics'
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+  const navigationRef = useRef<NavigationContainerRef>()
   return (
     <NavigationContainer
+      ref={navigationRef}
+      onStateChange={() => {
+        const { name: routeName, params } = navigationRef.current?.getCurrentRoute() as {
+          name: string
+          params: { [k: string]: string }
+        }
+        void setCurrentScreen(routeName, params)
+      }}
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
