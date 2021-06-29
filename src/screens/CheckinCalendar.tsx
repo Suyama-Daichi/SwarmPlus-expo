@@ -4,18 +4,17 @@ import { Agenda, DateObject } from 'react-native-calendars'
 import { useDate } from '@/hooks/useDate'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import { useUtils } from '@/hooks/useUtils'
-import { useRecoil } from '@/hooks/useRecoil'
 import Colors from '@/constants/Colors'
 import type { Checkin } from '@/types/Foursquare'
 import { Timeline } from '@/components/Timeline.component'
 import useColorScheme from '@/hooks/useColorScheme'
+import { logEvent } from '@/hooks/useAnalytics'
 
 export default function CheckinCalender() {
   const colorScheme = useColorScheme()
 
   const { getDateString, getStartEndOfMonth } = useDate()
-  const { setUser, user } = useRecoil()
-  const { fetchUserCheckins, fetchUser } = useFoursquare()
+  const { fetchUserCheckins } = useFoursquare()
   const { convertAgendaObject } = useUtils()
   const [items, setItems] = useState({})
   const [loading, setLoading] = useState(false)
@@ -30,22 +29,6 @@ export default function CheckinCalender() {
     setItems(convertAgendaObject(checkins))
   }
 
-  /**
-   * 日ごとのチェックインを取得する
-   * @param dateObject DateObject
-   */
-  const fetchCheckinForDay = async (dateObject: DateObject) => {
-    // const checkins = await fetchUserCheckins(getStartEndOfDay(dateObject))
-  }
-
-  useEffect(() => {
-    if (!user.id) {
-      fetchUser().then((result) => {
-        setUser(result)
-      })
-    }
-  }, [])
-
   useEffect(() => {
     setLoading(false)
   }, [items])
@@ -55,10 +38,10 @@ export default function CheckinCalender() {
       <Agenda
         items={items}
         loadItemsForMonth={(dateObject) => {
-          fetchCheckinForMonth(dateObject)
+          void fetchCheckinForMonth(dateObject)
         }}
-        onDayPress={(dateObject) => {
-          fetchCheckinForDay(dateObject)
+        onDayPress={() => {
+          void logEvent('DayPressed')
         }}
         displayLoadingIndicator={loading}
         maxDate={getDateString()}

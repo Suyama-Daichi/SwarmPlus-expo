@@ -35,7 +35,7 @@ const responseExtractor = async <T>({
 export const useFoursquare = () => {
   const { checkCache } = useCache()
 
-  const fetchUser = async (): Promise<User> => {
+  const fetchUser = useCallback(async (): Promise<User> => {
     const params = await getBaseParams()
     return fetch(`https://api.foursquare.com/v2/users/self?${params.toString()}`, {
       method: 'GET',
@@ -44,7 +44,7 @@ export const useFoursquare = () => {
         console.error(err)
       })
       .then(async (res) => await responseExtractor<User>({ res, type: 'user' }))
-  }
+  }, [])
 
   /**
    * ユーザーのチェックインを取得

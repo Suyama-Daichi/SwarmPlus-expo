@@ -5,22 +5,28 @@ import { WebView, WebViewNavigation } from 'react-native-webview'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import { useNavigation } from '@react-navigation/native'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
+import { setUserId, logEvent } from '@/hooks/useAnalytics'
 import { useUtils } from '../hooks/useUtils'
 import storage from '../service/reactNativeStorage'
+import { useRecoil } from '../hooks/useRecoil'
 
 const SignInByFoursquare = () => {
   const { parseURLParams } = useUtils()
-  const { fetchAccessToken } = useFoursquare()
+  const { fetchAccessToken, fetchUser } = useFoursquare()
+  const { setUser } = useRecoil()
   const { CLIENT_ID, REDIRECT_URI } = config()
   const navigation = useNavigation()
 
   const onNavigationStateChange = async (navigationState: WebViewNavigation) => {
-    const url = navigationState.url
-
+    const { url, navigationType } = navigationState
     const code = parseURLParams(url, 'code')
-    if (code) {
+    if (code && navigationType === 'formsubmit') {
       const accessToken = await fetchAccessToken(code)
       await storage.save({ key: FOURSQUARE_ACCESS_TOKEN, data: accessToken })
+      const user = await fetchUser()
+      setUser(user)
+      void setUserId(user.id)
+      await logEvent('login')
       navigation.navigate('Main')
     }
   }
