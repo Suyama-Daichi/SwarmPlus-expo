@@ -8,6 +8,7 @@ import Colors from '@/constants/Colors'
 import type { Checkin } from '@/types/Foursquare'
 import { Timeline } from '@/components/Timeline.component'
 import useColorScheme from '@/hooks/useColorScheme'
+import { logEvent } from '@/hooks/useAnalytics'
 
 export default function CheckinCalender() {
   const colorScheme = useColorScheme()
@@ -28,14 +29,6 @@ export default function CheckinCalender() {
     setItems(convertAgendaObject(checkins))
   }
 
-  /**
-   * 日ごとのチェックインを取得する
-   * @param dateObject DateObject
-   */
-  const fetchCheckinForDay = async (dateObject: DateObject) => {
-    // const checkins = await fetchUserCheckins(getStartEndOfDay(dateObject))
-  }
-
   useEffect(() => {
     setLoading(false)
   }, [items])
@@ -45,10 +38,10 @@ export default function CheckinCalender() {
       <Agenda
         items={items}
         loadItemsForMonth={(dateObject) => {
-          fetchCheckinForMonth(dateObject)
+          void fetchCheckinForMonth(dateObject)
         }}
-        onDayPress={(dateObject) => {
-          fetchCheckinForDay(dateObject)
+        onDayPress={() => {
+          void logEvent('DayPressed')
         }}
         displayLoadingIndicator={loading}
         maxDate={getDateString()}
