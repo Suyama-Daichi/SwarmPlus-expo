@@ -37,8 +37,10 @@ export default function CheckinCalender() {
     <View style={{ height: '100%' }}>
       <Agenda
         items={items}
-        loadItemsForMonth={(dateObject) => {
-          void fetchCheckinForMonth(dateObject)
+        // NOTE: loadItemsForMonth()だとonDayPress時にも発火する問題への対応
+        // https://github.com/wix/react-native-calendars/issues/769
+        onVisibleMonthsChange={(dateObject: DateObject[]) => {
+          void fetchCheckinForMonth(dateObject[0])
         }}
         onDayPress={() => {
           void logEvent('DayPressed')
