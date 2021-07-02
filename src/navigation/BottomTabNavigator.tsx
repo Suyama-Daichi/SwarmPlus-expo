@@ -10,6 +10,7 @@ import Colors from '@/constants/Colors'
 import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
 import CheckinCalender from '@/screens/CheckinCalendar'
 import HeaderRight from '@/components/Header/HeaderRight.component'
+import ActionMenu from '@/components/ActionSheet'
 import UserProfile from '../screens/UserProfile'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
@@ -62,6 +63,7 @@ function CheckinCalendarNavigator() {
         options={{
           headerTitle: 'ユーザープロフィール',
           headerLeft: HeaderBack,
+          headerRight: ActionMenu,
         }}
       />
 
