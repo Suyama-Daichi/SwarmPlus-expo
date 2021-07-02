@@ -21,9 +21,11 @@ const UserCard = () => {
       <Text style={[{ marginBottom: 8 }, { fontSize: 24 }]}>{user.firstName + user.lastName}</Text>
       <Text style={{ marginBottom: 8 }}>{user.address}</Text>
       <Text style={{ marginBottom: 24 }}>{user.bio}</Text>
-      <Text style={{ color: Colors.common.textSub }}>
-        {formatTimestamp(user.createdAt, 'yyyy/MM/dd')}に登録
-      </Text>
+      {user.createdAt && (
+        <Text style={{ color: Colors.common.textSub }}>
+          {formatTimestamp(user.createdAt, 'yyyy/MM/dd')}に登録
+        </Text>
+      )}
     </View>
   )
 }

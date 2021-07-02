@@ -36,9 +36,9 @@ const responseExtractor = async <T>({
 export const useFoursquare = () => {
   const { checkCache } = useCache()
 
-  const fetchUser = useCallback(async (): Promise<User> => {
+  const fetchUser = useCallback(async (userId?: string): Promise<User> => {
     const params = await getBaseParams()
-    return fetch(`https://api.foursquare.com/v2/users/self?${params.toString()}`, {
+    return fetch(`https://api.foursquare.com/v2/users/${userId || 'self'}?${params.toString()}`, {
       method: 'GET',
     })
       .catch((err) => {
