@@ -13,6 +13,7 @@ const getBaseParams = async () => {
     v: '20210301',
     limit: '250',
     locale: 'ja',
+    mode: 'swarm',
   }
   const query = new URLSearchParams(params)
   return query

@@ -26,4 +26,7 @@ export default {
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorDark,
   },
+  common: {
+    textSub: '#777777',
+  },
 }
