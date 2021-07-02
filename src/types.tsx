@@ -14,4 +14,5 @@ export type BottomTabParamList = {
 export type CheckinCalendarParamList = {
   CheckinCalendar: undefined
   CheckinDetail: undefined
+  UserProfile: undefined
 }
