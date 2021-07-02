@@ -10,7 +10,7 @@ import { DarkTheme, DefaultTheme } from '@/constants/Theme'
 import AppOnboarding from '@/screens/Onboarding'
 import SignInByFoursquare from '@/screens/SignInByFoursquare'
 import { useState, useEffect, useRef } from 'react'
-import storage from '../service/reactNativeStorage'
+import storage from '@/service/reactNativeStorage'
 import { FOURSQUARE_ACCESS_TOKEN } from '../constants/StorageKeys'
 import { setCurrentScreen } from '../hooks/useAnalytics'
 
@@ -64,7 +64,15 @@ function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {accessToken ? (
-        <Stack.Screen name="Main" component={BottomTabNavigator} />
+        <>
+          <Stack.Screen name="Main" component={BottomTabNavigator} />
+          <Stack.Screen name="Root" component={AppOnboarding} />
+          <Stack.Screen
+            name="Auth"
+            component={SignInByFoursquare}
+            options={{ headerShown: true, title: '認証', headerLeft: () => null }}
+          />
+        </>
       ) : (
         <>
           <Stack.Screen name="Root" component={AppOnboarding} />
