@@ -1,15 +1,22 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Linking } from 'react-native'
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 import { useRecoil } from '@/hooks/useRecoil'
 import { useUtils } from '@/hooks/useUtils'
 import { useDate } from '@/hooks/useDate'
 import Colors from '@/constants/Colors'
+import { Ionicons } from '@expo/vector-icons'
+import { commonStyles } from '../../styles/styles'
 
 const UserCard = () => {
   const { user } = useRecoil()
   const { generateImageUrl } = useUtils()
   const { formatTimestamp } = useDate()
+
+  const OpenProvider = (provider: string) => {
+    void Linking.openURL(provider)
+  }
+
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <Avatar
@@ -19,6 +26,30 @@ const UserCard = () => {
         containerStyle={{ marginVertical: 16 }}
       />
       <Text style={[{ marginBottom: 8 }, { fontSize: 24 }]}>{user.firstName + user.lastName}</Text>
+      <View style={[commonStyles.rowCenter, { justifyContent: 'space-between' }, { width: '20%' }]}>
+        {user.contact?.twitter && (
+          <Ionicons
+            name="logo-twitter"
+            onPress={() => OpenProvider('https://twitter.com/' + (user.contact?.twitter as string))}
+          ></Ionicons>
+        )}
+        {user.contact?.facebook && (
+          <Ionicons
+            name="logo-facebook"
+            onPress={() =>
+              OpenProvider(
+                'https://www.facebook.com/profile.php?id=' + (user.contact?.facebook as string)
+              )
+            }
+          ></Ionicons>
+        )}
+        {user.contact?.email && (
+          <Ionicons
+            name="mail-outline"
+            onPress={() => OpenProvider('mailto: ' + (user.contact?.email as string))}
+          ></Ionicons>
+        )}
+      </View>
       <Text style={{ marginBottom: 8 }}>{user.address}</Text>
       <Text style={{ marginBottom: 24 }}>{user.bio}</Text>
       {user.createdAt && (
