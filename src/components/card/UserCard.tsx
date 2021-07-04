@@ -25,12 +25,16 @@ const UserCard = () => {
         rounded={true}
         containerStyle={{ marginVertical: 16 }}
       />
-      <Text style={[{ marginBottom: 8 }, { fontSize: 24 }]}>{user.firstName + user.lastName}</Text>
-      <View style={[commonStyles.rowCenter, { justifyContent: 'space-between' }, { width: '20%' }]}>
+      <Text style={[{ marginBottom: 8 }, { fontSize: 24, fontWeight: 'bold' }]}>
+        {user.firstName + user.lastName}
+      </Text>
+      <View style={[commonStyles.rowCenter, { justifyContent: 'space-around' }, { width: '25%' }]}>
         {user.contact?.twitter && (
           <Ionicons
             name="logo-twitter"
             onPress={() => OpenProvider('https://twitter.com/' + (user.contact?.twitter as string))}
+            size={24}
+            color={'#1DA1F2'}
           ></Ionicons>
         )}
         {user.contact?.facebook && (
@@ -41,17 +45,20 @@ const UserCard = () => {
                 'https://www.facebook.com/profile.php?id=' + (user.contact?.facebook as string)
               )
             }
+            size={24}
+            color={'#4267B2'}
           ></Ionicons>
         )}
         {user.contact?.email && (
           <Ionicons
             name="mail-outline"
             onPress={() => OpenProvider('mailto: ' + (user.contact?.email as string))}
+            size={24}
           ></Ionicons>
         )}
       </View>
       <Text style={{ marginBottom: 8 }}>{user.address}</Text>
-      <Text style={{ marginBottom: 24 }}>{user.bio}</Text>
+      <Text style={[{ marginBottom: 24 }, { fontSize: 16 }]}>{user.bio}</Text>
       {user.createdAt && (
         <Text style={{ color: Colors.common.textSub }}>
           {formatTimestamp(user.createdAt, 'yyyy/MM/dd')}に登録
