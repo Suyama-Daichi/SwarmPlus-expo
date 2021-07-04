@@ -25,7 +25,7 @@ const UserProfile = ({ route }: Props) => {
 
   useEffect(() => {
     if (!userTemp.value || userTemp.loading) return
-    if (!userId) setUser(userTemp.value)
+    if (!userId) setUser(userTemp.value) // 自分のユーザーだったら保持
     navigation.setOptions({ headerTitle: `${userTemp.value.checkins?.count}回` })
   }, [userTemp.value])
 
