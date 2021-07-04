@@ -5,9 +5,10 @@ import { useNavigation } from '@react-navigation/native'
 type Props = {
   page: string
   iconName: string
+  color?: string
 }
 
-const HeaderRight = ({ page, iconName }: Props) => {
+const HeaderRight = ({ page, iconName, color }: Props) => {
   const navigation = useNavigation()
   return (
     <Ionicons
@@ -15,6 +16,7 @@ const HeaderRight = ({ page, iconName }: Props) => {
       style={{ marginRight: 14 }}
       size={24}
       onPress={() => navigation.navigate(page)}
+      color={color}
     />
   )
 }

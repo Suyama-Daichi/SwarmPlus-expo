@@ -53,7 +53,13 @@ function CheckinCalendarNavigator() {
         options={{
           headerTitle: 'カレンダーで振り返る',
           headerLeft: () => null,
-          headerRight: () => <HeaderRight page={'UserProfile'} iconName={'person-circle'} />,
+          headerRight: () => (
+            <HeaderRight
+              page={'UserProfile'}
+              iconName={'person-circle'}
+              color={Colors.common.textSub}
+            />
+          ),
         }}
       />
 
