@@ -9,7 +9,7 @@ import { commonStyles } from '../styles/styles'
 
 const UserProfile = () => {
   const navigation = useNavigation()
-  const { user, setUser } = useRecoil()
+  const { setUser } = useRecoil()
   const { fetchUser } = useFoursquare()
   const [userTemp, fetchUserTemp] = useAsyncFn(async () => await fetchUser(), [])
 
@@ -18,9 +18,9 @@ const UserProfile = () => {
   }, [])
 
   useEffect(() => {
-    if (!userTemp.value) return
+    if (!userTemp.value || userTemp.loading) return
     setUser(userTemp.value)
-    navigation.setOptions({ headerTitle: `${user.checkins?.count}回` })
+    navigation.setOptions({ headerTitle: `${userTemp.value.checkins?.count}回` })
   }, [userTemp.value])
 
   if (userTemp.loading) return <ActivityIndicator />
