@@ -4,28 +4,29 @@ import { useRecoil } from '@/hooks/useRecoil'
 import { useNavigation } from '@react-navigation/native'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import UserCard from '@/components/card/UserCard'
+import useAsyncFn from 'react-use/lib/useAsyncFn'
 import { commonStyles } from '../styles/styles'
 
 const UserProfile = () => {
   const navigation = useNavigation()
+  const [data, fetchData] = useAsyncFn(async () => {
+    return { user: await fetchUser() }
+  }, [])
 
   const { user, setUser } = useRecoil()
   const { fetchUser } = useFoursquare()
 
-  const fetchUserAsync = async () => {
-    setUser(await fetchUser())
-  }
-
   useEffect(() => {
-    void fetchUserAsync()
+    void fetchData()
   }, [])
 
   useEffect(() => {
-    if (!user) return
+    if (!data.value?.user) return
+    setUser(data.value.user)
     navigation.setOptions({ headerTitle: `${user.checkins?.count}回` })
-  }, [user])
+  }, [data.value])
 
-  if (!user) return <ActivityIndicator />
+  if (data.loading) return <ActivityIndicator />
 
   return (
     <View style={commonStyles.bk_white}>
