@@ -5,6 +5,7 @@ export type RootStackParamList = {
   Auth: undefined
   Main: undefined
   CheckinDetail: { item: Checkin }
+  UserProfile: { userId?: string }
 }
 
 export type BottomTabParamList = {
@@ -14,4 +15,5 @@ export type BottomTabParamList = {
 export type CheckinCalendarParamList = {
   CheckinCalendar: undefined
   CheckinDetail: undefined
+  UserProfile: undefined
 }

@@ -26,4 +26,8 @@ export default {
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorDark,
   },
+  common: {
+    primaryOrange: '#FFB049',
+    textSub: '#777777',
+  },
 }

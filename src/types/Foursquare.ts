@@ -62,11 +62,11 @@ export type Comments = {
 
 export type Likes = {
   count: number
-  groups: GroupElement[]
+  groups: Users[]
   summary?: string
 }
 
-export type GroupElement = {
+export type Users = {
   type: string
   count: number
   items: User[]
@@ -112,6 +112,20 @@ export type User = {
   address?: string
   city?: string
   state?: string
+  birthday?: number
+  canonicalUrl?: string
+  checkins?: Checkins
+  bio?: string
+  contact?: Contact
+  createdAt?: number
+  friends?: Users
+}
+
+export type Contact = {
+  email: string
+  facebook: string
+  twitter: string
+  verifiedPhone: string
 }
 
 export type Layout = {
