@@ -9,24 +9,21 @@ import { commonStyles } from '../styles/styles'
 
 const UserProfile = () => {
   const navigation = useNavigation()
-  const [data, fetchData] = useAsyncFn(async () => {
-    return { user: await fetchUser() }
-  }, [])
-
   const { user, setUser } = useRecoil()
   const { fetchUser } = useFoursquare()
+  const [userTemp, fetchUserTemp] = useAsyncFn(async () => await fetchUser(), [])
 
   useEffect(() => {
-    void fetchData()
+    void fetchUserTemp()
   }, [])
 
   useEffect(() => {
-    if (!data.value?.user) return
-    setUser(data.value.user)
+    if (!userTemp.value) return
+    setUser(userTemp.value)
     navigation.setOptions({ headerTitle: `${user.checkins?.count}回` })
-  }, [data.value])
+  }, [userTemp.value])
 
-  if (data.loading) return <ActivityIndicator />
+  if (userTemp.loading) return <ActivityIndicator />
 
   return (
     <View style={commonStyles.bk_white}>
