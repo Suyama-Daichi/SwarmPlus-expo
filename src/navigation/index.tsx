@@ -70,7 +70,7 @@ function RootNavigator() {
           <Stack.Screen
             name="Auth"
             component={SignInByFoursquare}
-            options={{ headerShown: true, title: '認証', headerLeft: () => null }}
+            options={{ headerShown: true, title: 'ログイン', headerLeft: () => null }}
           />
         </>
       ) : (
@@ -79,7 +79,7 @@ function RootNavigator() {
           <Stack.Screen
             name="Auth"
             component={SignInByFoursquare}
-            options={{ headerShown: true, title: '認証', headerLeft: () => null }}
+            options={{ headerShown: true, title: 'ログイン', headerLeft: () => null }}
           />
           <Stack.Screen name="Main" component={BottomTabNavigator} />
         </>
