@@ -16,9 +16,9 @@ const SignInByFoursquare = () => {
   const navigation = useNavigation()
 
   const onNavigationStateChange = async (navigationState: WebViewNavigation) => {
-    const { url, navigationType } = navigationState
+    const { url, loading } = navigationState
     const code = parseURLParams(url, 'code')
-    if (code && navigationType === 'formsubmit') {
+    if (code && !loading) {
       const accessToken = await fetchAccessToken(code)
       await storage.save({ key: FOURSQUARE_ACCESS_TOKEN, data: accessToken })
       const user = await fetchUser()
