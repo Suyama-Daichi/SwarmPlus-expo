@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { Agenda, DateObject } from 'react-native-calendars'
 import { useDate } from '@/hooks/useDate'
 import { useFoursquare } from '@/hooks/useFoursquare'
@@ -13,6 +13,8 @@ import useAsyncFn from 'react-use/lib/useAsyncFn'
 import { useNavigation } from '@react-navigation/native'
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 import { useRecoil } from '../hooks/useRecoil'
+import { commonStyles } from '../styles/styles'
+import NoCheckin from '../components/NoCheckin'
 
 export default function CheckinCalender() {
   const colorScheme = useColorScheme()
@@ -77,6 +79,7 @@ export default function CheckinCalender() {
         displayLoadingIndicator={loading}
         maxDate={getDateString()}
         futureScrollRange={1}
+        renderEmptyData={() => <NoCheckin />}
         renderDay={(date, item) => <Timeline dateObject={date} item={item as Checkin} />}
         theme={{
           agendaKnobColor: Colors[colorScheme].primaryOrange,
