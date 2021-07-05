@@ -9,15 +9,23 @@ import type { Checkin } from '@/types/Foursquare'
 import { Timeline } from '@/components/Timeline.component'
 import useColorScheme from '@/hooks/useColorScheme'
 import { logEvent } from '@/hooks/useAnalytics'
+import useAsyncFn from 'react-use/lib/useAsyncFn'
+import { useNavigation } from '@react-navigation/native'
+import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
+import { useRecoil } from '../hooks/useRecoil'
 
 export default function CheckinCalender() {
   const colorScheme = useColorScheme()
+  const navigation = useNavigation()
 
   const { getDateString, getStartEndOfMonth } = useDate()
   const { fetchUserCheckins } = useFoursquare()
-  const { convertAgendaObject } = useUtils()
+  const { convertAgendaObject, generateImageUrl } = useUtils()
   const [items, setItems] = useState({})
   const [loading, setLoading] = useState(false)
+  const { setUser } = useRecoil()
+  const { fetchUser } = useFoursquare()
+  const [userTemp, fetchUserTemp] = useAsyncFn(async () => await fetchUser(), [])
 
   /**
    * 月ごとのチェックインを取得する
@@ -32,6 +40,27 @@ export default function CheckinCalender() {
   useEffect(() => {
     setLoading(false)
   }, [items])
+
+  useEffect(() => {
+    if (!userTemp.value) return
+    setUser(userTemp.value)
+    const uri = generateImageUrl(userTemp.value.photo.prefix, userTemp.value.photo.suffix, 24)
+
+    navigation.setOptions({
+      headerRight: () => (
+        <Avatar
+          source={{ uri }}
+          rounded={true}
+          containerStyle={{ marginRight: 16 }}
+          onPress={() => navigation.navigate('UserProfile')}
+        />
+      ),
+    })
+  }, [userTemp])
+
+  useEffect(() => {
+    void fetchUserTemp()
+  }, [])
 
   return (
     <View style={{ height: '100%' }}>
