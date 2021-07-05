@@ -9,9 +9,9 @@ import HeaderBack from '@/components/Header/HeaderBack.component'
 import Colors from '@/constants/Colors'
 import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
 import CheckinCalender from '@/screens/CheckinCalendar'
-import HeaderRight from '@/components/Header/HeaderRight.component'
+import HeaderRightIcon from '@/components/Header/HeaderRightIcon.component'
 import ActionMenu from '@/components/ActionSheet'
-import UserProfile from '../screens/UserProfile'
+import UserProfile from '@/screens/UserProfile'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -54,7 +54,7 @@ function CheckinCalendarNavigator() {
           headerTitle: 'カレンダーで振り返る',
           headerLeft: () => null,
           headerRight: () => (
-            <HeaderRight
+            <HeaderRightIcon
               page={'UserProfile'}
               iconName={'person-circle'}
               color={Colors.common.textSub}
