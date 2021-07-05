@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, FlatList, ActivityIndicator } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 import { Avatar, Image, Icon } from 'react-native-elements'
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native'
 import { ImageCarousel } from '@/components/carousel/ImageCarousel.component'
@@ -105,7 +106,10 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
             />
           </View>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
-            {checkinDetail.venue.name}
+            {checkinDetail.venue.name}{' '}
+            {checkinDetail.visibility && (
+              <Ionicons name={'lock-closed'} size={16} color={Colors.common.textSub} />
+            )}
           </Text>
         </View>
         <View style={[commonStyles.rowCenter]}>

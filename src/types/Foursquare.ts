@@ -53,6 +53,7 @@ export type Checkin = {
   source: Source
   sticker?: Sticker
   with?: User[]
+  visibility?: 'private'
 }
 
 export type Comments = {
