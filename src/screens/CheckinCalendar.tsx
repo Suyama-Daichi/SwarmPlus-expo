@@ -34,7 +34,7 @@ export default function CheckinCalender() {
   const fetchCheckinForMonth = async (dateObject: DateObject) => {
     setLoading(true)
     const checkins = await fetchUserCheckins(getStartEndOfMonth(dateObject))
-    setItems(convertAgendaObject(checkins))
+    setItems(convertAgendaObject(checkins.items))
   }
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function CheckinCalender() {
         displayLoadingIndicator={loading}
         maxDate={getDateString()}
         futureScrollRange={1}
-        renderDay={(date, item: Checkin) => <Timeline dateObject={date} item={item} />}
+        renderDay={(date, item) => <Timeline dateObject={date} item={item as Checkin} />}
         theme={{
           agendaKnobColor: Colors[colorScheme].primaryOrange,
           dotColor: Colors[colorScheme].primaryOrange,

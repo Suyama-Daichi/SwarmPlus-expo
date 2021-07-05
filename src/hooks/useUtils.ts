@@ -1,18 +1,18 @@
 import { useCallback } from 'react'
 import { useDate } from '@/hooks/useDate'
-import { Checkins } from '@/types/Foursquare'
 import { URL } from 'react-native-url-polyfill'
+import { Checkin } from '../types/Foursquare'
 
 export const useUtils = () => {
   const { getDateString, getDateArray, getMinMaxDate } = useDate()
 
   /**
    * チェックインデータをAgendaItemsオブジェクトに変換
-   * @param checkin チェックインオブジェクト
+   * @param checkins チェックインオブジェクト
    * @returns AgendaItems: object
    */
-  const convertAgendaObject = (checkin: Checkins) => {
-    const hoge: any = checkin.items.reduce((result, current) => {
+  const convertAgendaObject = (checkins: Checkin[]) => {
+    const hoge: any = checkins.reduce((result, current) => {
       const currentDateStr = getDateString(current.createdAt)
       const exist = result.find((f) => {
         return f.currentDateStr === currentDateStr
