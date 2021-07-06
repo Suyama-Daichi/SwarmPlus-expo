@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - develop
+      
+env: 
+  AMPLITUDE_KEY: ${{ secrets.AMPLITUDE_KEY_DEV }}
+
 jobs:
   publish:
     name: Install and publish(Develop)
