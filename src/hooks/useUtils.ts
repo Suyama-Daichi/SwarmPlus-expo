@@ -1,54 +1,42 @@
 import { useCallback } from 'react'
 import { useDate } from '@/hooks/useDate'
-import { Checkins } from '@/types/Foursquare'
 import { URL } from 'react-native-url-polyfill'
+import { Checkin } from '../types/Foursquare'
 
 export const useUtils = () => {
-  const { getDateString, getDateArray, getMinMaxDate } = useDate()
+  const { getDateString } = useDate()
 
   /**
    * チェックインデータをAgendaItemsオブジェクトに変換
-   * @param checkin チェックインオブジェクト
+   * @param checkins チェックインオブジェクト
    * @returns AgendaItems: object
    */
-  const convertAgendaObject = (checkin: Checkins) => {
-    const hoge: any = checkin.items.reduce((result, current) => {
-      const currentDateStr = getDateString(current.createdAt)
-      const exist = result.find((f) => {
-        return f.currentDateStr === currentDateStr
+  const convertAgendaObject = (checkins: Checkin[]) => {
+    type GroupBy = { date: string; checkins: Checkin[] }
+    //groupBy
+    const groupBy = checkins.reduce((result: GroupBy[], current) => {
+      // 同日のチェックインがあるか
+      const element = result.find((checkin) => {
+        return checkin.date === getDateString(current.createdAt)
       })
-      if (exist) {
-        exist.current.push(current)
+      if (element) {
+        //ある時（下記、初期データを操作）
+        element.checkins.push(current)
       } else {
-        result.push({ currentDateStr, current: [current] })
+        //無いとき（新規に初期データを作成）
+        result.push({
+          date: getDateString(current.createdAt),
+          checkins: [current],
+        })
       }
       return result
     }, [])
 
-    const minMax = getMinMaxDate(hoge.map((m) => m.currentDateStr))
+    // AgendaObjectに変換
+    // ex: { "2021-03-05" : Checkin[]}
+    const agendaObject = groupBy.reduce((a, b) => ({ ...a, [b.date]: b.checkins }), {})
 
-    const dateArray = getDateArray(minMax.min, minMax.max)
-
-    const getArraysDiff = (array01: string[], array02: string) => {
-      const arr01 = [...new Set(array01)],
-        arr02 = [...new Set(array02)]
-      return [...arr01, ...arr02].filter(
-        (value) => !arr01.includes(value) || !arr02.includes(value)
-      )
-    }
-
-    const noEventDays = getArraysDiff(
-      dateArray,
-      hoge.map((m) => m.currentDateStr)
-    )
-
-    const AgendaObject = Object.fromEntries(hoge.map((m) => [m.currentDateStr, m.current]))
-
-    noEventDays.forEach((f) => {
-      AgendaObject[f] = []
-    })
-
-    return AgendaObject
+    return agendaObject
   }
 
   /**

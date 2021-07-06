@@ -8,7 +8,7 @@ type Props = {
   color?: string
 }
 
-const HeaderRight = ({ page, iconName, color }: Props) => {
+const HeaderRightIcon = ({ page, iconName, color }: Props) => {
   const navigation = useNavigation()
   return (
     <Ionicons
@@ -21,4 +21,4 @@ const HeaderRight = ({ page, iconName, color }: Props) => {
   )
 }
 
-export default HeaderRight
+export default HeaderRightIcon

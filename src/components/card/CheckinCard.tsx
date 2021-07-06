@@ -12,6 +12,7 @@ import Colors from '@/constants/Colors'
 import { useRecoil } from '@/hooks/useRecoil'
 import { commonStyles } from '@/styles/styles'
 import useColorScheme from '@/hooks/useColorScheme'
+import { Ionicons } from '@expo/vector-icons'
 
 type Props = {
   item: Checkin
@@ -59,6 +60,9 @@ export const CheckinCard = React.memo(({ item }: Props) => {
       <View style={{ paddingLeft: 8, flex: 1 }}>
         <Text style={[styles.fontLarge, commonStyles.venueName]} numberOfLines={2}>
           {item.venue.name}
+          {item.visibility && (
+            <Ionicons name={'lock-closed'} size={16} color={Colors.common.textSub} />
+          )}
         </Text>
 
         <Text
