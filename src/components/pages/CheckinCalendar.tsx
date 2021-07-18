@@ -12,8 +12,8 @@ import { logEvent } from '@/hooks/useAnalytics'
 import useAsyncFn from 'react-use/lib/useAsyncFn'
 import { useNavigation } from '@react-navigation/native'
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
-import { useRecoil } from '../../hooks/useRecoil'
-import NoCheckin from '../NoCheckin'
+import { useRecoil } from '@/hooks/useRecoil'
+import NoCheckin from '@/components/NoCheckin'
 
 export default function CheckinCalender() {
   const colorScheme = useColorScheme()

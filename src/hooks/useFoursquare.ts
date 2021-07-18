@@ -4,7 +4,7 @@ import { config } from '@/service/config'
 import { useCache } from '@/hooks/useCache'
 import { useCallback } from 'react'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
-import storage from '../service/reactNativeStorage'
+import storage from '@/service/reactNativeStorage'
 
 const getBaseParams = async () => {
   const oauthToken = await storage.load<string>({ key: FOURSQUARE_ACCESS_TOKEN })

@@ -6,7 +6,7 @@ import { useDate } from '@/hooks/useDate'
 import Colors from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
 import { User } from '@/types/Foursquare'
-import { commonStyles } from '../../styles/styles'
+import { commonStyles } from '@/styles/styles'
 
 type Props = {
   user: User

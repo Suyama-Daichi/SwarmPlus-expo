@@ -4,6 +4,7 @@ import { Image } from 'react-native-elements'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import Colors from '@/constants/Colors'
 import useColorScheme from '@/hooks/useColorScheme'
+import NoImage from '../../../assets/images/20200501_noimage.png'
 
 const imageWidth = Dimensions.get('window').width * 1.0
 
@@ -20,11 +21,7 @@ export const ImageCarousel = memo(({ images }: Props) => {
       <Carousel
         data={images}
         renderItem={(d) => {
-          const image = (
-            d.item
-              ? { uri: d.item as string }
-              : require('../../../assets/images/20200501_noimage.png')
-          ) as ImageSourcePropType
+          const image = (d.item ? { uri: d.item as string } : NoImage) as ImageSourcePropType
 
           return (
             <Image
