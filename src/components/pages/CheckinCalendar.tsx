@@ -78,7 +78,7 @@ export default function CheckinCalender() {
         futureScrollRange={1}
         renderEmptyData={() => <NoCheckin />}
         renderDay={(dateObject, item) => {
-          return dateObject && <Timeline date={timestamp2Date(dateObject.timestamp)} item={item} />
+          return <Timeline date={timestamp2Date(dateObject?.timestamp)} item={item} />
         }}
         theme={{
           agendaKnobColor: COLORS[colorScheme].primaryOrange,

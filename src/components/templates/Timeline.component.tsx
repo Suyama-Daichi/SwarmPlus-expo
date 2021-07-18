@@ -5,15 +5,15 @@ import { CheckinCard } from '@/components/card/CheckinCard'
 import { DividerByDate } from '@/components/organisms/DividerByDate'
 
 type Props = {
-  date: Date
+  date?: Date
   item: Checkin
 }
 
 export const Timeline = React.memo(({ date, item }: Props) => {
   return (
     <View style={{ backgroundColor: 'white' }}>
-      {!!item && <DividerByDate date={date} />}
-      {item && <CheckinCard item={item} />}
+      {date && <DividerByDate date={date} />}
+      {<CheckinCard item={item} />}
     </View>
   )
 })

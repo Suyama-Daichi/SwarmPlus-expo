@@ -44,7 +44,8 @@ export const useDate = () => {
    * @param date 日付フォーマット
    * @returns フォーマットされた文字列
    */
-  const timestamp2Date = useCallback((timestamp: number) => {
+  const timestamp2Date = useCallback((timestamp?: number) => {
+    if (!timestamp) return
     if (timestamp > 999999999999) {
       return new Date(Number(timestamp))
     } else {
