@@ -3,7 +3,7 @@ import { View, Text, Linking } from 'react-native'
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 import { useUtils } from '@/hooks/useUtils'
 import { useDate } from '@/hooks/useDate'
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
 import { User } from '@/types/Foursquare'
 import { commonStyles } from '@/styles/styles'
@@ -63,7 +63,7 @@ const UserCard = ({ user }: Props) => {
       <Text style={{ marginBottom: 8 }}>{user.address}</Text>
       <Text style={[{ marginBottom: 24 }, { fontSize: 16 }]}>{user.bio}</Text>
       {user.createdAt && (
-        <Text style={{ color: Colors.common.textSub }}>
+        <Text style={{ color: COLORS.common.textSub }}>
           {formatTimestamp(user.createdAt, 'yyyy/MM/dd')}に登録
         </Text>
       )}

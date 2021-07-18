@@ -108,7 +108,7 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
             {checkinDetail.venue.name}{' '}
             {checkinDetail.visibility && (
-              <Ionicons name={'lock-closed'} size={16} color={Colors.common.textSub} />
+              <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />
             )}
           </Text>
         </View>

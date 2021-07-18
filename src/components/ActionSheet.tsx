@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 
 export const ActionMenu = () => {
   const navigation = useNavigation()
@@ -49,7 +49,7 @@ export const ActionMenu = () => {
       name={'ellipsis-horizontal'}
       style={{ marginRight: 16 }}
       size={24}
-      color={Colors.common.textSub}
+      color={COLORS.common.textSub}
       onPress={actionSheetHandler}
     />
   )

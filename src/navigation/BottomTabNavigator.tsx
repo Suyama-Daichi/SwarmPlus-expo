@@ -57,7 +57,7 @@ function CheckinCalendarNavigator() {
             <HeaderRightIcon
               page={'UserProfile'}
               iconName={'person-circle'}
-              color={Colors.common.textSub}
+              color={COLORS.common.textSub}
             />
           ),
         }}
