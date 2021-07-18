@@ -7,16 +7,16 @@ import { useDate } from '@/hooks/useDate'
 import useColorScheme from '@/hooks/useColorScheme'
 
 type Props = {
-  dateObject: DateObject | undefined
+  dateObject: DateObject
 }
 
-export const DividerDate = ({ dateObject }: Props) => {
+export const DividerByDate = ({ dateObject }: Props) => {
   const colorScheme = useColorScheme()
   const { getDay, timestamp2Date } = useDate()
   const [day, setDay] = useState()
 
   useEffect(() => {
-    setDay(getDay(timestamp2Date(dateObject?.timestamp)))
+    setDay(getDay(timestamp2Date(dateObject.timestamp)))
   }, [dateObject, getDay, timestamp2Date])
 
   return (

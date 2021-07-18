@@ -6,7 +6,7 @@ import { useFoursquare } from '@/hooks/useFoursquare'
 import { useUtils } from '@/hooks/useUtils'
 import { COLORS } from '@/constants/Colors'
 import type { Checkin } from '@/types/Foursquare'
-import { Timeline } from '@/components/Timeline.component'
+import { Timeline } from '@/components/templates/Timeline.component'
 import useColorScheme from '@/hooks/useColorScheme'
 import { logEvent } from '@/hooks/useAnalytics'
 import useAsyncFn from 'react-use/lib/useAsyncFn'
@@ -22,7 +22,7 @@ export default function CheckinCalender() {
   const { getDateString, getStartEndOfMonth } = useDate()
   const { fetchUserCheckins } = useFoursquare()
   const { convertAgendaObject, generateImageUrl } = useUtils()
-  const [items, setItems] = useState({})
+  const [items, setItems] = useState<{ [k: string]: [] }>()
   const [loading, setLoading] = useState(false)
   const { setUser } = useRecoil()
   const { fetchUser } = useFoursquare()
@@ -79,7 +79,9 @@ export default function CheckinCalender() {
         maxDate={getDateString()}
         futureScrollRange={1}
         renderEmptyData={() => <NoCheckin />}
-        renderDay={(date, item) => <Timeline dateObject={date} item={item as Checkin} />}
+        renderDay={(date, item) => (
+          <Timeline dateObject={date as DateObject} item={item as Checkin} />
+        )}
         theme={{
           agendaKnobColor: COLORS[colorScheme].primaryOrange,
           dotColor: COLORS[colorScheme].primaryOrange,
