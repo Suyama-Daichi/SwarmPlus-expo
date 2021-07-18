@@ -1,22 +1,9 @@
-import type { FoursquareResponse } from '@/types/Foursquare'
 import { useRecoil } from '@/hooks/useRecoil'
-
-const responseExtractor = async <T>({
-  res,
-  type,
-}: {
-  res: Response | void
-  type: 'checkins' | 'checkin' | 'user'
-}): Promise<T> => {
-  const parsedRes = (await (res as Response).json()) as FoursquareResponse
-  if (parsedRes.meta.code !== 200) {
-    console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
-  }
-  return parsedRes.response[type] as unknown as T
-}
+import { useResponseExtractor } from '@/hooks/useResponseExtractor'
 
 export const useCache = () => {
   const { requestCache, setRequestCache } = useRecoil()
+  const responseExtractor = useResponseExtractor()
 
   const checkCache = <T>(
     url: string,

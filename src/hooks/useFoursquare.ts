@@ -1,10 +1,11 @@
 import { AccessToken, IStartEnd } from '@/types/type'
-import type { Checkins, User, FoursquareResponse, CheckinDetail } from '@/types/Foursquare'
+import type { Checkins, User, CheckinDetail } from '@/types/Foursquare'
 import { config } from '@/service/config'
 import { useCache } from '@/hooks/useCache'
 import { useCallback } from 'react'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
+import { useResponseExtractor } from '@/hooks/useResponseExtractor'
 
 const getBaseParams = async () => {
   const oauthToken = await storage.load<string>({ key: FOURSQUARE_ACCESS_TOKEN })
@@ -19,23 +20,11 @@ const getBaseParams = async () => {
   return query
 }
 
-const responseExtractor = async <T>({
-  res,
-  type,
-}: {
-  res: Response | void
-  type: 'checkins' | 'checkin' | 'user'
-}): Promise<T> => {
-  const parsedRes = (await (res as Response).json()) as FoursquareResponse
-  if (parsedRes.meta.code !== 200) {
-    console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
-  }
-  return parsedRes.response[type] as unknown as T
-}
-
 export const useFoursquare = () => {
   const { checkCache } = useCache()
+  const responseExtractor = useResponseExtractor()
 
+  /** ユーザー情報を取得 */
   const fetchUser = useCallback(async (userId?: string): Promise<User> => {
     const params = await getBaseParams()
     return fetch(`https://api.foursquare.com/v2/users/${userId || 'self'}?${params.toString()}`, {
