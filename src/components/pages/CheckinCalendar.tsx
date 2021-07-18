@@ -19,13 +19,12 @@ export default function CheckinCalender() {
   const colorScheme = useColorScheme()
   const navigation = useNavigation()
 
-  const { getDateString, getStartEndOfMonth } = useDate()
-  const { fetchUserCheckins } = useFoursquare()
+  const { getDateString, getStartEndOfMonth, timestamp2Date } = useDate()
+  const { fetchUserCheckins, fetchUser } = useFoursquare()
   const { convertAgendaObject, generateImageUrl } = useUtils()
-  const [items, setItems] = useState<{ [k: string]: [] }>()
+  const [items, setItems] = useState<{ [k: string]: Checkin[] }>()
   const [loading, setLoading] = useState(false)
   const { setUser } = useRecoil()
-  const { fetchUser } = useFoursquare()
   const [userTemp, fetchUserTemp] = useAsyncFn(async () => await fetchUser(), [])
 
   /**
@@ -65,7 +64,7 @@ export default function CheckinCalender() {
 
   return (
     <View style={{ flex: 1 }}>
-      <Agenda
+      <Agenda<Checkin>
         items={items}
         // NOTE: loadItemsForMonth()だとonDayPress時にも発火する問題への対応
         // https://github.com/wix/react-native-calendars/issues/769
@@ -79,9 +78,9 @@ export default function CheckinCalender() {
         maxDate={getDateString()}
         futureScrollRange={1}
         renderEmptyData={() => <NoCheckin />}
-        renderDay={(date, item) => (
-          <Timeline dateObject={date as DateObject} item={item as Checkin} />
-        )}
+        renderDay={(dateObject, item) => {
+          return dateObject && <Timeline date={timestamp2Date(dateObject.timestamp)} item={item} />
+        }}
         theme={{
           agendaKnobColor: COLORS[colorScheme].primaryOrange,
           dotColor: COLORS[colorScheme].primaryOrange,

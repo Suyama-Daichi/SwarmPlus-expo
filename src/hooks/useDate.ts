@@ -23,8 +23,7 @@ export const useDate = () => {
    * @param date 変換対象のDateオブジェクト
    * @returns 日付文字列 ex: 2020-03-12
    */
-  const getDateString = (date: Date | number = new Date()) => {
-    const formatString = 'yyyy-MM-dd'
+  const getDateString = (date: Date | number = new Date(), formatString = 'yyyy-MM-dd') => {
     return format(typeof date === 'number' ? new Date(Number(date + '000')) : date, formatString)
   }
 
@@ -45,8 +44,7 @@ export const useDate = () => {
    * @param date 日付フォーマット
    * @returns フォーマットされた文字列
    */
-  const timestamp2Date = useCallback((timestamp: number | undefined) => {
-    if (!timestamp) return
+  const timestamp2Date = useCallback((timestamp: number) => {
     if (timestamp > 999999999999) {
       return new Date(Number(timestamp))
     } else {
