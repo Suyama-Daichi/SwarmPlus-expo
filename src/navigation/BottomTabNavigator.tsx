@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import useColorScheme from '@/hooks/useColorScheme'
 import { CheckinDetailScreen } from '@/components/pages/CheckinDetail'
-import HeaderBack from '@/components/Header/HeaderBack.component'
+import BackButton from '@/components/molecules/BackButton'
 
 import { COLORS } from '@/constants/Colors'
 import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
@@ -68,7 +68,7 @@ function CheckinCalendarNavigator() {
         component={UserProfile}
         options={{
           headerTitle: 'ユーザープロフィール',
-          headerLeft: HeaderBack,
+          headerLeft: BackButton,
           headerRight: ActionMenu,
         }}
       />
@@ -78,7 +78,7 @@ function CheckinCalendarNavigator() {
         component={CheckinDetailScreen}
         options={{
           headerTitle: 'チェックインの詳細',
-          headerLeft: HeaderBack,
+          headerLeft: BackButton,
         }}
       />
     </CheckinCalendarStack.Navigator>
