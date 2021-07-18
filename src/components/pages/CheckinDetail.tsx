@@ -7,7 +7,7 @@ import { ImageCarousel } from '@/components/carousel/ImageCarousel.component'
 import { useDate } from '@/hooks/useDate'
 import { useUtils } from '@/hooks/useUtils'
 import { useFoursquare } from '@/hooks/useFoursquare'
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 import window from '@/constants/Layout'
 import { CheckinDetail, User } from '@/types/Foursquare'
 import { commonStyles } from '@/styles/styles'
@@ -72,7 +72,7 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
               checkinDetail.likes.groups[0].items,
               <Icon
                 name={'heart'}
-                color={Colors[colorScheme].pink}
+                color={COLORS[colorScheme].pink}
                 solid={true}
                 type={'font-awesome-5'}
                 size={12}
@@ -83,7 +83,7 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
               checkinDetail.with,
               <Icon
                 name={'users'}
-                color={Colors[colorScheme].primaryOrange}
+                color={COLORS[colorScheme].primaryOrange}
                 solid={true}
                 type={'font-awesome-5'}
                 size={12}
@@ -92,7 +92,7 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
         </View>
         <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
           <View
-            style={[{ backgroundColor: Colors[colorScheme].backgroundSecond }, { marginRight: 4 }]}
+            style={[{ backgroundColor: COLORS[colorScheme].backgroundSecond }, { marginRight: 4 }]}
           >
             <Image
               source={{

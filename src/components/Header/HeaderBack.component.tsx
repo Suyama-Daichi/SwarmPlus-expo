@@ -2,7 +2,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 import useColorScheme from '@/hooks/useColorScheme'
 
 const HeaderBack = () => {
@@ -14,7 +14,7 @@ const HeaderBack = () => {
       <FontAwesome5
         name={'chevron-left'}
         style={{
-          color: Colors[colorScheme].primaryOrange,
+          color: COLORS[colorScheme].primaryOrange,
           paddingLeft: 16,
           fontWeight: '500',
         }}

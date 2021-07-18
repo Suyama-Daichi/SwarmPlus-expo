@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, Text } from 'react-native'
 import { DateObject } from 'react-native-calendars'
 import window from '@/constants/Layout'
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 import { useDate } from '@/hooks/useDate'
 import useColorScheme from '@/hooks/useColorScheme'
 
@@ -30,8 +30,8 @@ export const DividerDate = ({ dateObject }: Props) => {
               borderTopRightRadius: 10,
               borderBottomRightRadius: 10,
               width: window.window.width / 3,
-              borderColor: Colors[colorScheme].primaryOrange,
-              backgroundColor: Colors[colorScheme].primaryOrange,
+              borderColor: COLORS[colorScheme].primaryOrange,
+              backgroundColor: COLORS[colorScheme].primaryOrange,
             },
             { marginVertical: 8 },
           ]}

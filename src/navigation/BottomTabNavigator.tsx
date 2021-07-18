@@ -6,7 +6,7 @@ import useColorScheme from '@/hooks/useColorScheme'
 import { CheckinDetailScreen } from '@/components/pages/CheckinDetail'
 import HeaderBack from '@/components/Header/HeaderBack.component'
 
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
 import CheckinCalender from '@/components/pages/CheckinCalendar'
 import HeaderRightIcon from '@/components/Header/HeaderRightIcon.component'
@@ -21,7 +21,7 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="CheckinCalender"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint, showLabel: false }}
+      tabBarOptions={{ activeTintColor: COLORS[colorScheme].tint, showLabel: false }}
     >
       <BottomTab.Screen
         name="CheckinCalender"

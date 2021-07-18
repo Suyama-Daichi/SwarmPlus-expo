@@ -4,7 +4,7 @@ import { Agenda, DateObject } from 'react-native-calendars'
 import { useDate } from '@/hooks/useDate'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import { useUtils } from '@/hooks/useUtils'
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 import type { Checkin } from '@/types/Foursquare'
 import { Timeline } from '@/components/Timeline.component'
 import useColorScheme from '@/hooks/useColorScheme'
@@ -81,8 +81,8 @@ export default function CheckinCalender() {
         renderEmptyData={() => <NoCheckin />}
         renderDay={(date, item) => <Timeline dateObject={date} item={item as Checkin} />}
         theme={{
-          agendaKnobColor: Colors[colorScheme].primaryOrange,
-          dotColor: Colors[colorScheme].primaryOrange,
+          agendaKnobColor: COLORS[colorScheme].primaryOrange,
+          dotColor: COLORS[colorScheme].primaryOrange,
         }}
       />
     </View>
