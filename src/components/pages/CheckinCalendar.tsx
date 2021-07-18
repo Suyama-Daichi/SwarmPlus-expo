@@ -22,29 +22,28 @@ export default function CheckinCalender() {
   const { getDateString, getStartEndOfMonth, timestamp2Date } = useDate()
   const { fetchUserCheckins, fetchUser } = useFoursquare()
   const { convertAgendaObject, generateImageUrl } = useUtils()
-  const [items, setItems] = useState<{ [k: string]: Checkin[] }>()
-  const [loading, setLoading] = useState(false)
   const { setUser } = useRecoil()
-  const [userTemp, fetchUserTemp] = useAsyncFn(async () => await fetchUser(), [])
-
+  const [fetchUserState, fetchUserTemp] = useAsyncFn(async () => await fetchUser(), [])
   /**
    * 月ごとのチェックインを取得する
    * @param dateObject DateObject
    */
-  const fetchCheckinForMonth = async (dateObject: DateObject) => {
-    setLoading(true)
-    const checkins = await fetchUserCheckins(getStartEndOfMonth(dateObject))
-    setItems(convertAgendaObject(checkins.items))
-  }
+  const [fetchMonthlyCheckinState, fetchMonthlyCheckin] = useAsyncFn(
+    async (dateObject: DateObject) => {
+      const checkins = await fetchUserCheckins(getStartEndOfMonth(dateObject))
+      return convertAgendaObject(checkins.items)
+    },
+    []
+  )
 
   useEffect(() => {
-    setLoading(false)
-  }, [items])
-
-  useEffect(() => {
-    if (!userTemp.value) return
-    setUser(userTemp.value)
-    const uri = generateImageUrl(userTemp.value.photo.prefix, userTemp.value.photo.suffix, 24)
+    if (!fetchUserState.value) return
+    setUser(fetchUserState.value)
+    const uri = generateImageUrl(
+      fetchUserState.value.photo.prefix,
+      fetchUserState.value.photo.suffix,
+      24
+    )
 
     navigation.setOptions({
       headerRight: () => (
@@ -56,7 +55,7 @@ export default function CheckinCalender() {
         />
       ),
     })
-  }, [userTemp])
+  }, [fetchUserState])
 
   useEffect(() => {
     void fetchUserTemp()
@@ -65,16 +64,16 @@ export default function CheckinCalender() {
   return (
     <View style={{ flex: 1 }}>
       <Agenda<Checkin>
-        items={items}
+        items={fetchMonthlyCheckinState.value}
         // NOTE: loadItemsForMonth()だとonDayPress時にも発火する問題への対応
         // https://github.com/wix/react-native-calendars/issues/769
         onVisibleMonthsChange={(dateObject: DateObject[]) => {
-          void fetchCheckinForMonth(dateObject[0])
+          void fetchMonthlyCheckin(dateObject[0])
         }}
         onDayPress={() => {
           void logEvent('DayPressed')
         }}
-        displayLoadingIndicator={loading}
+        displayLoadingIndicator={fetchMonthlyCheckinState.loading}
         maxDate={getDateString()}
         futureScrollRange={1}
         renderEmptyData={() => <NoCheckin />}
