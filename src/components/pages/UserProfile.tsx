@@ -6,7 +6,7 @@ import { useFoursquare } from '@/hooks/useFoursquare'
 import UserCard from '@/components/card/UserCard'
 import useAsyncFn from 'react-use/lib/useAsyncFn'
 import { RootStackParamList } from '@/types'
-import { commonStyles } from '../styles/styles'
+import { commonStyles } from '@/styles/styles'
 
 type Props = {
   route: RouteProp<RootStackParamList, 'UserProfile'>

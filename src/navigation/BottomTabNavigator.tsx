@@ -3,15 +3,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import useColorScheme from '@/hooks/useColorScheme'
-import { CheckinDetailScreen } from '@/screens/CheckinDetail'
+import { CheckinDetailScreen } from '@/components/pages/CheckinDetail'
 import HeaderBack from '@/components/Header/HeaderBack.component'
 
 import Colors from '@/constants/Colors'
 import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
-import CheckinCalender from '@/screens/CheckinCalendar'
+import CheckinCalender from '@/components/pages/CheckinCalendar'
 import HeaderRightIcon from '@/components/Header/HeaderRightIcon.component'
 import ActionMenu from '@/components/ActionSheet'
-import UserProfile from '@/screens/UserProfile'
+import UserProfile from '@/components/pages/UserProfile'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 

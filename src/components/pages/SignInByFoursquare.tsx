@@ -6,8 +6,8 @@ import { useFoursquare } from '@/hooks/useFoursquare'
 import { useNavigation } from '@react-navigation/native'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import { setUserId, logEvent } from '@/hooks/useAnalytics'
-import { useUtils } from '../hooks/useUtils'
-import storage from '../service/reactNativeStorage'
+import { useUtils } from '@/hooks/useUtils'
+import storage from '@/service/reactNativeStorage'
 
 const SignInByFoursquare = () => {
   const { parseURLParams } = useUtils()

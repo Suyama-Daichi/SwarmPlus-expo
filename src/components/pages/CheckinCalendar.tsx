@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import { Agenda, DateObject } from 'react-native-calendars'
 import { useDate } from '@/hooks/useDate'
 import { useFoursquare } from '@/hooks/useFoursquare'
@@ -12,9 +12,8 @@ import { logEvent } from '@/hooks/useAnalytics'
 import useAsyncFn from 'react-use/lib/useAsyncFn'
 import { useNavigation } from '@react-navigation/native'
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
-import { useRecoil } from '../hooks/useRecoil'
-import { commonStyles } from '../styles/styles'
-import NoCheckin from '../components/NoCheckin'
+import { useRecoil } from '../../hooks/useRecoil'
+import NoCheckin from '../NoCheckin'
 
 export default function CheckinCalender() {
   const colorScheme = useColorScheme()
@@ -65,7 +64,7 @@ export default function CheckinCalender() {
   }, [])
 
   return (
-    <View style={{ height: '100%' }}>
+    <View style={{ flex: 1 }}>
       <Agenda
         items={items}
         // NOTE: loadItemsForMonth()だとonDayPress時にも発火する問題への対応
