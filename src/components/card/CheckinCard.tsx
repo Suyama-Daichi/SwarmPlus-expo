@@ -107,7 +107,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
           </Text>
         )}
         <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>
-          {formatTimestamp(item.createdAt, 'yyyy/MM/dd hh:mm')}
+          {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm')}
         </Text>
         <Modal visible={showModal} transparent={true}>
           <ImageViewer
