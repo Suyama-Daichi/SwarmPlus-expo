@@ -9,7 +9,6 @@ import BackButton from '@/components/molecules/BackButton'
 import { COLORS } from '@/constants/Colors'
 import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
 import CheckinCalender from '@/components/pages/CheckinCalendar'
-import HeaderRightIcon from '@/components/Header/HeaderRightIcon.component'
 import ActionMenu from '@/components/ActionSheet'
 import UserProfile from '@/components/pages/UserProfile'
 
@@ -52,14 +51,6 @@ function CheckinCalendarNavigator() {
         component={CheckinCalender}
         options={{
           headerTitle: 'カレンダーで振り返る',
-          headerLeft: () => null,
-          headerRight: () => (
-            <HeaderRightIcon
-              page={'UserProfile'}
-              iconName={'person-circle'}
-              color={COLORS.common.textSub}
-            />
-          ),
         }}
       />
 
