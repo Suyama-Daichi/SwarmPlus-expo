@@ -14,14 +14,14 @@ type Props = {
 
 export const ImageCarousel = memo(({ images }: Props) => {
   const colorScheme = useColorScheme()
-
   const [activeSlide, setActiveSlide] = useState(0)
+
   return (
     <>
       <Carousel
         data={images}
-        renderItem={(d) => {
-          const image = (d.item ? { uri: d.item as string } : NoImage) as ImageSourcePropType
+        renderItem={({ item }) => {
+          const image = (item ? { uri: item as string } : NoImage) as ImageSourcePropType
 
           return (
             <Image
