@@ -21,6 +21,7 @@ type Props = {
 
 export const CheckinCard = React.memo(({ item }: Props) => {
   const colorScheme = useColorScheme()
+  const { isMayor, venue, visibility, likes, comments, shout, createdAt, photos } = item
 
   const navigation = useNavigation()
   const { user } = useRecoil()
@@ -46,7 +47,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
         }}
         icon={{ name: 'person-outline' }}
       >
-        {item.isMayor && (
+        {isMayor && (
           <Avatar.Accessory
             size={24}
             name={'crown'}
@@ -59,23 +60,21 @@ export const CheckinCard = React.memo(({ item }: Props) => {
       </Avatar>
 
       <View style={{ paddingHorizontal: 8, flex: 1 }}>
-        {item.venue.categories.map((category) => (
+        {venue.categories.map((category) => (
           <CategoryIcon key={category.id} icon={category.icon} size={24} />
         ))}
 
         <Text style={[styles.fontLarge, commonStyles.venueName]} numberOfLines={2}>
-          {item.venue.name}
-          {item.visibility && (
-            <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />
-          )}
+          {venue.name}
+          {visibility && <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />}
         </Text>
 
         <Text
           style={[commonStyles.fontMedium, commonStyles.textSub, { marginBottom: 8 }]}
           numberOfLines={1}
         >
-          {item.venue.location.state}
-          {item.venue.location.city}
+          {venue.location.state}
+          {venue.location.city}
         </Text>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -91,7 +90,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
               color={COLORS[colorScheme].pink}
               style={{ paddingHorizontal: 4 }}
             />
-            {item.likes.count}
+            {likes.count}
           </Text>
 
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]} numberOfLines={2}>
@@ -103,29 +102,29 @@ export const CheckinCard = React.memo(({ item }: Props) => {
               color={COLORS[colorScheme].backgroundSecond}
               style={{ paddingHorizontal: 4 }}
             />
-            {item.comments.count}
+            {comments.count}
           </Text>
         </View>
-        {item.shout && (
+        {shout && (
           <Text style={[commonStyles.fontMedium, commonStyles.textSub, { marginVertical: 8 }]}>
-            {item.shout}
+            {shout}
           </Text>
         )}
         <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>
-          {formatTimestamp(item.createdAt, 'yyyy/MM/dd HH:mm')}
+          {formatTimestamp(createdAt, 'yyyy/MM/dd HH:mm')}
         </Text>
         <Modal visible={showModal} transparent={true}>
           <ImageViewer
             enableSwipeDown={true}
             index={imageIndex}
             onSwipeDown={() => setShowModal(false)}
-            imageUrls={item.photos.items.map((m) => {
+            imageUrls={photos.items.map((m) => {
               return { url: generateImageUrl(m.prefix, m.suffix) }
             })}
           />
         </Modal>
         <ScrollView horizontal={true}>
-          {item.photos.items.map((m, i) => {
+          {photos.items.map((m, i) => {
             return (
               <Image
                 key={m.suffix}
