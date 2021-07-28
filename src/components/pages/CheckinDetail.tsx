@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, FlatList, ActivityIndicator } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { Avatar, Image, Icon } from 'react-native-elements'
+import { Avatar, Icon } from 'react-native-elements'
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native'
 import { ImageCarousel } from '@/components/organisms/ImageCarousel'
 import { useDate } from '@/hooks/useDate'
@@ -15,6 +15,7 @@ import CoinIcon from '@/components/CoinIcon.component'
 import { RootStackParamList } from '@/types'
 import useColorScheme from '@/hooks/useColorScheme'
 import MultipleName from '../molecules/MultipleName'
+import CategoryIcon from '../molecules/CategoryIcon'
 
 type Props = {
   route: RouteProp<RootStackParamList, 'CheckinDetail'>
@@ -84,19 +85,8 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
           )}
         </View>
         <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
-          <View
-            style={[{ backgroundColor: COLORS[colorScheme].backgroundSecond }, { marginRight: 4 }]}
-          >
-            <Image
-              source={{
-                uri: generateImageUrl(
-                  checkinDetail.venue.categories[0].icon.prefix,
-                  checkinDetail.venue.categories[0].icon.suffix,
-                  '32'
-                ),
-              }}
-              style={{ width: 24, height: 24 }}
-            />
+          <View style={{ marginRight: 4 }}>
+            <CategoryIcon icon={checkinDetail.venue.categories[0].icon} size={24} />
           </View>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
             {checkinDetail.venue.name}{' '}
