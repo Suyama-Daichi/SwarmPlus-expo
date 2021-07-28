@@ -13,6 +13,7 @@ import { useRecoil } from '@/hooks/useRecoil'
 import { commonStyles } from '@/styles/styles'
 import useColorScheme from '@/hooks/useColorScheme'
 import { Ionicons } from '@expo/vector-icons'
+import CategoryIcon from '@/components/molecules/CategoryIcon'
 
 type Props = {
   item: Checkin
@@ -57,7 +58,11 @@ export const CheckinCard = React.memo(({ item }: Props) => {
         )}
       </Avatar>
 
-      <View style={{ paddingLeft: 8, flex: 1 }}>
+      <View style={{ paddingHorizontal: 8, flex: 1 }}>
+        {item.venue.categories.map((category) => (
+          <CategoryIcon key={category.id} icon={category.icon} size={24} />
+        ))}
+
         <Text style={[styles.fontLarge, commonStyles.venueName]} numberOfLines={2}>
           {item.venue.name}
           {item.visibility && (
@@ -147,7 +152,7 @@ const styles = StyleSheet.create({
     width: window.window.width - 16,
     marginVertical: 4,
     padding: 4,
-    marginLeft: 8,
+    marginHorizontal: 8,
   },
   border: {
     borderWidth: 0.5,

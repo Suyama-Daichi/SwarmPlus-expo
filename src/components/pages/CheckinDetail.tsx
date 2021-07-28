@@ -14,8 +14,8 @@ import { commonStyles } from '@/styles/styles'
 import CoinIcon from '@/components/CoinIcon.component'
 import { RootStackParamList } from '@/types'
 import useColorScheme from '@/hooks/useColorScheme'
-import MultipleName from '../molecules/MultipleName'
-import CategoryIcon from '../molecules/CategoryIcon'
+import MultipleName from '@/components/molecules/MultipleName'
+import CategoryIcon from '@/components/molecules/CategoryIcon'
 
 type Props = {
   route: RouteProp<RootStackParamList, 'CheckinDetail'>
@@ -84,9 +84,11 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
             />
           )}
         </View>
-        <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
+        <View style={[{ marginBottom: 8 }]}>
           <View style={{ marginRight: 4 }}>
-            <CategoryIcon icon={checkinDetail.venue.categories[0].icon} size={24} />
+            {checkinDetail.venue.categories.map((category) => (
+              <CategoryIcon key={category.id} icon={category.icon} size={24} />
+            ))}
           </View>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
             {checkinDetail.venue.name}{' '}

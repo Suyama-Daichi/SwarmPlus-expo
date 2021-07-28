@@ -4,7 +4,7 @@ import { useUtils } from '@/hooks/useUtils'
 import React from 'react'
 import { View } from 'react-native'
 import { Image } from 'react-native-elements'
-import { Icon } from '../../types/Foursquare'
+import { Icon } from '@/types/Foursquare'
 
 type Props = {
   icon: Icon
@@ -17,7 +17,7 @@ const CategoryIcon = ({ icon, size }: Props) => {
   const { prefix, suffix } = icon
 
   return (
-    <View style={[{ backgroundColor: COLORS[colorScheme].backgroundSecond }]}>
+    <View style={[{ backgroundColor: COLORS[colorScheme].backgroundSecond }, { width: size }]}>
       <Image
         source={{
           uri: generateImageUrl(prefix, suffix, '32'),
