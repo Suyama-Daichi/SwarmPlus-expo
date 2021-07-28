@@ -14,5 +14,5 @@ export const fontSize = StyleSheet.create({
 
 export const fontColor = StyleSheet.create({
   textSub: { color: COLORS.light.textSub },
-  venueName: { color: COLORS.light.textBlack },
+  venueName: { color: COLORS.common.textBlack },
 })

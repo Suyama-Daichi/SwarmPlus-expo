@@ -28,6 +28,7 @@ export const COLORS: Color = {
   },
   common: {
     primaryOrange: '#FFB049',
+    textBlack: '#333333',
     textSub: '#777777',
   },
 }
