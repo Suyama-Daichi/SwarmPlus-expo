@@ -9,11 +9,12 @@ import { useUtils } from '@/hooks/useUtils'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import { COLORS } from '@/constants/Colors'
 import window from '@/constants/Layout'
-import { CheckinDetail, User } from '@/types/Foursquare'
+import { CheckinDetail } from '@/types/Foursquare'
 import { commonStyles } from '@/styles/styles'
 import CoinIcon from '@/components/CoinIcon.component'
 import { RootStackParamList } from '@/types'
 import useColorScheme from '@/hooks/useColorScheme'
+import MultipleName from '../molecules/MultipleName'
 
 type Props = {
   route: RouteProp<RootStackParamList, 'CheckinDetail'>
@@ -45,21 +46,6 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
     void getCheckinDetails()
   }, [item])
 
-  const multipleNameRender = (users: User[], label) => {
-    const fullNames = users.map((user) => {
-      if (user.lastName && user.firstName) return user.firstName + ' ' + user.lastName
-      if (user.firstName) return user.firstName
-      if (user.lastName) return user.lastName
-    })
-    return (
-      <View style={[commonStyles.rowCenter]}>
-        <Text style={commonStyles.textSub}>
-          <View>{label}</View> <Text>{fullNames.join('と') || checkinDetail?.likes.summary}</Text>
-        </Text>
-      </View>
-    )
-  }
-
   if (!checkinDetail) {
     return <ActivityIndicator />
   }
@@ -67,28 +53,35 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
     return (
       <View style={{ paddingHorizontal: 8 }}>
         <View style={{ marginVertical: 8 }}>
-          {checkinDetail.likes.groups[0] &&
-            multipleNameRender(
-              checkinDetail.likes.groups[0].items,
-              <Icon
-                name={'heart'}
-                color={COLORS[colorScheme].pink}
-                solid={true}
-                type={'font-awesome-5'}
-                size={12}
-              />
-            )}
-          {checkinDetail.with &&
-            multipleNameRender(
-              checkinDetail.with,
-              <Icon
-                name={'users'}
-                color={COLORS[colorScheme].primaryOrange}
-                solid={true}
-                type={'font-awesome-5'}
-                size={12}
-              />
-            )}
+          {checkinDetail.likes.groups[0] && (
+            <MultipleName
+              users={checkinDetail.likes.groups[0].items}
+              label={
+                <Icon
+                  name={'heart'}
+                  color={COLORS[colorScheme].pink}
+                  solid={true}
+                  type={'font-awesome-5'}
+                  size={12}
+                />
+              }
+              sum={checkinDetail?.likes.summary}
+            />
+          )}
+          {checkinDetail.with && (
+            <MultipleName
+              users={checkinDetail.with}
+              label={
+                <Icon
+                  name={'users'}
+                  color={COLORS[colorScheme].primaryOrange}
+                  solid={true}
+                  type={'font-awesome-5'}
+                  size={12}
+                />
+              }
+            />
+          )}
         </View>
         <View style={[commonStyles.rowCenter, { marginBottom: 8 }]}>
           <View
