@@ -1,7 +1,7 @@
-import { commonStyles } from '@/styles/styles'
 import { User } from '@/types/Foursquare'
 import React, { ReactNode } from 'react'
 import { View, Text } from 'react-native'
+import { other, fontColor } from '@/styles/styles'
 
 type Props = {
   users: User[]
@@ -16,8 +16,8 @@ const MultipleName = ({ users, label, sum }: Props) => {
     if (user.lastName) return user.lastName
   })
   return (
-    <View style={[commonStyles.rowCenter]}>
-      <Text style={commonStyles.textSub}>
+    <View style={[other.rowCenter]}>
+      <Text style={fontColor.textSub}>
         <View>{label}</View> <Text>{fullNames.join('と') || sum}</Text>
       </Text>
     </View>

@@ -1,10 +1,10 @@
-import { commonStyles } from '@/styles/styles'
+import { other } from '@/styles/styles'
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text } from 'react-native'
 
 const NoCheckin = () => {
   return (
-    <View style={commonStyles.bk_white}>
+    <View style={other.bk_white}>
       <Text>この日のチェックインはありません</Text>
     </View>
   )

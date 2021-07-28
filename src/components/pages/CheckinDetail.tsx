@@ -10,7 +10,7 @@ import { useFoursquare } from '@/hooks/useFoursquare'
 import { COLORS } from '@/constants/Colors'
 import window from '@/constants/Layout'
 import { CheckinDetail } from '@/types/Foursquare'
-import { commonStyles } from '@/styles/styles'
+import { fontSize, fontColor, other } from '@/styles/styles'
 import CoinIcon from '@/components/CoinIcon.component'
 import { RootStackParamList } from '@/types'
 import useColorScheme from '@/hooks/useColorScheme'
@@ -91,31 +91,31 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
               <CategoryIcon key={category.id} icon={category.icon} size={24} />
             ))}
           </View>
-          <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
+          <Text style={[fontSize.fontMedium, fontColor.venueName]}>
             {checkinDetail.venue.name}
             {checkinDetail.visibility && (
               <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />
             )}
           </Text>
         </View>
-        <View style={[commonStyles.rowCenter]}>
+        <View style={[other.rowCenter]}>
           <Address location={checkinDetail.venue.location} isFull={true} size={'fontMedium'} />
-          <View style={[commonStyles.rowCenter, { marginLeft: 8 }]}>
+          <View style={[other.rowCenter, { marginLeft: 8 }]}>
             <CoinIcon />
-            <Text style={[commonStyles.textSub]}>{`${checkinDetail.score.total}`}</Text>
+            <Text style={[fontColor.textSub]}>{`${checkinDetail.score.total}`}</Text>
           </View>
         </View>
-        <Text style={[commonStyles.textSub, { marginBottom: 8 }]}>
+        <Text style={[fontColor.textSub, { marginBottom: 8 }]}>
           {formatTimestamp(checkinDetail.createdAt, 'yyyy/MM/dd HH:mm:ss')}(
           {formatDistanceToNowForTimestamp(timestamp2Date(checkinDetail.createdAt))})
         </Text>
         {checkinDetail.shout && (
-          <View style={[commonStyles.rowCenter, { marginBottom: 16 }]}>
-            <Text style={[commonStyles.textSub]}>{removeShoutWith(checkinDetail.shout)}</Text>
+          <View style={[other.rowCenter, { marginBottom: 16 }]}>
+            <Text style={[fontColor.textSub]}>{removeShoutWith(checkinDetail.shout)}</Text>
           </View>
         )}
         <View style={{ marginBottom: 8 }}>
-          <Text style={[commonStyles.textSub]}>via: {item.source.name}</Text>
+          <Text style={[fontColor.textSub]}>via: {item.source.name}</Text>
         </View>
 
         {checkinDetail.comments.items?.map((comment, i) => (
@@ -123,7 +123,7 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
             key={i.toString()}
             style={[
               { borderTopWidth: 0.3, borderColor: '#707070' },
-              commonStyles.rowCenter,
+              other.rowCenter,
               { padding: 8 },
             ]}
           >
@@ -135,15 +135,15 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
               }}
               icon={{ name: 'person-outline' }}
             ></Avatar>
-            <View style={[commonStyles.rowCenter]}>
+            <View style={[other.rowCenter]}>
               <View style={[{ width: window.window.width * 0.6 }, { paddingLeft: 8 }]}>
                 <Text style={{ marginBottom: 16 }}>{`${
                   comment.user.firstName ? comment.user.firstName : ''
                 }${comment.user.lastName ? comment.user.lastName : ''}`}</Text>
-                <Text style={commonStyles.textSub}>{comment.text}</Text>
+                <Text style={fontColor.textSub}>{comment.text}</Text>
               </View>
               <View>
-                <Text style={commonStyles.textSub}>
+                <Text style={fontColor.textSub}>
                   {formatDistanceToNowForTimestamp(timestamp2Date(comment.createdAt))}
                 </Text>
               </View>
@@ -155,7 +155,7 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
   }
 
   return (
-    <View style={[commonStyles.bk_white]}>
+    <View style={[other.bk_white]}>
       <FlatList
         keyExtractor={(_, _index) => _?.id.toString() + _index.toString()}
         ListHeaderComponent={<ImageCarousel images={checkinDetail.images} />}

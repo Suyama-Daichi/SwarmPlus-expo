@@ -10,7 +10,7 @@ import { useDate } from '@/hooks/useDate'
 import { useUtils } from '@/hooks/useUtils'
 import { COLORS } from '@/constants/Colors'
 import { useRecoil } from '@/hooks/useRecoil'
-import { commonStyles } from '@/styles/styles'
+import { fontColor, fontSize } from '@/styles/styles'
 import useColorScheme from '@/hooks/useColorScheme'
 import { Ionicons } from '@expo/vector-icons'
 import CategoryIcon from '@/components/molecules/CategoryIcon'
@@ -65,7 +65,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
           <CategoryIcon key={category.id} icon={category.icon} size={24} />
         ))}
 
-        <Text style={[styles.fontLarge, commonStyles.venueName]} numberOfLines={2}>
+        <Text style={[styles.fontLarge, fontColor.venueName]} numberOfLines={2}>
           {venue.name}
           {visibility && <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />}
         </Text>
@@ -76,7 +76,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text
-            style={[commonStyles.fontMedium, commonStyles.venueName, { marginRight: 8 }]}
+            style={[fontSize.fontMedium, fontColor.venueName, { marginRight: 8 }]}
             numberOfLines={2}
           >
             <Icon
@@ -90,7 +90,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
             {likes.count}
           </Text>
 
-          <Text style={[commonStyles.fontMedium, commonStyles.venueName]} numberOfLines={2}>
+          <Text style={[fontSize.fontMedium, fontColor.venueName]} numberOfLines={2}>
             <Icon
               name={'comment'}
               type={'font-awesome-5'}
@@ -103,11 +103,11 @@ export const CheckinCard = React.memo(({ item }: Props) => {
           </Text>
         </View>
         {shout && (
-          <Text style={[commonStyles.fontMedium, commonStyles.textSub, { marginVertical: 8 }]}>
+          <Text style={[fontSize.fontMedium, fontColor.textSub, { marginVertical: 8 }]}>
             {shout}
           </Text>
         )}
-        <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>
+        <Text style={[fontSize.fontMedium, fontColor.textSub]}>
           {formatTimestamp(createdAt, 'yyyy/MM/dd HH:mm')}
         </Text>
         <Modal visible={showModal} transparent={true}>

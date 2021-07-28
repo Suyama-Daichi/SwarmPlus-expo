@@ -1,7 +1,8 @@
-import { commonStyles } from '@/styles/styles'
+import { fontColor } from '@/styles/styles'
 import React from 'react'
 import { Text } from 'react-native'
 import { Location } from '@/types/Foursquare'
+import { fontSize } from '../../styles/styles'
 
 type Props = {
   isFull: boolean
@@ -11,11 +12,11 @@ type Props = {
 
 const Address = ({ isFull, location, size }: Props) => {
   return isFull ? (
-    <Text style={[commonStyles.textSub, commonStyles[size]]}>
+    <Text style={[fontColor.textSub, fontSize[size]]}>
       {`${location.state}${location.city || ''}${location.address || ''}`}
     </Text>
   ) : (
-    <Text style={[commonStyles.textSub, commonStyles[size]]} numberOfLines={1}>
+    <Text style={[fontColor.textSub, fontSize[size]]} numberOfLines={1}>
       {location.state}
       {location.city}
     </Text>

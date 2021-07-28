@@ -6,7 +6,7 @@ import { useDate } from '@/hooks/useDate'
 import { COLORS } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
 import { User } from '@/types/Foursquare'
-import { commonStyles } from '@/styles/styles'
+import { other } from '@/styles/styles'
 
 type Props = {
   user: User
@@ -31,7 +31,7 @@ const UserCard = ({ user }: Props) => {
       <Text style={[{ marginBottom: 8 }, { fontSize: 24, fontWeight: 'bold' }]}>
         {user.firstName + user.lastName}
       </Text>
-      <View style={[commonStyles.rowCenter, { justifyContent: 'space-around' }, { width: '25%' }]}>
+      <View style={[other.rowCenter, { justifyContent: 'space-around' }, { width: '25%' }]}>
         {user.contact?.twitter && (
           <Ionicons
             name="logo-twitter"
