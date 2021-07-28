@@ -16,6 +16,7 @@ import { RootStackParamList } from '@/types'
 import useColorScheme from '@/hooks/useColorScheme'
 import MultipleName from '@/components/molecules/MultipleName'
 import CategoryIcon from '@/components/molecules/CategoryIcon'
+import Address from '@/components/organisms/Address'
 
 type Props = {
   route: RouteProp<RootStackParamList, 'CheckinDetail'>
@@ -91,18 +92,14 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
             ))}
           </View>
           <Text style={[commonStyles.fontMedium, commonStyles.venueName]}>
-            {checkinDetail.venue.name}{' '}
+            {checkinDetail.venue.name}
             {checkinDetail.visibility && (
               <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />
             )}
           </Text>
         </View>
         <View style={[commonStyles.rowCenter]}>
-          <Text style={[commonStyles.textSub]}>
-            {`${checkinDetail.venue.location.state}${checkinDetail.venue.location.city || ''}${
-              item.venue.location.address || ''
-            }`}
-          </Text>
+          <Address location={checkinDetail.venue.location} isFull={true} size={'fontMedium'} />
           <View style={[commonStyles.rowCenter, { marginLeft: 8 }]}>
             <CoinIcon />
             <Text style={[commonStyles.textSub]}>{`${checkinDetail.score.total}`}</Text>

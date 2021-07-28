@@ -8,4 +8,5 @@ export const commonStyles = StyleSheet.create({
   venueName: { color: COLORS.light.textBlack },
   fontSmall: { fontSize: 11 },
   fontMedium: { fontSize: 17 },
+  fontLarge: { fontSize: 24 },
 })

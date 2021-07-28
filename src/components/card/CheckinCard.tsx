@@ -14,6 +14,7 @@ import { commonStyles } from '@/styles/styles'
 import useColorScheme from '@/hooks/useColorScheme'
 import { Ionicons } from '@expo/vector-icons'
 import CategoryIcon from '@/components/molecules/CategoryIcon'
+import Address from '@/components/organisms/Address'
 
 type Props = {
   item: Checkin
@@ -69,13 +70,9 @@ export const CheckinCard = React.memo(({ item }: Props) => {
           {visibility && <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />}
         </Text>
 
-        <Text
-          style={[commonStyles.fontMedium, commonStyles.textSub, { marginBottom: 8 }]}
-          numberOfLines={1}
-        >
-          {venue.location.state}
-          {venue.location.city}
-        </Text>
+        <View style={{ marginBottom: 8 }}>
+          <Address location={venue.location} isFull={false} size={'fontMedium'} />
+        </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text
