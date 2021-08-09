@@ -17,6 +17,7 @@ import useColorScheme from '@/hooks/useColorScheme'
 import MultipleName from '@/components/molecules/MultipleName'
 import CategoryIcon from '@/components/molecules/CategoryIcon'
 import Address from '@/components/organisms/Address'
+import { MayorIcon } from '@/components/organisms/MayorIcon'
 
 type Props = {
   route: RouteProp<RootStackParamList, 'CheckinDetail'>
@@ -86,17 +87,20 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
           )}
         </View>
         <View style={[{ marginBottom: 8 }]}>
-          <View style={{ marginRight: 4 }}>
+          <View style={[{ marginRight: 4 }, { flexDirection: 'row', alignItems: 'center' }]}>
             {checkinDetail.venue.categories.map((category) => (
               <CategoryIcon key={category.id} icon={category.icon} size={24} />
             ))}
           </View>
-          <Text style={[fontSize.fontLarge, fontColor.venueName, { fontWeight: '600' }]}>
-            {checkinDetail.venue.name}
-            {checkinDetail.visibility && (
-              <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />
-            )}
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {checkinDetail.isMayor && <MayorIcon />}
+            <Text style={[fontSize.fontLarge, fontColor.venueName, { fontWeight: '600' }]}>
+              {checkinDetail.venue.name}
+              {checkinDetail.visibility && (
+                <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />
+              )}
+            </Text>
+          </View>
         </View>
         <View style={[other.rowCenter]}>
           <Address location={checkinDetail.venue.location} isFull={true} size={'fontMedium'} />
