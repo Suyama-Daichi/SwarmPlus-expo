@@ -15,6 +15,7 @@ import useColorScheme from '@/hooks/useColorScheme'
 import { Ionicons } from '@expo/vector-icons'
 import CategoryIcon from '@/components/molecules/CategoryIcon'
 import Address from '@/components/organisms/Address'
+import { useCameraRoll } from '@/hooks/useCameraRoll'
 
 type Props = {
   item: Checkin
@@ -30,6 +31,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
   const [imageIndex, setImageIndex] = useState(0)
   const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
+  const { savePicture } = useCameraRoll()
 
   return (
     <TouchableOpacity
@@ -112,6 +114,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
         </Text>
         <Modal visible={showModal} transparent={true}>
           <ImageViewer
+            onSave={(d) => savePicture(d)}
             enableSwipeDown={true}
             index={imageIndex}
             onSwipeDown={() => setShowModal(false)}
