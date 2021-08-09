@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons'
 import CategoryIcon from '@/components/molecules/CategoryIcon'
 import Address from '@/components/organisms/Address'
 import { useCameraRoll } from '@/hooks/useCameraRoll'
+import { PhotoViewer } from '../molecules/PhotoViewer'
 
 type Props = {
   item: Checkin
@@ -27,11 +28,14 @@ export const CheckinCard = React.memo(({ item }: Props) => {
 
   const navigation = useNavigation()
   const { user } = useRecoil()
-  const [showModal, setShowModal] = useState(false)
+  const [showPhotoViewer, setShowPhotoViewer] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
   const { formatTimestamp } = useDate()
   const { generateImageUrl } = useUtils()
   const { savePicture } = useCameraRoll()
+
+  const closePhotoViewer = () => setShowPhotoViewer(false)
+  const openPhotoViewer = () => setShowPhotoViewer(true)
 
   return (
     <TouchableOpacity
@@ -66,16 +70,13 @@ export const CheckinCard = React.memo(({ item }: Props) => {
         {venue.categories.map((category) => (
           <CategoryIcon key={category.id} icon={category.icon} size={24} />
         ))}
-
         <Text style={[styles.fontLarge, fontColor.venueName]} numberOfLines={2}>
           {venue.name}
           {visibility && <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />}
         </Text>
-
         <View style={{ marginBottom: 8 }}>
           <Address location={venue.location} isFull={false} size={'fontMedium'} />
         </View>
-
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text
             style={[fontSize.fontMedium, fontColor.venueName, { marginRight: 8 }]}
@@ -112,17 +113,14 @@ export const CheckinCard = React.memo(({ item }: Props) => {
         <Text style={[fontSize.fontMedium, fontColor.textSub]}>
           {formatTimestamp(createdAt, 'yyyy/MM/dd HH:mm')}
         </Text>
-        <Modal visible={showModal} transparent={true}>
-          <ImageViewer
-            onSave={(d) => savePicture(d)}
-            enableSwipeDown={true}
-            index={imageIndex}
-            onSwipeDown={() => setShowModal(false)}
-            imageUrls={photos.items.map((m) => {
-              return { url: generateImageUrl(m.prefix, m.suffix) }
-            })}
-          />
-        </Modal>
+        <PhotoViewer
+          imageIndex={imageIndex}
+          showPhotoViewer={showPhotoViewer}
+          closePhotoViewer={closePhotoViewer}
+          photos={photos.items.map((m) => {
+            return generateImageUrl(m.prefix, m.suffix)
+          })}
+        />
         <ScrollView horizontal={true}>
           {photos.items.map((m, i) => {
             return (
@@ -134,7 +132,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
                 style={{ width: 100, height: 100 }}
                 resizeMode={'contain'}
                 onPress={() => {
-                  setShowModal(true)
+                  openPhotoViewer()
                   setImageIndex(i)
                 }}
               />
