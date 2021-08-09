@@ -25,5 +25,3 @@ const AppOnboarding = () => {
 }
 
 export default AppOnboarding
-
-const styles = StyleSheet.create({})

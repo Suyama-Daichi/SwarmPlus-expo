@@ -30,7 +30,8 @@ export default function CheckinCalender() {
    */
   const [fetchMonthlyCheckinState, fetchMonthlyCheckin] = useAsyncFn(
     async (dateObject: DateObject) => {
-      const checkins = await fetchUserCheckins(getStartEndOfMonth(dateObject))
+      const period = getStartEndOfMonth(dateObject)
+      const checkins = await fetchUserCheckins(period)
       return convertAgendaObject(checkins.items)
     },
     []
