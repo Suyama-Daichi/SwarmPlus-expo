@@ -50,6 +50,7 @@ function CheckinCalendarNavigator() {
         name={'CheckinCalendar'}
         component={CheckinCalender}
         options={{
+          headerLeft: () => null,
           headerTitle: 'カレンダーで振り返る',
         }}
       />
