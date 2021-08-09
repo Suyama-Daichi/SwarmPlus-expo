@@ -1,52 +1,50 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
+import React, { useEffect } from 'react'
+import { View } from 'react-native'
 import { Agenda, DateObject } from 'react-native-calendars'
 import { useDate } from '@/hooks/useDate'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import { useUtils } from '@/hooks/useUtils'
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 import type { Checkin } from '@/types/Foursquare'
-import { Timeline } from '@/components/Timeline.component'
+import { Timeline } from '@/components/templates/Timeline'
 import useColorScheme from '@/hooks/useColorScheme'
 import { logEvent } from '@/hooks/useAnalytics'
 import useAsyncFn from 'react-use/lib/useAsyncFn'
 import { useNavigation } from '@react-navigation/native'
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
-import { useRecoil } from '../hooks/useRecoil'
-import { commonStyles } from '../styles/styles'
-import NoCheckin from '../components/NoCheckin'
+import { useRecoil } from '@/hooks/useRecoil'
+import NoCheckin from '@/components/NoCheckin'
 
 export default function CheckinCalender() {
   const colorScheme = useColorScheme()
   const navigation = useNavigation()
 
-  const { getDateString, getStartEndOfMonth } = useDate()
-  const { fetchUserCheckins } = useFoursquare()
+  const { getDateString, getStartEndOfMonth, timestamp2Date } = useDate()
+  const { fetchUserCheckins, fetchUser } = useFoursquare()
   const { convertAgendaObject, generateImageUrl } = useUtils()
-  const [items, setItems] = useState({})
-  const [loading, setLoading] = useState(false)
   const { setUser } = useRecoil()
-  const { fetchUser } = useFoursquare()
-  const [userTemp, fetchUserTemp] = useAsyncFn(async () => await fetchUser(), [])
-
+  const [fetchUserState, fetchUserTemp] = useAsyncFn(async () => await fetchUser(), [])
   /**
    * 月ごとのチェックインを取得する
    * @param dateObject DateObject
    */
-  const fetchCheckinForMonth = async (dateObject: DateObject) => {
-    setLoading(true)
-    const checkins = await fetchUserCheckins(getStartEndOfMonth(dateObject))
-    setItems(convertAgendaObject(checkins.items))
-  }
+  const [fetchMonthlyCheckinState, fetchMonthlyCheckin] = useAsyncFn(
+    async (dateObject: DateObject) => {
+      const period = getStartEndOfMonth(dateObject)
+      const checkins = await fetchUserCheckins(period)
+      return convertAgendaObject(checkins.items)
+    },
+    []
+  )
 
   useEffect(() => {
-    setLoading(false)
-  }, [items])
-
-  useEffect(() => {
-    if (!userTemp.value) return
-    setUser(userTemp.value)
-    const uri = generateImageUrl(userTemp.value.photo.prefix, userTemp.value.photo.suffix, 24)
+    if (!fetchUserState.value) return
+    setUser(fetchUserState.value)
+    const uri = generateImageUrl(
+      fetchUserState.value.photo.prefix,
+      fetchUserState.value.photo.suffix,
+      24
+    )
 
     navigation.setOptions({
       headerRight: () => (
@@ -58,32 +56,34 @@ export default function CheckinCalender() {
         />
       ),
     })
-  }, [userTemp])
+  }, [fetchUserState])
 
   useEffect(() => {
     void fetchUserTemp()
   }, [])
 
   return (
-    <View style={{ height: '100%' }}>
-      <Agenda
-        items={items}
+    <View style={{ flex: 1 }}>
+      <Agenda<Checkin>
+        items={fetchMonthlyCheckinState.value}
         // NOTE: loadItemsForMonth()だとonDayPress時にも発火する問題への対応
         // https://github.com/wix/react-native-calendars/issues/769
         onVisibleMonthsChange={(dateObject: DateObject[]) => {
-          void fetchCheckinForMonth(dateObject[0])
+          void fetchMonthlyCheckin(dateObject[0])
         }}
         onDayPress={() => {
           void logEvent('DayPressed')
         }}
-        displayLoadingIndicator={loading}
+        displayLoadingIndicator={fetchMonthlyCheckinState.loading}
         maxDate={getDateString()}
         futureScrollRange={1}
         renderEmptyData={() => <NoCheckin />}
-        renderDay={(date, item) => <Timeline dateObject={date} item={item as Checkin} />}
+        renderDay={(dateObject, item) => {
+          return <Timeline date={timestamp2Date(dateObject?.timestamp)} item={item} />
+        }}
         theme={{
-          agendaKnobColor: Colors[colorScheme].primaryOrange,
-          dotColor: Colors[colorScheme].primaryOrange,
+          agendaKnobColor: COLORS[colorScheme].primaryOrange,
+          dotColor: COLORS[colorScheme].primaryOrange,
         }}
       />
     </View>

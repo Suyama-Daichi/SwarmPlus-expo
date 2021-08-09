@@ -8,11 +8,13 @@ import type { Checkin } from '@/types/Foursquare'
 import window from '@/constants/Layout'
 import { useDate } from '@/hooks/useDate'
 import { useUtils } from '@/hooks/useUtils'
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 import { useRecoil } from '@/hooks/useRecoil'
-import { commonStyles } from '@/styles/styles'
+import { fontColor, fontSize } from '@/styles/styles'
 import useColorScheme from '@/hooks/useColorScheme'
 import { Ionicons } from '@expo/vector-icons'
+import CategoryIcon from '@/components/molecules/CategoryIcon'
+import Address from '@/components/organisms/Address'
 
 type Props = {
   item: Checkin
@@ -20,6 +22,7 @@ type Props = {
 
 export const CheckinCard = React.memo(({ item }: Props) => {
   const colorScheme = useColorScheme()
+  const { isMayor, venue, visibility, likes, comments, shout, createdAt, photos } = item
 
   const navigation = useNavigation()
   const { user } = useRecoil()
@@ -34,7 +37,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
       style={[
         styles.container,
         { flexDirection: 'row' },
-        { borderBottomColor: Colors[colorScheme].backgroundSecond, borderBottomWidth: 0.4 },
+        { borderBottomColor: COLORS[colorScheme].backgroundSecond, borderBottomWidth: 0.4 },
       ]}
     >
       <Avatar
@@ -45,37 +48,35 @@ export const CheckinCard = React.memo(({ item }: Props) => {
         }}
         icon={{ name: 'person-outline' }}
       >
-        {item.isMayor && (
+        {isMayor && (
           <Avatar.Accessory
             size={24}
             name={'crown'}
             type={'font-awesome-5'}
-            color={Colors[colorScheme].coinCrown}
-            style={{ backgroundColor: Colors[colorScheme].background }}
+            color={COLORS[colorScheme].coinCrown}
+            style={{ backgroundColor: COLORS[colorScheme].background }}
             iconStyle={{ fontSize: 14 }}
           />
         )}
       </Avatar>
 
-      <View style={{ paddingLeft: 8, flex: 1 }}>
-        <Text style={[styles.fontLarge, commonStyles.venueName]} numberOfLines={2}>
-          {item.venue.name}
-          {item.visibility && (
-            <Ionicons name={'lock-closed'} size={16} color={Colors.common.textSub} />
-          )}
+      <View style={{ paddingHorizontal: 8, flex: 1 }}>
+        {venue.categories.map((category) => (
+          <CategoryIcon key={category.id} icon={category.icon} size={24} />
+        ))}
+
+        <Text style={[styles.fontLarge, fontColor.venueName]} numberOfLines={2}>
+          {venue.name}
+          {visibility && <Ionicons name={'lock-closed'} size={16} color={COLORS.common.textSub} />}
         </Text>
 
-        <Text
-          style={[commonStyles.fontMedium, commonStyles.textSub, { marginBottom: 8 }]}
-          numberOfLines={1}
-        >
-          {item.venue.location.state}
-          {item.venue.location.city}
-        </Text>
+        <View style={{ marginBottom: 8 }}>
+          <Address location={venue.location} isFull={false} size={'fontMedium'} />
+        </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text
-            style={[commonStyles.fontMedium, commonStyles.venueName, { marginRight: 8 }]}
+            style={[fontSize.fontMedium, fontColor.venueName, { marginRight: 8 }]}
             numberOfLines={2}
           >
             <Icon
@@ -83,44 +84,44 @@ export const CheckinCard = React.memo(({ item }: Props) => {
               type={'font-awesome-5'}
               size={16}
               solid
-              color={Colors[colorScheme].pink}
+              color={COLORS[colorScheme].pink}
               style={{ paddingHorizontal: 4 }}
             />
-            {item.likes.count}
+            {likes.count}
           </Text>
 
-          <Text style={[commonStyles.fontMedium, commonStyles.venueName]} numberOfLines={2}>
+          <Text style={[fontSize.fontMedium, fontColor.venueName]} numberOfLines={2}>
             <Icon
               name={'comment'}
               type={'font-awesome-5'}
               size={16}
               solid
-              color={Colors[colorScheme].backgroundSecond}
+              color={COLORS[colorScheme].backgroundSecond}
               style={{ paddingHorizontal: 4 }}
             />
-            {item.comments.count}
+            {comments.count}
           </Text>
         </View>
-        {item.shout && (
-          <Text style={[commonStyles.fontMedium, commonStyles.textSub, { marginVertical: 8 }]}>
-            {item.shout}
+        {shout && (
+          <Text style={[fontSize.fontMedium, fontColor.textSub, { marginVertical: 8 }]}>
+            {shout}
           </Text>
         )}
-        <Text style={[commonStyles.fontMedium, commonStyles.textSub]}>
-          {formatTimestamp(item.createdAt, 'yyyy/MM/dd hh:mm')}
+        <Text style={[fontSize.fontMedium, fontColor.textSub]}>
+          {formatTimestamp(createdAt, 'yyyy/MM/dd HH:mm')}
         </Text>
         <Modal visible={showModal} transparent={true}>
           <ImageViewer
             enableSwipeDown={true}
             index={imageIndex}
             onSwipeDown={() => setShowModal(false)}
-            imageUrls={item.photos.items.map((m) => {
+            imageUrls={photos.items.map((m) => {
               return { url: generateImageUrl(m.prefix, m.suffix) }
             })}
           />
         </Modal>
         <ScrollView horizontal={true}>
-          {item.photos.items.map((m, i) => {
+          {photos.items.map((m, i) => {
             return (
               <Image
                 key={m.suffix}
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
     width: window.window.width - 16,
     marginVertical: 4,
     padding: 4,
-    marginLeft: 8,
+    marginHorizontal: 8,
   },
   border: {
     borderWidth: 0.5,

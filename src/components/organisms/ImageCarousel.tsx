@@ -2,8 +2,9 @@ import React, { useState, memo } from 'react'
 import { Dimensions, ImageSourcePropType } from 'react-native'
 import { Image } from 'react-native-elements'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 import useColorScheme from '@/hooks/useColorScheme'
+import NoImage from '../../../assets/images/20200501_noimage.png'
 
 const imageWidth = Dimensions.get('window').width * 1.0
 
@@ -13,23 +14,19 @@ type Props = {
 
 export const ImageCarousel = memo(({ images }: Props) => {
   const colorScheme = useColorScheme()
-
   const [activeSlide, setActiveSlide] = useState(0)
+
   return (
     <>
       <Carousel
         data={images}
-        renderItem={(d) => {
-          const image = (
-            d.item
-              ? { uri: d.item as string }
-              : require('../../../assets/images/20200501_noimage.png')
-          ) as ImageSourcePropType
+        renderItem={({ item }) => {
+          const image = (item ? { uri: item as string } : NoImage) as ImageSourcePropType
 
           return (
             <Image
               source={image}
-              placeholderStyle={{ backgroundColor: Colors[colorScheme].background }}
+              placeholderStyle={{ backgroundColor: COLORS[colorScheme].background }}
               transition
               style={{
                 width: imageWidth,
@@ -52,7 +49,7 @@ export const ImageCarousel = memo(({ images }: Props) => {
           height: 8,
           borderRadius: 5,
           marginHorizontal: 4,
-          backgroundColor: Colors[colorScheme].pink,
+          backgroundColor: COLORS[colorScheme].pink,
         }}
       />
     </>

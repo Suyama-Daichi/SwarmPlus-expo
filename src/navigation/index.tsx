@@ -7,12 +7,12 @@ import { RootStackParamList } from '@/types'
 import BottomTabNavigator from '@/navigation/BottomTabNavigator'
 import LinkingConfiguration from '@/navigation/LinkingConfiguration'
 import { DarkTheme, DefaultTheme } from '@/constants/Theme'
-import AppOnboarding from '@/screens/Onboarding'
-import SignInByFoursquare from '@/screens/SignInByFoursquare'
+import AppOnboarding from '@/components/pages/Onboarding'
+import SignInByFoursquare from '@/components/pages/SignInByFoursquare'
 import { useState, useEffect, useRef } from 'react'
 import storage from '@/service/reactNativeStorage'
-import { FOURSQUARE_ACCESS_TOKEN } from '../constants/StorageKeys'
-import { setCurrentScreen } from '../hooks/useAnalytics'
+import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
+import { setCurrentScreen } from '@/hooks/useAnalytics'
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started

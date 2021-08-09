@@ -3,15 +3,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import useColorScheme from '@/hooks/useColorScheme'
-import { CheckinDetailScreen } from '@/screens/CheckinDetail'
-import HeaderBack from '@/components/Header/HeaderBack.component'
+import { CheckinDetailScreen } from '@/components/pages/CheckinDetail'
+import BackButton from '@/components/molecules/BackButton'
 
-import Colors from '@/constants/Colors'
+import { COLORS } from '@/constants/Colors'
 import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
-import CheckinCalender from '@/screens/CheckinCalendar'
-import HeaderRightIcon from '@/components/Header/HeaderRightIcon.component'
+import CheckinCalender from '@/components/pages/CheckinCalendar'
 import ActionMenu from '@/components/ActionSheet'
-import UserProfile from '@/screens/UserProfile'
+import UserProfile from '@/components/pages/UserProfile'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -21,7 +20,7 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="CheckinCalender"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint, showLabel: false }}
+      tabBarOptions={{ activeTintColor: COLORS[colorScheme].tint, showLabel: false }}
     >
       <BottomTab.Screen
         name="CheckinCalender"
@@ -51,15 +50,8 @@ function CheckinCalendarNavigator() {
         name={'CheckinCalendar'}
         component={CheckinCalender}
         options={{
-          headerTitle: 'カレンダーで振り返る',
           headerLeft: () => null,
-          headerRight: () => (
-            <HeaderRightIcon
-              page={'UserProfile'}
-              iconName={'person-circle'}
-              color={Colors.common.textSub}
-            />
-          ),
+          headerTitle: 'カレンダーで振り返る',
         }}
       />
 
@@ -68,7 +60,7 @@ function CheckinCalendarNavigator() {
         component={UserProfile}
         options={{
           headerTitle: 'ユーザープロフィール',
-          headerLeft: HeaderBack,
+          headerLeft: BackButton,
           headerRight: ActionMenu,
         }}
       />
@@ -78,7 +70,7 @@ function CheckinCalendarNavigator() {
         component={CheckinDetailScreen}
         options={{
           headerTitle: 'チェックインの詳細',
-          headerLeft: HeaderBack,
+          headerLeft: BackButton,
         }}
       />
     </CheckinCalendarStack.Navigator>

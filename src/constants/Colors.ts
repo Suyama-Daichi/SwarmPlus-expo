@@ -1,7 +1,7 @@
 const tintColorLight = '#FFB049'
 const tintColorDark = '#FFB049'
 
-export default {
+export const COLORS: Color = {
   light: {
     primaryOrange: '#FFB049',
     textBlack: '#333333',
@@ -28,6 +28,26 @@ export default {
   },
   common: {
     primaryOrange: '#FFB049',
+    textBlack: '#333333',
     textSub: '#777777',
+    coinCrown: '#FFE600',
   },
+}
+
+export type CommonColor = {
+  primaryOrange: string
+  textBlack: string
+  textSub: string
+  coinCrown: string
+  pink: string
+  background: string
+  backgroundSecond: string
+  tint: string
+  tabIconDefault: string
+  tabIconSelected: string
+}
+type Color = {
+  light: CommonColor
+  dark: CommonColor
+  common: Partial<CommonColor>
 }

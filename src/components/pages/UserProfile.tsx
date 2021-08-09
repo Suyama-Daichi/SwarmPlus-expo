@@ -6,7 +6,7 @@ import { useFoursquare } from '@/hooks/useFoursquare'
 import UserCard from '@/components/card/UserCard'
 import useAsyncFn from 'react-use/lib/useAsyncFn'
 import { RootStackParamList } from '@/types'
-import { commonStyles } from '../styles/styles'
+import { other } from '@/styles/styles'
 
 type Props = {
   route: RouteProp<RootStackParamList, 'UserProfile'>
@@ -32,7 +32,7 @@ const UserProfile = ({ route }: Props) => {
   if (userTemp.loading || !userTemp.value) return <ActivityIndicator />
 
   return (
-    <View style={commonStyles.bk_white}>
+    <View style={other.bk_white}>
       <UserCard user={userTemp.value} />
     </View>
   )
