@@ -4,6 +4,7 @@ import { Image } from 'react-native-elements'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import { COLORS } from '@/constants/Colors'
 import useColorScheme from '@/hooks/useColorScheme'
+import { useActionSheetForSave } from '@/hooks/useActionSheetForSave'
 import NoImage from '../../../assets/images/20200501_noimage.png'
 
 const imageWidth = Dimensions.get('window').width * 1.0
@@ -15,17 +16,17 @@ type Props = {
 export const ImageCarousel = memo(({ images }: Props) => {
   const colorScheme = useColorScheme()
   const [activeSlide, setActiveSlide] = useState(0)
+  const openActionSheet = useActionSheetForSave()
 
   return (
     <>
       <Carousel
         data={images}
         renderItem={({ item }) => {
-          const image = (item ? { uri: item as string } : NoImage) as ImageSourcePropType
-
           return (
             <Image
-              source={image}
+              onLongPress={() => openActionSheet(item)}
+              source={item ? { uri: item as string } : (NoImage as ImageSourcePropType)}
               placeholderStyle={{ backgroundColor: COLORS[colorScheme].background }}
               transition
               style={{
