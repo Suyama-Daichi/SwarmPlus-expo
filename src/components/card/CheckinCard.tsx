@@ -127,7 +127,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
               <Image
                 key={m.suffix}
                 source={{
-                  uri: generateImageUrl(m.prefix, m.suffix),
+                  uri: generateImageUrl(m.prefix, m.suffix, 200),
                 }}
                 style={{ width: 100, height: 100 }}
                 resizeMode={'contain'}
