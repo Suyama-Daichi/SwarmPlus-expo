@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal } from 'react-native'
+import { ActivityIndicator, Modal } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import { useActionSheetForSave } from '@/hooks/useActionSheetForSave'
 
@@ -16,6 +16,7 @@ export const PhotoViewer = ({ imageIndex, showPhotoViewer, photos, closePhotoVie
   return (
     <Modal visible={showPhotoViewer} transparent={true}>
       <ImageViewer
+        loadingRender={() => <ActivityIndicator />}
         onLongPress={(imageInfo) => openActionSheet(imageInfo?.url)}
         saveToLocalByLongPress={false}
         enableSwipeDown={true}
