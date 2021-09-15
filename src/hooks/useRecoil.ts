@@ -25,6 +25,11 @@ const checkinsAtom = atom<Checkin[]>({
   default: [],
 })
 
+const fetchHistoryAtom = atom<Date[]>({
+  key: 'fetchHistory',
+  default: [],
+})
+
 const checkinAgendaSelector = selector({
   key: 'checkins/agenda',
   get: ({ get }) => convertAgendaObject(get(checkinsAtom)),
@@ -33,6 +38,7 @@ const checkinAgendaSelector = selector({
 export const useRecoil = () => {
   const [user, setUser] = useRecoilState(userAtom)
   const [checkins, setCheckins] = useRecoilState(checkinsAtom)
+  const [fetchHistory, setFetchHistory] = useRecoilState(fetchHistoryAtom)
   const [requestCache, setRequestCache] = useRecoilState(requestAtom)
   const checkinAgenda = useRecoilValue(checkinAgendaSelector)
 
@@ -44,5 +50,7 @@ export const useRecoil = () => {
     checkins,
     setCheckins,
     checkinAgenda,
+    fetchHistory,
+    setFetchHistory,
   }
 }

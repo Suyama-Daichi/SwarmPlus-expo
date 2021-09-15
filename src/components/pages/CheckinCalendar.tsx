@@ -21,11 +21,20 @@ const CheckinCalender = () => {
   const { fetchUserCheckins, fetchUser } = useFoursquare()
   const { generateImageUrl } = useUtils()
   const [loading, setLoading] = useState(true)
-  const { setUser, setCheckins, checkinAgenda } = useRecoil()
+  const { setUser, setCheckins, checkinAgenda, setFetchHistory, fetchHistory } = useRecoil()
 
   const fetchCheckin = async (date: Date) => {
     setLoading(true)
     const period = getStartEndOfMonth(date)
+    const exists = fetchHistory.some((c) => c.valueOf() === date.valueOf())
+    setFetchHistory(() => {
+      if (fetchHistory.length === 0) return [date]
+      return exists ? fetchHistory : [...fetchHistory, date]
+    })
+    if (exists) {
+      setLoading(false)
+      return
+    }
     const checkins = await fetchUserCheckins(period)
     setCheckins((current) => {
       if (current.length === 0) return checkins.items
