@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { Agenda, DateObject } from 'react-native-calendars'
-import { useDate } from '@/hooks/useDate'
+import { dateObj2Date, getDateString, getStartEndOfMonth, timestamp2Date } from '@/service/dateFns'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import { useUtils } from '@/hooks/useUtils'
 import { COLORS } from '@/constants/Colors'
@@ -9,32 +9,30 @@ import type { Checkin } from '@/types/Foursquare'
 import { Timeline } from '@/components/templates/Timeline'
 import useColorScheme from '@/hooks/useColorScheme'
 import { logEvent } from '@/hooks/useAnalytics'
-import useAsyncFn from 'react-use/lib/useAsyncFn'
-import { useNavigation } from '@react-navigation/native'
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 import { useRecoil } from '@/hooks/useRecoil'
 import NoCheckin from '@/components/NoCheckin'
+import { useNavigation } from '@react-navigation/core'
 
 const CheckinCalender = () => {
   const colorScheme = useColorScheme()
   const navigation = useNavigation()
 
-  const { getDateString, getStartEndOfMonth, timestamp2Date } = useDate()
   const { fetchUserCheckins, fetchUser } = useFoursquare()
-  const { convertAgendaObject, generateImageUrl } = useUtils()
-  const { setUser } = useRecoil()
-  /**
-   * 月ごとのチェックインを取得する
-   * @param dateObject DateObject
-   */
-  const [fetchMonthlyCheckinState, fetchMonthlyCheckin] = useAsyncFn(
-    async (dateObject: DateObject) => {
-      const period = getStartEndOfMonth(dateObject)
-      const checkins = await fetchUserCheckins(period)
-      return convertAgendaObject(checkins.items)
-    },
-    []
-  )
+  const { generateImageUrl } = useUtils()
+  const [loading, setLoading] = useState(true)
+  const { setUser, setCheckins, checkinAgenda } = useRecoil()
+
+  const fetchCheckin = async (date: Date) => {
+    setLoading(true)
+    const period = getStartEndOfMonth(date)
+    const checkins = await fetchUserCheckins(period)
+    setCheckins((current) => {
+      if (current.length === 0) return checkins.items
+      return [...current, ...checkins.items.filter((f) => current.some((c) => c.id !== f.id))]
+    })
+    setLoading(false)
+  }
 
   const fetchSetData = async () => {
     const user = await fetchUser()
@@ -50,6 +48,7 @@ const CheckinCalender = () => {
         />
       ),
     })
+    await fetchCheckin(new Date())
   }
 
   useEffect(() => {
@@ -59,16 +58,16 @@ const CheckinCalender = () => {
   return (
     <View style={{ flex: 1 }}>
       <Agenda<Checkin>
-        items={fetchMonthlyCheckinState.value}
+        items={checkinAgenda}
         // NOTE: loadItemsForMonth()だとonDayPress時にも発火する問題への対応
         // https://github.com/wix/react-native-calendars/issues/769
         onVisibleMonthsChange={(dateObject: DateObject[]) => {
-          void fetchMonthlyCheckin(dateObject[0])
+          void fetchCheckin(dateObj2Date(dateObject[0]))
         }}
         onDayPress={() => {
           void logEvent('DayPressed')
         }}
-        displayLoadingIndicator={fetchMonthlyCheckinState.loading}
+        displayLoadingIndicator={loading}
         maxDate={getDateString()}
         futureScrollRange={1}
         renderEmptyData={() => <NoCheckin />}

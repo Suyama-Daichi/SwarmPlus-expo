@@ -1,44 +1,7 @@
 import { useCallback } from 'react'
-import { useDate } from '@/hooks/useDate'
 import { URL } from 'react-native-url-polyfill'
-import { Checkin } from '../types/Foursquare'
 
 export const useUtils = () => {
-  const { getDateString } = useDate()
-
-  /**
-   * チェックインデータをAgendaItemsオブジェクトに変換
-   * @param checkins チェックインオブジェクト
-   * @returns AgendaItems: object
-   */
-  const convertAgendaObject = (checkins: Checkin[]) => {
-    type GroupBy = { date: string; checkins: Checkin[] }
-    //groupBy
-    const groupBy = checkins.reduce((result: GroupBy[], current) => {
-      // 同日のチェックインがあるか
-      const element = result.find((checkin) => {
-        return checkin.date === getDateString(current.createdAt)
-      })
-      if (element) {
-        //ある時（下記、初期データを操作）
-        element.checkins.push(current)
-      } else {
-        //無いとき（新規に初期データを作成）
-        result.push({
-          date: getDateString(current.createdAt),
-          checkins: [current],
-        })
-      }
-      return result
-    }, [])
-
-    // AgendaObjectに変換
-    // ex: { "2021-03-05" : Checkin[]}
-    const agendaObject = groupBy.reduce((a, b) => ({ ...a, [b.date]: b.checkins }), {})
-
-    return agendaObject
-  }
-
   /**
    * 画像URLを生成
    * @param checkin チェックインオブジェクト
@@ -81,5 +44,5 @@ export const useUtils = () => {
     }
   }
 
-  return { convertAgendaObject, generateImageUrl, removeShoutWith, parseURLParams }
+  return { generateImageUrl, removeShoutWith, parseURLParams }
 }

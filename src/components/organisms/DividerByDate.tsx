@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import window from '@/constants/Layout'
 import { COLORS } from '@/constants/Colors'
-import { useDate } from '@/hooks/useDate'
+import { getDateString, getDay } from '@/service/dateFns'
 import useColorScheme from '@/hooks/useColorScheme'
 
 type Props = {
@@ -11,7 +11,6 @@ type Props = {
 
 export const DividerByDate = ({ date }: Props) => {
   const colorScheme = useColorScheme()
-  const { getDay, getDateString } = useDate()
 
   return (
     <View style={{ backgroundColor: 'white', width: window.window.width }}>

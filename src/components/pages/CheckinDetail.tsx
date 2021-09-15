@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons'
 import { Avatar, Icon } from 'react-native-elements'
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native'
 import { ImageCarousel } from '@/components/organisms/ImageCarousel'
-import { useDate } from '@/hooks/useDate'
 import { useUtils } from '@/hooks/useUtils'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import { COLORS } from '@/constants/Colors'
@@ -18,6 +17,7 @@ import MultipleName from '@/components/molecules/MultipleName'
 import CategoryIcon from '@/components/molecules/CategoryIcon'
 import Address from '@/components/organisms/Address'
 import { MayorIcon } from '@/components/organisms/MayorIcon'
+import { formatTimestamp, formatDistanceToNowForTimestamp, timestamp2Date } from '@/service/dateFns'
 
 type Props = {
   route: RouteProp<RootStackParamList, 'CheckinDetail'>
@@ -29,7 +29,6 @@ export const CheckinDetailScreen = ({ route, navigation }: Props) => {
   const { item } = route.params
   const [checkinDetail, setCheckinDetail] = useState<CheckinDetail & { images: string[] }>()
   const { fetchCheckinDetails } = useFoursquare()
-  const { formatDistanceToNowForTimestamp, timestamp2Date, formatTimestamp } = useDate()
   const { generateImageUrl, removeShoutWith } = useUtils()
 
   const getCheckinDetails = useCallback(async () => {

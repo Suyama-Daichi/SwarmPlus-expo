@@ -2,11 +2,11 @@ import React from 'react'
 import { View, Text, Linking } from 'react-native'
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 import { useUtils } from '@/hooks/useUtils'
-import { useDate } from '@/hooks/useDate'
 import { COLORS } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
 import { User } from '@/types/Foursquare'
 import { other } from '@/styles/styles'
+import { formatTimestamp } from '@/service/dateFns'
 
 type Props = {
   user: User
@@ -14,7 +14,6 @@ type Props = {
 
 const UserCard = ({ user }: Props) => {
   const { generateImageUrl } = useUtils()
-  const { formatTimestamp } = useDate()
 
   const OpenProvider = (provider: string) => {
     void Linking.openURL(provider)
