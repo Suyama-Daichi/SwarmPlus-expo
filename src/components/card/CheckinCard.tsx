@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity, Text, StyleSheet, Modal } from 'react-native'
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native'
 import { Avatar, Image, Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/core'
 import type { Checkin } from '@/types/Foursquare'
 import window from '@/constants/Layout'
-import { useUtils } from '@/hooks/useUtils'
 import { COLORS } from '@/constants/Colors'
 import { useRecoil } from '@/hooks/useRecoil'
 import { fontColor, fontSize } from '@/styles/styles'
@@ -15,6 +14,7 @@ import CategoryIcon from '@/components/molecules/CategoryIcon'
 import Address from '@/components/organisms/Address'
 import { useCameraRoll } from '@/hooks/useCameraRoll'
 import { formatTimestamp } from '@/service/dateFns'
+import { generateImageUrl } from '@/service/utilFns'
 import { PhotoViewer } from '../molecules/PhotoViewer'
 
 type Props = {
@@ -29,7 +29,6 @@ export const CheckinCard = React.memo(({ item }: Props) => {
   const { user } = useRecoil()
   const [showPhotoViewer, setShowPhotoViewer] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
-  const { generateImageUrl } = useUtils()
   const { savePicture } = useCameraRoll()
 
   const closePhotoViewer = () => setShowPhotoViewer(false)

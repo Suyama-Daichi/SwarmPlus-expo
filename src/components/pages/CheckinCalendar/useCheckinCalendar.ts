@@ -1,12 +1,11 @@
 import { useFoursquare } from '@/hooks/useFoursquare'
 import { useRecoil } from '@/hooks/useRecoil'
-import { useUtils } from '@/hooks/useUtils'
 import { getStartEndOfMonth } from '@/service/dateFns'
+import { generateImageUrl } from '@/service/utilFns'
 import { useState, useEffect } from 'react'
 
 export const useCheckinCalendar = () => {
   const { fetchUserCheckins, fetchUser } = useFoursquare()
-  const { generateImageUrl } = useUtils()
   const [loading, setLoading] = useState(true)
   const { setUser, setCheckins, setFetchHistory, fetchHistory } = useRecoil()
   const [userProfURL, setUserProfURL] = useState<string>()

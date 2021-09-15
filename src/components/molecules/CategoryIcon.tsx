@@ -1,10 +1,10 @@
 import { COLORS } from '@/constants/Colors'
 import useColorScheme from '@/hooks/useColorScheme'
-import { useUtils } from '@/hooks/useUtils'
 import React from 'react'
 import { View } from 'react-native'
 import { Image } from 'react-native-elements'
 import { Icon } from '@/types/Foursquare'
+import { generateImageUrl } from '@/service/utilFns'
 
 type Props = {
   icon: Icon
@@ -12,7 +12,6 @@ type Props = {
 }
 
 const CategoryIcon = ({ icon, size }: Props) => {
-  const { generateImageUrl } = useUtils()
   const colorScheme = useColorScheme()
   const { prefix, suffix } = icon
 
