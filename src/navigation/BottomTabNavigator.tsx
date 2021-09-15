@@ -8,7 +8,7 @@ import BackButton from '@/components/molecules/BackButton'
 
 import { COLORS } from '@/constants/Colors'
 import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
-import CheckinCalender from '@/components/pages/CheckinCalendar'
+import CheckinCalender from '@/components/pages/CheckinCalendar/CheckinCalendar'
 import ActionMenu from '@/components/ActionSheet'
 import UserProfile from '@/components/pages/UserProfile'
 
