@@ -15,7 +15,7 @@ import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 import { useRecoil } from '@/hooks/useRecoil'
 import NoCheckin from '@/components/NoCheckin'
 
-export default function CheckinCalender() {
+const CheckinCalender = () => {
   const colorScheme = useColorScheme()
   const navigation = useNavigation()
 
@@ -23,7 +23,6 @@ export default function CheckinCalender() {
   const { fetchUserCheckins, fetchUser } = useFoursquare()
   const { convertAgendaObject, generateImageUrl } = useUtils()
   const { setUser } = useRecoil()
-  const [fetchUserState, fetchUserTemp] = useAsyncFn(async () => await fetchUser(), [])
   /**
    * 月ごとのチェックインを取得する
    * @param dateObject DateObject
@@ -37,15 +36,10 @@ export default function CheckinCalender() {
     []
   )
 
-  useEffect(() => {
-    if (!fetchUserState.value) return
-    setUser(fetchUserState.value)
-    const uri = generateImageUrl(
-      fetchUserState.value.photo.prefix,
-      fetchUserState.value.photo.suffix,
-      24
-    )
-
+  const fetchSetData = async () => {
+    const user = await fetchUser()
+    setUser(user)
+    const uri = generateImageUrl(user.photo.prefix, user.photo.suffix, 24)
     navigation.setOptions({
       headerRight: () => (
         <Avatar
@@ -56,10 +50,10 @@ export default function CheckinCalender() {
         />
       ),
     })
-  }, [fetchUserState])
+  }
 
   useEffect(() => {
-    void fetchUserTemp()
+    void fetchSetData()
   }, [])
 
   return (
@@ -89,3 +83,5 @@ export default function CheckinCalender() {
     </View>
   )
 }
+
+export default CheckinCalender

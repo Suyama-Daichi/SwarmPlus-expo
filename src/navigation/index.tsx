@@ -45,7 +45,6 @@ function RootNavigator() {
   const [loading, setLoading] = useState(true)
 
   const getAccessToken = async () => {
-    // storage.remove({ key: FOURSQUARE_ACCESS_TOKEN })
     const accessToken = await storage
       .load<string>({ key: FOURSQUARE_ACCESS_TOKEN })
       .catch(() => setLoading(false))
