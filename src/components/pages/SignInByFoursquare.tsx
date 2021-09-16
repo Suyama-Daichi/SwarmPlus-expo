@@ -1,6 +1,5 @@
 import { config } from '@/service/config'
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { WebView, WebViewNavigation } from 'react-native-webview'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import { useNavigation } from '@react-navigation/native'
@@ -38,5 +37,3 @@ const SignInByFoursquare = () => {
 }
 
 export default SignInByFoursquare
-
-const styles = StyleSheet.create({})
