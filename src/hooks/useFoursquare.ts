@@ -1,7 +1,6 @@
 import { AccessToken, IStartEnd } from '@/types/type'
 import type { Checkins, User, CheckinDetail } from '@/types/Foursquare'
 import { config } from '@/service/config'
-import { useCache } from '@/hooks/useCache'
 import { useCallback } from 'react'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
@@ -21,7 +20,6 @@ const getBaseParams = async () => {
 }
 
 export const useFoursquare = () => {
-  const { checkCache } = useCache()
   const responseExtractor = useResponseExtractor()
 
   /** ユーザー情報を取得 */
@@ -48,11 +46,12 @@ export const useFoursquare = () => {
       params.append('beforeTimestamp', startEnd.beforeTimestamp)
       params.append('sort', 'oldestfirst')
     }
-    return checkCache<Checkins>(
-      `https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`,
-      'GET',
-      'checkins'
-    )
+
+    return await fetch(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`, {
+      method: 'GET',
+    })
+      .catch((err) => console.error(err))
+      .then(async (res) => await responseExtractor<Checkins>({ res, type: 'checkins' }))
   }, [])
 
   /**
@@ -62,11 +61,12 @@ export const useFoursquare = () => {
    */
   const fetchCheckinDetails = useCallback(async (checkinId: string): Promise<CheckinDetail> => {
     const params = await getBaseParams()
-    return checkCache<CheckinDetail>(
-      `https://api.foursquare.com/v2/checkins/${checkinId}?${params.toString()}`,
-      'GET',
-      'checkin'
-    )
+
+    return await fetch(`https://api.foursquare.com/v2/checkins/${checkinId}?${params.toString()}`, {
+      method: 'GET',
+    })
+      .catch((err) => console.error(err))
+      .then(async (res) => await responseExtractor<CheckinDetail>({ res, type: 'checkin' }))
   }, [])
 
   /**
