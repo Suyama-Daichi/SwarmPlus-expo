@@ -1,6 +1,7 @@
 import { Checkin } from '@/types/Foursquare'
 import { AgendaItemsMap } from 'react-native-calendars'
 import { getDateString } from './dateFns'
+import 'react-native-url-polyfill/auto'
 
 /**
  * チェックインデータをAgendaItemsオブジェクトに変換
