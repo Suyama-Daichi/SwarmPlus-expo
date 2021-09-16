@@ -2,7 +2,7 @@ import { config } from '@/service/config'
 import React from 'react'
 import { WebView, WebViewNavigation } from 'react-native-webview'
 import { useFoursquare } from '@/hooks/useFoursquare'
-import { useNavigation } from '@react-navigation/native'
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import { setUserId, logEvent } from '@/hooks/useAnalytics'
 import storage from '@/service/reactNativeStorage'
@@ -11,7 +11,7 @@ import { parseURLParams } from '@/service/utilFns'
 const SignInByFoursquare = () => {
   const { fetchAccessToken, fetchUser } = useFoursquare()
   const { CLIENT_ID, REDIRECT_URI } = config()
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<ParamListBase>>()
 
   const onNavigationStateChange = async (navigationState: WebViewNavigation) => {
     const { url, loading } = navigationState

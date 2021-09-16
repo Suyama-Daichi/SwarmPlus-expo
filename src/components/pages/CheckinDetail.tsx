@@ -18,13 +18,11 @@ import Address from '@/components/organisms/Address'
 import { MayorIcon } from '@/components/organisms/MayorIcon'
 import { formatTimestamp, formatDistanceToNowForTimestamp, timestamp2Date } from '@/service/dateFns'
 import { generateImageUrl, removeShoutWith } from '@/service/utilFns'
+import { useNavigation, useRoute } from '@react-navigation/core'
 
-type Props = {
-  route: RouteProp<RootStackParamList, 'CheckinDetail'>
-  navigation: NavigationProp<ParamListBase>
-}
-
-export const CheckinDetailScreen = ({ route, navigation }: Props) => {
+export const CheckinDetailScreen = () => {
+  const navigation = useNavigation<NavigationProp<ParamListBase>>()
+  const route = useRoute<RouteProp<RootStackParamList, 'CheckinDetail'>>()
   const colorScheme = useColorScheme()
   const { item } = route.params
   const [checkinDetail, setCheckinDetail] = useState<CheckinDetail & { images: string[] }>()
