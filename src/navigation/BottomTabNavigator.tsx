@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import useColorScheme from '@/hooks/useColorScheme'
-import { CheckinDetailScreen } from '@/components/pages/CheckinDetail'
+import { CheckinDetailScreen } from '@/components/pages/CheckinDetail/CheckinDetail'
 import BackButton from '@/components/molecules/BackButton'
 
 import { COLORS } from '@/constants/Colors'
