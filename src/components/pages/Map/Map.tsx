@@ -42,9 +42,9 @@ const MapScreen = () => {
       }}
     >
       <MapView style={{ flex: 1 }}>
-        {regions.map((region) => (
+        {regions.map((region, i) => (
           <Marker
-            key={`${region.id} + ${region.createdAt}`}
+            key={`${i}`}
             title={region.title}
             description={region.description}
             coordinate={region.latLng}
