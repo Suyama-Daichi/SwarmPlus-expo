@@ -1,4 +1,4 @@
-import { useFoursquare } from '@/hooks/useFoursquare'
+import { fetchCheckinDetails } from '@/service/foursquareApi'
 import { generateImageUrl } from '@/service/utilFns'
 import { RootStackParamList } from '@/types'
 import { CheckinDetail } from '@/types/Foursquare'
@@ -16,7 +16,6 @@ export const useCheckinDetail = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'CheckinDetail'>>()
   const { item } = route.params
   const [checkinDetail, setCheckinDetail] = useState<CheckinDetail & { images: string[] }>()
-  const { fetchCheckinDetails } = useFoursquare()
   const [loading, setLoading] = useState(true)
 
   const getCheckinDetails = useCallback(async () => {
