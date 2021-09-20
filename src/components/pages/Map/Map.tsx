@@ -1,12 +1,10 @@
-import { Venue } from '@/types/Foursquare'
+import { useRoute } from '@react-navigation/core'
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
-type Props = {
-  venue: Venue[]
-}
-
-const MapScreen = ({ venue }: Props) => {
+const MapScreen = () => {
+  const route = useRoute()
+  console.log(route.params)
   return (
     <View>
       <Text>ベニューマップ</Text>

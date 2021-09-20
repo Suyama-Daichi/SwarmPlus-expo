@@ -103,6 +103,7 @@ function MapNavigator() {
       <MapStack.Screen
         name={'Map'}
         component={MapScreen}
+        initialParams={{ date: new Date() }}
         options={{
           headerLeft: () => null,
           headerTitle: 'マップで見る',

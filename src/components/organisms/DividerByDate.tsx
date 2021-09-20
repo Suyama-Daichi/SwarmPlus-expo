@@ -43,7 +43,11 @@ export const DividerByDate = ({ date }: Props) => {
           >
             {getDateString(date, 'yyyy/MM/dd')}({getDay(date)})
           </Text>
-          <Icon name={'map'} color={'white'} onPress={() => navigation.navigate('Map')} />
+          <Icon
+            name={'map'}
+            color={'white'}
+            onPress={() => navigation.navigate('Map', { date: new Date() })}
+          />
         </View>
       </View>
     </View>
