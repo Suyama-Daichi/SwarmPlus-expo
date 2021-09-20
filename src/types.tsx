@@ -1,4 +1,3 @@
-import { Venue } from '@/types/Foursquare'
 import { Checkin } from './types/Foursquare'
 
 export type RootStackParamList = {
@@ -10,8 +9,8 @@ export type RootStackParamList = {
 }
 
 export type BottomTabParamList = {
-  CheckinCalendar: undefined
-  Map: undefined
+  CheckinCalendarNavigator: undefined
+  MapNavigator: { dateISOString: string }
 }
 
 export type CheckinCalendarParamList = {
@@ -23,5 +22,5 @@ export type CheckinCalendarParamList = {
 export type MapParamList = {
   CheckinCalendar: undefined
   CheckinDetail: undefined
-  Map: { date: Date }
+  Map: { dateISOString: string }
 }

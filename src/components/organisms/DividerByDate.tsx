@@ -46,7 +46,9 @@ export const DividerByDate = ({ date }: Props) => {
           <Icon
             name={'map'}
             color={'white'}
-            onPress={() => navigation.navigate('Map', { date: new Date() })}
+            onPress={() =>
+              navigation.navigate('MapNavigator', { dateISOString: date.toISOString() })
+            }
           />
         </View>
       </View>
