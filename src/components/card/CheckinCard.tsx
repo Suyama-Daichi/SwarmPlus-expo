@@ -35,7 +35,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('CheckinDetail', { item })}
+      onPress={() => navigation.navigate('CheckinDetail', { itemId: item.id })}
       style={[
         styles.container,
         { flexDirection: 'row' },
