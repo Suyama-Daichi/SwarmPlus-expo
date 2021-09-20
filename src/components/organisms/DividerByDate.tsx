@@ -5,6 +5,7 @@ import { COLORS } from '@/constants/Colors'
 import { getDateString, getDay } from '@/service/dateFns'
 import useColorScheme from '@/hooks/useColorScheme'
 import { Icon } from 'react-native-elements'
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/core'
 
 type Props = {
   date: Date
@@ -12,6 +13,7 @@ type Props = {
 
 export const DividerByDate = ({ date }: Props) => {
   const colorScheme = useColorScheme()
+  const navigation = useNavigation<NavigationProp<ParamListBase>>()
 
   return (
     <View style={{ backgroundColor: 'white', width: window.window.width }}>
@@ -41,7 +43,7 @@ export const DividerByDate = ({ date }: Props) => {
           >
             {getDateString(date, 'yyyy/MM/dd')}({getDay(date)})
           </Text>
-          <Icon name={'map'} color={'white'} />
+          <Icon name={'map'} color={'white'} onPress={() => navigation.navigate('Map')} />
         </View>
       </View>
     </View>

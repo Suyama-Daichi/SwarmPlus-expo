@@ -9,11 +9,18 @@ export type RootStackParamList = {
 }
 
 export type BottomTabParamList = {
-  CheckinCalender: undefined
+  CheckinCalendar: undefined
+  Map: undefined
 }
 
 export type CheckinCalendarParamList = {
   CheckinCalendar: undefined
   CheckinDetail: undefined
   UserProfile: undefined
+}
+
+export type MapParamList = {
+  CheckinCalendar: undefined
+  CheckinDetail: undefined
+  Map: undefined
 }

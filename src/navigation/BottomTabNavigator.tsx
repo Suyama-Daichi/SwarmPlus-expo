@@ -7,11 +7,12 @@ import { CheckinDetailScreen } from '@/components/pages/CheckinDetail/CheckinDet
 import BackButton from '@/components/molecules/BackButton'
 
 import { COLORS } from '@/constants/Colors'
-import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
-import CheckinCalender from '@/components/pages/CheckinCalendar/CheckinCalendar'
+import { BottomTabParamList, CheckinCalendarParamList, MapParamList } from '@/types'
+import CheckinCalendar from '@/components/pages/CheckinCalendar/CheckinCalendar'
 import ActionMenu from '@/components/ActionSheet'
 import UserProfile from '@/components/pages/UserProfile'
 import { useNavigation } from '@react-navigation/core'
+import MapScreen from '@/components/pages/Map/Map'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -30,14 +31,21 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="CheckinCalender"
+      initialRouteName="CheckinCalendar"
       tabBarOptions={{ activeTintColor: COLORS[colorScheme].tint, showLabel: false }}
     >
       <BottomTab.Screen
-        name="CheckinCalender"
+        name="CheckinCalendar"
         component={CheckinCalendarNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Map"
+        component={MapNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -53,13 +61,14 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const CheckinCalendarStack = createStackNavigator<CheckinCalendarParamList>()
+const MapStack = createStackNavigator<MapParamList>()
 
 function CheckinCalendarNavigator() {
   return (
     <CheckinCalendarStack.Navigator initialRouteName={'CheckinCalendar'} mode={'card'}>
       <CheckinCalendarStack.Screen
         name={'CheckinCalendar'}
-        component={CheckinCalender}
+        component={CheckinCalendar}
         options={{
           headerLeft: () => null,
           headerTitle: 'カレンダーで振り返る',
@@ -85,5 +94,36 @@ function CheckinCalendarNavigator() {
         }}
       />
     </CheckinCalendarStack.Navigator>
+  )
+}
+
+function MapNavigator() {
+  return (
+    <MapStack.Navigator initialRouteName={'Map'} mode={'card'}>
+      <MapStack.Screen
+        name={'Map'}
+        component={MapScreen}
+        options={{
+          headerLeft: () => null,
+          headerTitle: 'マップで見る',
+        }}
+      />
+      <MapStack.Screen
+        name={'CheckinCalendar'}
+        component={CheckinCalendar}
+        options={{
+          headerLeft: () => null,
+          headerTitle: 'カレンダーで振り返る',
+        }}
+      />
+      <MapStack.Screen
+        name={'CheckinDetail'}
+        component={CheckinDetailScreen}
+        options={{
+          headerTitle: 'チェックインの詳細',
+          headerLeft: BackButton,
+        }}
+      />
+    </MapStack.Navigator>
   )
 }
