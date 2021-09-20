@@ -1,14 +1,13 @@
 import React from 'react'
 import { Alert } from 'react-native'
 import { useActionSheet } from '@expo/react-native-action-sheet'
-import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
 import { COLORS } from '@/constants/Colors'
+import { reloadAsync } from 'expo-updates'
 
 export const ActionMenu = () => {
-  const navigation = useNavigation<NavigationProp<ParamListBase>>()
   const options = ['ログアウト', 'キャンセル']
   const destructiveButtonIndex = 0
   const cancelButtonIndex = 1
@@ -17,7 +16,7 @@ export const ActionMenu = () => {
 
   const logOut = async () => {
     await storage.remove({ key: FOURSQUARE_ACCESS_TOKEN })
-    navigation.navigate('Root')
+    reloadAsync()
   }
 
   const actionSheetHandler = () => {
