@@ -11,11 +11,12 @@ import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 import { useRecoil } from '@/hooks/useRecoil'
 import NoCheckin from '@/components/NoCheckin'
 import { useNavigation } from '@react-navigation/core'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { useCheckinCalendar } from './useCheckinCalendar'
 
 const CheckinCalender = () => {
   const colorScheme = useColorScheme()
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<ParamListBase>>()
   const { loading, userProfURL, fetchCheckin } = useCheckinCalendar()
 
   const { checkinAgenda } = useRecoil()

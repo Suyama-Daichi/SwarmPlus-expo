@@ -1,14 +1,14 @@
 import React from 'react'
 import { Alert } from 'react-native'
 import { useActionSheet } from '@expo/react-native-action-sheet'
-import { useNavigation } from '@react-navigation/native'
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
 import { COLORS } from '@/constants/Colors'
 
 export const ActionMenu = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<ParamListBase>>()
   const options = ['ログアウト', 'キャンセル']
   const destructiveButtonIndex = 0
   const cancelButtonIndex = 1

@@ -15,6 +15,7 @@ import Address from '@/components/organisms/Address'
 import { useCameraRoll } from '@/hooks/useCameraRoll'
 import { formatTimestamp } from '@/service/dateFns'
 import { generateImageUrl } from '@/service/utilFns'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { PhotoViewer } from '../molecules/PhotoViewer'
 
 type Props = {
@@ -25,7 +26,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
   const colorScheme = useColorScheme()
   const { isMayor, venue, visibility, likes, comments, shout, createdAt, photos } = item
 
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<ParamListBase>>()
   const { user } = useRecoil()
   const [showPhotoViewer, setShowPhotoViewer] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
