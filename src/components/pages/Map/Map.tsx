@@ -33,6 +33,7 @@ const MapScreen = () => {
   }
 
   useEffect(() => {
+    if (!selectedDateOnMap) return
     navigation.setOptions({
       headerTitle: `${getDateString(selectedDateOnMap, 'yyyy/MM/dd')}の履歴`,
     })
