@@ -1,4 +1,3 @@
-import useColorScheme from '@/hooks/useColorScheme'
 import { useFoursquare } from '@/hooks/useFoursquare'
 import { generateImageUrl } from '@/service/utilFns'
 import { RootStackParamList } from '@/types'

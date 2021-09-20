@@ -114,14 +114,6 @@ function MapNavigator() {
         }}
       />
       <MapStack.Screen
-        name={'CheckinCalendar'}
-        component={CheckinCalendar}
-        options={{
-          headerLeft: () => null,
-          headerTitle: 'カレンダーで振り返る',
-        }}
-      />
-      <MapStack.Screen
         name={'CheckinDetail'}
         component={CheckinDetailScreen}
         options={{
