@@ -3,18 +3,29 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import useColorScheme from '@/hooks/useColorScheme'
-import { CheckinDetailScreen } from '@/components/pages/CheckinDetail'
+import { CheckinDetailScreen } from '@/components/pages/CheckinDetail/CheckinDetail'
 import BackButton from '@/components/molecules/BackButton'
 
 import { COLORS } from '@/constants/Colors'
 import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
-import CheckinCalender from '@/components/pages/CheckinCalendar'
+import CheckinCalender from '@/components/pages/CheckinCalendar/CheckinCalendar'
 import ActionMenu from '@/components/ActionSheet'
 import UserProfile from '@/components/pages/UserProfile'
+import { useNavigation } from '@react-navigation/core'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
 export default function BottomTabNavigator() {
+  const navigation = useNavigation()
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        // Prevent default behavior of leaving the screen
+        e.preventDefault()
+      }),
+    [navigation]
+  )
+
   const colorScheme = useColorScheme()
 
   return (

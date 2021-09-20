@@ -20,7 +20,7 @@ const UserProfile = ({ route }: Props) => {
   const [userTemp, fetchUserTemp] = useAsyncFn(async () => await fetchUser(userId), [])
 
   useEffect(() => {
-    void fetchUserTemp()
+    fetchUserTemp()
   }, [])
 
   useEffect(() => {

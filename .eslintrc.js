@@ -38,6 +38,7 @@ module.exports = {
     ],
     '@typescript-eslint/restrict-template-expressions': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
   },
   settings: {
     react: {

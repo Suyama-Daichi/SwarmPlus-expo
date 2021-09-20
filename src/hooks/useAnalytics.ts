@@ -3,7 +3,7 @@ import { AMPLITUDE_KEY } from '@env'
 
 Amplitude.initializeAsync
 
-void Amplitude.initializeAsync(AMPLITUDE_KEY)
+Amplitude.initializeAsync(AMPLITUDE_KEY)
 /**
  * setUserId
  * @param {string} userId
