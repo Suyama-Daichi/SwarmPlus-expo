@@ -81,7 +81,7 @@ export const CheckinDetailScreen = () => {
           </View>
         </View>
         <Text style={[fontColor.textSub, { marginBottom: 8 }]}>
-          {formatTimestamp(checkinDetail.createdAt, 'yyyy/MM/dd HH:mm:ss')}(
+          {formatTimestamp(checkinDetail.createdAt, 'yyyy/MM/dd(E) HH:mm:ss')}(
           {formatDistanceToNowForTimestamp(timestamp2Date(checkinDetail.createdAt))})
         </Text>
         {checkinDetail.shout && (

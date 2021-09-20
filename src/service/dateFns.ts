@@ -42,7 +42,7 @@ export const dateObj2Date = (dateObj: DateObject) => {
  */
 export const formatTimestamp = (timestamp: number | undefined, formatString: string) => {
   if (!timestamp) return
-  return format(new Date(Number(timestamp + '000')), formatString)
+  return format(new Date(Number(timestamp + '000')), formatString, { locale: ja })
 }
 
 /**

@@ -12,7 +12,6 @@ import useColorScheme from '@/hooks/useColorScheme'
 import { Ionicons } from '@expo/vector-icons'
 import CategoryIcon from '@/components/molecules/CategoryIcon'
 import Address from '@/components/organisms/Address'
-import { useCameraRoll } from '@/hooks/useCameraRoll'
 import { formatTimestamp } from '@/service/dateFns'
 import { generateImageUrl } from '@/service/utilFns'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
@@ -30,7 +29,6 @@ export const CheckinCard = React.memo(({ item }: Props) => {
   const { user } = useRecoil()
   const [showPhotoViewer, setShowPhotoViewer] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
-  const { savePicture } = useCameraRoll()
 
   const closePhotoViewer = () => setShowPhotoViewer(false)
   const openPhotoViewer = () => setShowPhotoViewer(true)
@@ -109,7 +107,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
           </Text>
         )}
         <Text style={[fontSize.fontMedium, fontColor.textSub]}>
-          {formatTimestamp(createdAt, 'yyyy/MM/dd HH:mm')}
+          {formatTimestamp(createdAt, 'yyyy/MM/dd(E) HH:mm')}
         </Text>
         <PhotoViewer
           imageIndex={imageIndex}
