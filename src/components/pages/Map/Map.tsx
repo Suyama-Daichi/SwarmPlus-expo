@@ -1,8 +1,8 @@
 import { getDateString } from '@/service/dateFns'
 import { Checkin } from '@/types/Foursquare'
-import { useNavigation } from '@react-navigation/core'
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import MapView, { Marker, LatLng } from 'react-native-maps'
 import { useRecoil } from '../../../hooks/useRecoil'
 
@@ -15,7 +15,7 @@ type Region = {
 }
 
 const MapScreen = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<ParamListBase>>()
   const { checkinAgenda, selectedDateOnMap } = useRecoil()
   const [regions, setRegions] = useState<Region[]>([])
 
@@ -54,6 +54,7 @@ const MapScreen = () => {
             title={region.title}
             description={region.description}
             coordinate={region.latLng}
+            onCalloutPress={() => navigation.navigate('CheckinDetail', { itemId: region.id })}
           />
         ))}
       </MapView>
