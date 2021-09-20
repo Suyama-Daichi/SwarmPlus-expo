@@ -14,26 +14,25 @@ export const DividerByDate = ({ date }: Props) => {
 
   return (
     <View style={{ backgroundColor: 'white', width: window.window.width }}>
-      {date && (
-        <View
-          style={[
-            {
-              borderWidth: 1,
-              borderLeftWidth: 0,
-              borderTopRightRadius: 10,
-              borderBottomRightRadius: 10,
-              width: window.window.width / 3,
-              borderColor: COLORS[colorScheme].primaryOrange,
-              backgroundColor: COLORS[colorScheme].primaryOrange,
-            },
-            { marginVertical: 8 },
-          ]}
-        >
-          <Text style={[{ color: 'white', fontWeight: 'bold' }, { paddingLeft: 8 }]}>
-            {getDateString(date, 'yyyy/MM/dd')}({getDay(date)})
-          </Text>
-        </View>
-      )}
+      <View
+        style={[
+          {
+            height: 30,
+            borderWidth: 1,
+            borderLeftWidth: 0,
+            borderTopRightRadius: 10,
+            borderBottomRightRadius: 10,
+            width: window.window.width / 3,
+            borderColor: COLORS[colorScheme].primaryOrange,
+            backgroundColor: COLORS[colorScheme].primaryOrange,
+          },
+          { marginVertical: 8 },
+        ]}
+      >
+        <Text style={[{ color: 'white', fontWeight: 'bold' }, { paddingLeft: 8 }]}>
+          {getDateString(date, 'yyyy/MM/dd')}({getDay(date)})
+        </Text>
+      </View>
     </View>
   )
 }
