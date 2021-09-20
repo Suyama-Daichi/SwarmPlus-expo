@@ -6,6 +6,7 @@ import { getDateString, getDay } from '@/service/dateFns'
 import useColorScheme from '@/hooks/useColorScheme'
 import { Icon } from 'react-native-elements'
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/core'
+import { useRecoil } from '../../hooks/useRecoil'
 
 type Props = {
   date: Date
@@ -14,6 +15,12 @@ type Props = {
 export const DividerByDate = ({ date }: Props) => {
   const colorScheme = useColorScheme()
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
+  const { setSelectedDateOnMap } = useRecoil()
+
+  const onPressMapIcon = () => {
+    setSelectedDateOnMap(date)
+    navigation.navigate('MapNavigator')
+  }
 
   return (
     <View style={{ backgroundColor: 'white', width: window.window.width }}>
@@ -43,13 +50,7 @@ export const DividerByDate = ({ date }: Props) => {
           >
             {getDateString(date, 'yyyy/MM/dd')}({getDay(date)})
           </Text>
-          <Icon
-            name={'map'}
-            color={'white'}
-            onPress={() =>
-              navigation.navigate('MapNavigator', { dateISOString: date.toISOString() })
-            }
-          />
+          <Icon name={'map'} color={'white'} onPress={onPressMapIcon} />
         </View>
       </View>
     </View>

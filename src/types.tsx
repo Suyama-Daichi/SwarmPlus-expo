@@ -10,7 +10,7 @@ export type RootStackParamList = {
 
 export type BottomTabParamList = {
   CheckinCalendarNavigator: undefined
-  MapNavigator: { dateISOString: string }
+  MapNavigator: undefined
 }
 
 export type CheckinCalendarParamList = {
@@ -22,5 +22,5 @@ export type CheckinCalendarParamList = {
 export type MapParamList = {
   CheckinCalendar: undefined
   CheckinDetail: undefined
-  Map: { dateISOString: string }
+  Map: undefined
 }

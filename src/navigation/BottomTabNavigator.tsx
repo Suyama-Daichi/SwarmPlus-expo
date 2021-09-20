@@ -11,14 +11,13 @@ import { BottomTabParamList, CheckinCalendarParamList, MapParamList } from '@/ty
 import CheckinCalendar from '@/components/pages/CheckinCalendar/CheckinCalendar'
 import ActionMenu from '@/components/ActionSheet'
 import UserProfile from '@/components/pages/UserProfile'
-import { useNavigation, useRoute } from '@react-navigation/core'
+import { useNavigation } from '@react-navigation/core'
 import MapScreen from '@/components/pages/Map/Map'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
 export default function BottomTabNavigator() {
   const navigation = useNavigation()
-  const route = useRoute()
   React.useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
@@ -44,7 +43,6 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="MapNavigator"
-        initialParams={route.params}
         component={MapNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
@@ -100,13 +98,10 @@ function CheckinCalendarNavigator() {
 }
 
 function MapNavigator() {
-  const route = useRoute()
-
   return (
     <MapStack.Navigator initialRouteName={'Map'} mode={'card'}>
       <MapStack.Screen
         name={'Map'}
-        initialParams={route.params}
         component={MapScreen}
         options={{
           headerLeft: () => null,

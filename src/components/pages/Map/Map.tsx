@@ -1,8 +1,5 @@
 import { getDateString } from '@/service/dateFns'
-import { MapParamList } from '@/types'
 import { Checkin } from '@/types/Foursquare'
-import { useRoute } from '@react-navigation/core'
-import { RouteProp } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import MapView, { Marker, LatLng } from 'react-native-maps'
@@ -12,12 +9,12 @@ type Region = {
   id: string
   title: string
   description?: string
+  createdAt: number
   latLng: LatLng
 }
 
 const MapScreen = () => {
-  const route = useRoute<RouteProp<MapParamList, 'Map'>>()
-  const { checkinAgenda } = useRecoil()
+  const { checkinAgenda, selectedDateOnMap } = useRecoil()
   const [regions, setRegions] = useState<Region[]>([])
 
   const getRegion = (checkins: Checkin[]) => {
@@ -26,6 +23,7 @@ const MapScreen = () => {
         id: m.id,
         title: m.venue.name,
         description: m.shout,
+        createdAt: m.createdAt,
         latLng: { latitude: m.venue.location.lat, longitude: m.venue.location.lng },
       }
     })
@@ -33,9 +31,8 @@ const MapScreen = () => {
   }
 
   useEffect(() => {
-    const date = route.params?.dateISOString ? new Date(route.params.dateISOString) : new Date()
-    getRegion(checkinAgenda[getDateString(date)])
-  }, [route])
+    getRegion(checkinAgenda[getDateString(selectedDateOnMap)])
+  }, [selectedDateOnMap])
 
   return (
     <View
@@ -47,7 +44,7 @@ const MapScreen = () => {
       <MapView style={{ flex: 1 }}>
         {regions.map((region) => (
           <Marker
-            key={region.id}
+            key={`${region.id} + ${region.createdAt}`}
             title={region.title}
             description={region.description}
             coordinate={region.latLng}
