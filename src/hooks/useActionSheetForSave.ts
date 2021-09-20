@@ -9,7 +9,7 @@ export const useActionSheetForSave = () => {
     if (!imageURL) return
     showActionSheetWithOptions({ options: ['保存', 'キャンセル'] }, (buttonIndex) => {
       if (buttonIndex === 0) {
-        void savePicture(imageURL)
+        savePicture(imageURL)
       }
     })
   }

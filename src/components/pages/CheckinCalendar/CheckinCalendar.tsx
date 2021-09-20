@@ -45,10 +45,10 @@ const CheckinCalender = () => {
         // NOTE: loadItemsForMonth()だとonDayPress時にも発火する問題への対応
         // https://github.com/wix/react-native-calendars/issues/769
         onVisibleMonthsChange={(dateObject: DateObject[]) => {
-          void fetchCheckin(dateObj2Date(dateObject[0]))
+          fetchCheckin(dateObj2Date(dateObject[0]))
         }}
         onDayPress={() => {
-          void logEvent('DayPressed')
+          logEvent('DayPressed')
         }}
         displayLoadingIndicator={loading}
         maxDate={getDateString()}

@@ -35,7 +35,7 @@ export const useCheckinDetail = () => {
   useEffect(() => {
     if (!item) return
     navigation.setOptions({ headerTitle: item.venue.name })
-    void getCheckinDetails()
+    getCheckinDetails()
   }, [item])
 
   return { checkinDetail, loading }

@@ -39,7 +39,7 @@ export const useCheckinCalendar = () => {
   }
 
   useEffect(() => {
-    void fetchSetData()
+    fetchSetData()
   }, [])
 
   return { loading, userProfURL, fetchCheckin }

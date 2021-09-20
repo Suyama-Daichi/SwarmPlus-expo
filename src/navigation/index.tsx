@@ -28,7 +28,7 @@ export default function Navigation() {
           name: string
           params: { [k: string]: string }
         }
-        void setCurrentScreen(routeName, params)
+        setCurrentScreen(routeName, params)
       }}
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
@@ -56,7 +56,7 @@ function RootNavigator() {
   }
 
   useEffect(() => {
-    void getAccessToken()
+    getAccessToken()
   }, [])
 
   if (loading) {

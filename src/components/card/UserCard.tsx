@@ -14,7 +14,7 @@ type Props = {
 
 const UserCard = ({ user }: Props) => {
   const OpenProvider = (provider: string) => {
-    void Linking.openURL(provider)
+    Linking.openURL(provider)
   }
 
   return (
