@@ -11,10 +11,21 @@ import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
 import CheckinCalender from '@/components/pages/CheckinCalendar/CheckinCalendar'
 import ActionMenu from '@/components/ActionSheet'
 import UserProfile from '@/components/pages/UserProfile'
+import { useNavigation } from '@react-navigation/core'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
 export default function BottomTabNavigator() {
+  const navigation = useNavigation()
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        // Prevent default behavior of leaving the screen
+        e.preventDefault()
+      }),
+    [navigation]
+  )
+
   const colorScheme = useColorScheme()
 
   return (
