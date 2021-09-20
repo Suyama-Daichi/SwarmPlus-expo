@@ -1,5 +1,6 @@
 import { getDateString } from '@/service/dateFns'
 import { Checkin } from '@/types/Foursquare'
+import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import MapView, { Marker, LatLng } from 'react-native-maps'
@@ -14,6 +15,7 @@ type Region = {
 }
 
 const MapScreen = () => {
+  const navigation = useNavigation()
   const { checkinAgenda, selectedDateOnMap } = useRecoil()
   const [regions, setRegions] = useState<Region[]>([])
 
@@ -31,6 +33,9 @@ const MapScreen = () => {
   }
 
   useEffect(() => {
+    navigation.setOptions({
+      headerTitle: `${getDateString(selectedDateOnMap, 'yyyy/MM/dd')}の履歴`,
+    })
     getRegion(checkinAgenda[getDateString(selectedDateOnMap)])
   }, [selectedDateOnMap])
 
