@@ -22,4 +22,4 @@ jobs:
           expo-version: 4.x
           token: ${{ secrets.EXPO_TOKEN }}
       - run: yarn install
-      - run: yarn publish:develop
+      - run: yarn build:develop
