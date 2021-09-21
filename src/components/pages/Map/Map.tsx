@@ -3,10 +3,10 @@ import { Checkin } from '@/types/Foursquare'
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet } from 'react-native'
-import MapView, { Marker, LatLng } from 'react-native-maps'
-import { useRecoil } from '../../../hooks/useRecoil'
+import MapView, { Marker, LatLng, Region } from 'react-native-maps'
+import { useRecoil } from '@/hooks/useRecoil'
 
-type Region = {
+type RegionData = {
   id: string
   title: string
   description?: string
@@ -17,10 +17,16 @@ type Region = {
 const MapScreen = () => {
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
   const { checkinAgenda, selectedDateOnMap } = useRecoil()
-  const [regions, setRegions] = useState<Region[]>([])
+  const [regions, setRegions] = useState<RegionData[]>([])
+  const region: Region = {
+    latitude: regions[0].latLng.latitude,
+    longitude: regions[0].latLng.longitude,
+    latitudeDelta: 0.05,
+    longitudeDelta: 0.05,
+  }
 
   const getRegion = (checkins: Checkin[]) => {
-    const regions = checkins.map((m): Region => {
+    const regions = checkins.map((m): RegionData => {
       return {
         id: m.id,
         title: m.venue.name,
@@ -47,7 +53,7 @@ const MapScreen = () => {
         backgroundColor: '#fff',
       }}
     >
-      <MapView style={{ flex: 1 }}>
+      <MapView style={{ flex: 1 }} region={region}>
         {regions.map((region, i) => (
           <Marker
             key={`${i}`}
