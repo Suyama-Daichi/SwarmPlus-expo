@@ -13,7 +13,7 @@ export const Timeline = React.memo(({ date, item }: Props) => {
   return (
     <View style={{ backgroundColor: 'white' }}>
       {date && <DividerByDate date={date} />}
-      {<CheckinCard item={item} />}
+      <CheckinCard item={item} />
     </View>
   )
 })

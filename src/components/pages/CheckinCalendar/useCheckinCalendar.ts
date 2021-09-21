@@ -1,11 +1,10 @@
-import { useFoursquare } from '@/hooks/useFoursquare'
 import { useRecoil } from '@/hooks/useRecoil'
 import { getStartEndOfMonth } from '@/service/dateFns'
+import { fetchUserCheckins, fetchUser } from '@/service/foursquareApi'
 import { generateImageUrl } from '@/service/utilFns'
 import { useState, useEffect } from 'react'
 
 export const useCheckinCalendar = () => {
-  const { fetchUserCheckins, fetchUser } = useFoursquare()
   const [loading, setLoading] = useState(true)
   const { setUser, setCheckins, setFetchHistory, fetchHistory } = useRecoil()
   const [userProfURL, setUserProfURL] = useState<string>()
@@ -33,7 +32,7 @@ export const useCheckinCalendar = () => {
   const fetchSetData = async () => {
     const user = await fetchUser()
     setUser(user)
-    const uri = generateImageUrl(user.photo.prefix, user.photo.suffix, 24)
+    const uri = generateImageUrl(user.photo, 24)
     setUserProfURL(uri)
     await fetchCheckin(new Date())
   }

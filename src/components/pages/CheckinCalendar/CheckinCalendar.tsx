@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/core'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { useCheckinCalendar } from './useCheckinCalendar'
 
-const CheckinCalender = () => {
+const CheckinCalendar = () => {
   const colorScheme = useColorScheme()
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
   const { loading, userProfURL, fetchCheckin } = useCheckinCalendar()
@@ -66,4 +66,4 @@ const CheckinCalender = () => {
   )
 }
 
-export default CheckinCalender
+export default CheckinCalendar

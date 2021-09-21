@@ -15,11 +15,15 @@ import { formatTimestamp, formatDistanceToNowForTimestamp, timestamp2Date } from
 import { generateImageUrl, removeShoutWith } from '@/service/utilFns'
 import { NoData } from '@/components/organisms/NoData'
 import useColorScheme from '@/hooks/useColorScheme'
+import { CheckinCalendarParamList } from '@/types'
+import { useRoute, RouteProp } from '@react-navigation/native'
 import { useCheckinDetail } from './useCheckinDetail'
 
 export const CheckinDetailScreen = () => {
+  const route = useRoute<RouteProp<CheckinCalendarParamList, 'CheckinDetail'>>()
+  const { checkinDetail, loading } = useCheckinDetail(route.params.itemId)
+
   const colorScheme = useColorScheme()
-  const { checkinDetail, loading } = useCheckinDetail()
   if (loading) return <ActivityIndicator />
   if (!checkinDetail) return <NoData />
 
@@ -106,7 +110,7 @@ export const CheckinDetailScreen = () => {
               rounded
               size={'medium'}
               source={{
-                uri: generateImageUrl(comment.user.photo.prefix, comment.user.photo.suffix, '50'),
+                uri: generateImageUrl(comment.user.photo, '50'),
               }}
               icon={{ name: 'person-outline' }}
             ></Avatar>

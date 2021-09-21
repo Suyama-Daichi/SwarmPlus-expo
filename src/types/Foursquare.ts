@@ -88,14 +88,12 @@ export type Photo = {
   id: string
   createdAt: number
   source: Source
-  prefix: string
-  suffix: string
   width: number
   height: number
   demoted: boolean
   user: User
   visibility: string
-}
+} & Icon
 
 export type Source = {
   name: string
