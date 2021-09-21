@@ -132,6 +132,6 @@ export const formatDistanceToNowForTimestamp = (date: Date | undefined) => {
  */
 export const getDay = (date: Date | undefined) => {
   if (!date || !LocaleConfig.locales.jp.dayNamesShort) return
-  const day = LocaleConfig.locales.jp.dayNamesShort[date?.getDay()]
+  const day = LocaleConfig.locales.jp.dayNamesShort[date.getDay()]
   return day
 }
