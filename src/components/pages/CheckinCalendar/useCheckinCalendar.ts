@@ -23,8 +23,8 @@ export const useCheckinCalendar = () => {
     }
     const checkins = await fetchUserCheckins(period)
     setCheckins((current) => {
-      if (current.length === 0) return checkins.items
-      return [...current, ...checkins.items.filter((f) => current.some((c) => c.id !== f.id))]
+      if (current.length === 0) return checkins
+      return [...current, ...checkins.filter((f) => current.some((c) => c.id !== f.id))]
     })
     setLoading(false)
   }

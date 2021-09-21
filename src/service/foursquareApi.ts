@@ -1,5 +1,5 @@
 import { AccessToken, IStartEnd } from '@/types/type'
-import type { Checkins, User, CheckinDetail } from '@/types/Foursquare'
+import type { User, CheckinDetail, FoursquareResponse } from '@/types/Foursquare'
 import { config } from '@/service/config'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
@@ -35,7 +35,7 @@ export const fetchUser = async (userId?: string): Promise<User> => {
  * @param startEnd 日|月の始まりと末のタイムスタンプ
  * @returns チェックインのリスト
  */
-export const fetchUserCheckins = async (startEnd?: IStartEnd): Promise<Checkins> => {
+export const fetchUserCheckins = async (startEnd?: IStartEnd) => {
   const params = await getBaseParams()
   if (startEnd) {
     params.append('afterTimestamp', startEnd.afterTimestamp)
@@ -47,7 +47,11 @@ export const fetchUserCheckins = async (startEnd?: IStartEnd): Promise<Checkins>
     method: 'GET',
   })
     .catch((err) => console.error(err))
-    .then(async (res) => await responseExtractor<Checkins>({ res, type: 'checkins' }))
+    .then(async (res) => {
+      if (!res) return []
+      const response = (await res.json()) as FoursquareResponse
+      return response.response.checkins ? response.response.checkins.items : []
+    })
 }
 
 /**
