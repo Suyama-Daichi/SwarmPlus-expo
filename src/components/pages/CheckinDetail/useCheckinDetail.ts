@@ -13,9 +13,7 @@ export const useCheckinDetail = (itemId: string) => {
     const checkinDetail = await fetchCheckinDetails(itemId)
     const images =
       checkinDetail.photos.count > 0
-        ? checkinDetail.photos.items.map((item) =>
-            generateImageUrl(item.prefix, item.suffix, 'cap400')
-          )
+        ? checkinDetail.photos.items.map((photo) => generateImageUrl(photo, 'cap400'))
         : ['']
     setCheckinDetail({ ...checkinDetail, images })
     setLoading(false)

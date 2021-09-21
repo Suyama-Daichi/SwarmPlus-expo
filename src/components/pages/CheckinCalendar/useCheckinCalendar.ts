@@ -32,7 +32,7 @@ export const useCheckinCalendar = () => {
   const fetchSetData = async () => {
     const user = await fetchUser()
     setUser(user)
-    const uri = generateImageUrl(user.photo.prefix, user.photo.suffix, 24)
+    const uri = generateImageUrl(user.photo, 24)
     setUserProfURL(uri)
     await fetchCheckin(new Date())
   }

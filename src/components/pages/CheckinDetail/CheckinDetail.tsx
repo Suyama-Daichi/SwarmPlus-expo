@@ -110,7 +110,7 @@ export const CheckinDetailScreen = () => {
               rounded
               size={'medium'}
               source={{
-                uri: generateImageUrl(comment.user.photo.prefix, comment.user.photo.suffix, '50'),
+                uri: generateImageUrl(comment.user.photo, '50'),
               }}
               icon={{ name: 'person-outline' }}
             ></Avatar>

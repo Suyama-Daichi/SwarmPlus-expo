@@ -46,7 +46,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
         rounded
         size={'medium'}
         source={{
-          uri: generateImageUrl(user.photo.prefix, user.photo.suffix, '50'),
+          uri: generateImageUrl(user.photo, '50'),
         }}
         icon={{ name: 'person-outline' }}
       >
@@ -113,17 +113,17 @@ export const CheckinCard = React.memo(({ item }: Props) => {
           imageIndex={imageIndex}
           showPhotoViewer={showPhotoViewer}
           closePhotoViewer={closePhotoViewer}
-          photos={photos.items.map((m) => {
-            return generateImageUrl(m.prefix, m.suffix)
+          photos={photos.items.map((photo) => {
+            return generateImageUrl(photo)
           })}
         />
         <ScrollView horizontal={true}>
-          {photos.items.map((m, i) => {
+          {photos.items.map((photo, i) => {
             return (
               <Image
-                key={m.suffix}
+                key={photo.suffix}
                 source={{
-                  uri: generateImageUrl(m.prefix, m.suffix, 200),
+                  uri: generateImageUrl(photo, 200),
                 }}
                 style={{ width: 100, height: 100 }}
                 resizeMode={'contain'}

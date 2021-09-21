@@ -1,4 +1,4 @@
-import { Checkin, FoursquareResponse } from '@/types/Foursquare'
+import { Checkin, FoursquareResponse, Icon, Photo } from '@/types/Foursquare'
 import { AgendaItemsMap } from 'react-native-calendars'
 import { getDateString } from './dateFns'
 import 'react-native-url-polyfill/auto'
@@ -38,17 +38,10 @@ export const convertAgendaObject = (checkins: Checkin[]): AgendaItemsMap<Checkin
 
 /**
  * 画像URLを生成
- * @param prefix
- * @param suffix
- * @param size サイズ
- * @returns {string} URL
  */
-export const generateImageUrl = (
-  prefix: string,
-  suffix: string,
-  size: number | string = 'original'
-) => {
-  return `${prefix}${size}${suffix}`
+export const generateImageUrl = (photo: Photo | Icon, size: number | string = 'original') => {
+  if (!photo) return
+  return `${photo.prefix}${size}${photo.suffix}`
 }
 
 /**

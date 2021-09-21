@@ -13,13 +13,12 @@ type Props = {
 
 const CategoryIcon = ({ icon, size }: Props) => {
   const colorScheme = useColorScheme()
-  const { prefix, suffix } = icon
 
   return (
     <View style={[{ backgroundColor: COLORS[colorScheme].backgroundSecond }, { width: size }]}>
       <Image
         source={{
-          uri: generateImageUrl(prefix, suffix, '32'),
+          uri: generateImageUrl(icon, '32'),
         }}
         style={{ width: size, height: size }}
       />

@@ -5,13 +5,11 @@ import React, { useEffect, useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import MapView, { Marker, LatLng, Region } from 'react-native-maps'
 import { useRecoil } from '@/hooks/useRecoil'
-import { generateImageUrl } from '@/service/utilFns'
 
 type RegionData = {
   id: string
   title: string
   description?: string
-  image?: string
   createdAt: number
   latLng: LatLng
 }
@@ -28,7 +26,6 @@ const MapScreen = () => {
         id: m.id,
         title: m.venue.name,
         description: m.shout,
-        // image: generateImageUrl(m.photos.items[0].prefix, m.photos.items[0].suffix),
         createdAt: m.createdAt,
         latLng: { latitude: m.venue.location.lat, longitude: m.venue.location.lng },
       }
@@ -63,7 +60,7 @@ const MapScreen = () => {
           <Marker
             key={`${i}`}
             title={region.title}
-            // image={{ uri: region.image }}
+            tracksViewChanges={false}
             description={region.description}
             coordinate={region.latLng}
             onCalloutPress={() => navigation.navigate('CheckinDetail', { itemId: region.id })}
