@@ -55,7 +55,7 @@ const MapScreen = () => {
         backgroundColor: '#fff',
       }}
     >
-      <MapView style={{ flex: 1 }} region={defaultRegion}>
+      <MapView style={{ flex: 1 }} initialRegion={defaultRegion}>
         {regions.map((region, i) => (
           <Marker
             key={`${i}`}
