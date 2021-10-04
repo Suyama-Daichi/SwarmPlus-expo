@@ -34,6 +34,10 @@ const CheckinCalendar = () => {
     })
   }
 
+  const renderDay = (dateObject: DateObject, item: Checkin) => {
+    return <Timeline date={timestamp2Date(dateObject?.timestamp)} item={item} />
+  }
+
   useEffect(() => {
     setHeaderRight()
   }, [userProfURL])
@@ -54,9 +58,7 @@ const CheckinCalendar = () => {
         maxDate={getDateString()}
         futureScrollRange={1}
         renderEmptyData={() => <NoCheckin />}
-        renderDay={(dateObject, item) => {
-          return <Timeline date={timestamp2Date(dateObject?.timestamp)} item={item} />
-        }}
+        renderDay={renderDay}
         theme={{
           agendaKnobColor: COLORS[colorScheme].primaryOrange,
           dotColor: COLORS[colorScheme].primaryOrange,
