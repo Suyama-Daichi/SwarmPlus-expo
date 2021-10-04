@@ -1,6 +1,6 @@
 export type IStartEnd = {
-  afterTimestamp: string
-  beforeTimestamp: string
+  afterTimestamp?: string
+  beforeTimestamp?: string
 }
 
 export type AccessToken = {

@@ -37,11 +37,9 @@ export const fetchUser = async (userId?: string): Promise<User> => {
  */
 export const fetchUserCheckins = async (startEnd?: IStartEnd) => {
   const params = await getBaseParams()
-  if (startEnd) {
-    params.append('afterTimestamp', startEnd.afterTimestamp)
-    params.append('beforeTimestamp', startEnd.beforeTimestamp)
-    params.append('sort', 'oldestfirst')
-  }
+  // params.append('sort', 'oldestfirst')
+  startEnd?.afterTimestamp && params.append('afterTimestamp', startEnd.afterTimestamp)
+  startEnd?.beforeTimestamp && params.append('beforeTimestamp', startEnd.beforeTimestamp)
 
   return await fetch(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`, {
     method: 'GET',

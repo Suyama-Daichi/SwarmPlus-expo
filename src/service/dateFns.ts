@@ -25,6 +25,10 @@ export const getDateString = (date: Date | number = new Date(), formatString = '
   return format(typeof date === 'number' ? new Date(Number(date + '000')) : date, formatString)
 }
 
+export const date2Timestamp = (date: Date) => {
+  return Math.round(date.getTime() / 1000)
+}
+
 /**
  * DateObjectをDateに変換する
  * @param dateObj 変換対象のDateオブジェクト

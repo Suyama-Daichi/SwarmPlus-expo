@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View } from 'react-native'
+import { View, ActivityIndicator } from 'react-native'
 import { Agenda, DateObject } from 'react-native-calendars'
 import { dateObj2Date, getDateString, timestamp2Date } from '@/service/dateFns'
 import { COLORS } from '@/constants/Colors'
@@ -12,20 +12,23 @@ import { useRecoil } from '@/hooks/useRecoil'
 import NoCheckin from '@/components/NoCheckin'
 import { useNavigation } from '@react-navigation/core'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import { generateImageUrl } from '@/service/utilFns'
+import { useInitialize } from '@/hooks/useInitialize'
 import { useCheckinCalendar } from './useCheckinCalendar'
 
 const CheckinCalendar = () => {
   const colorScheme = useColorScheme()
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
-  const { loading, userProfURL, fetchCheckin } = useCheckinCalendar()
+  const { fetchCheckin } = useCheckinCalendar()
+  const { fetchInitialData, loading } = useInitialize()
 
-  const { checkinAgenda } = useRecoil()
+  const { checkinAgenda, user } = useRecoil()
 
   const setHeaderRight = () => {
     navigation.setOptions({
       headerRight: () => (
         <Avatar
-          source={{ uri: userProfURL }}
+          source={{ uri: generateImageUrl(user.photo, 24) }}
           rounded={true}
           containerStyle={{ marginRight: 16 }}
           onPress={() => navigation.navigate('UserProfile')}
@@ -39,8 +42,14 @@ const CheckinCalendar = () => {
   }
 
   useEffect(() => {
+    fetchInitialData()
+  }, [])
+
+  useEffect(() => {
     setHeaderRight()
-  }, [userProfURL])
+  }, [user])
+
+  if (loading) return <ActivityIndicator />
 
   return (
     <View style={{ flex: 1 }}>
@@ -48,9 +57,9 @@ const CheckinCalendar = () => {
         items={checkinAgenda}
         // NOTE: loadItemsForMonth()だとonDayPress時にも発火する問題への対応
         // https://github.com/wix/react-native-calendars/issues/769
-        onVisibleMonthsChange={(dateObject: DateObject[]) => {
-          fetchCheckin(dateObj2Date(dateObject[0]))
-        }}
+        // onVisibleMonthsChange={(dateObject: DateObject[]) => {
+        //   fetchCheckin(dateObj2Date(dateObject[0]))
+        // }}
         onDayPress={() => {
           logEvent('DayPressed')
         }}
