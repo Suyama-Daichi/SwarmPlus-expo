@@ -3,16 +3,18 @@ import { fetchUser, fetchUserCheckins } from '@/service/foursquareApi'
 import { useEffect, useState } from 'react'
 import { Checkin } from '@/types/Foursquare'
 import { IStartEnd } from '@/types/type'
-import { fetchUsers } from '@/api/users'
+import { addUser, fetchUsers } from '@/api/users'
+import { addCheckins } from '@/api/checkins'
 import { useRecoil } from './useRecoil'
 
 export const useInitialize = () => {
-  const { setUser, setCheckins } = useRecoil()
+  const { setUser, setCheckins, checkins, user } = useRecoil()
   const [loading, setLoading] = useState(true)
   const [tempCheckins, setTempCheckins] = useState<Checkin[]>()
 
   const fetchSetUser = async () => {
     const user = await fetchUser()
+    addUser(user)
     setUser(user)
   }
 
@@ -24,18 +26,25 @@ export const useInitialize = () => {
   }
 
   const lazyLoad = async () => {
-    fetchUsers()
-    // if (!tempCheckins) return
-    // const lastCheckinTimestamp = tempCheckins[tempCheckins.length - 1].createdAt
-    // const period: IStartEnd = { beforeTimestamp: lastCheckinTimestamp.toString() }
-    // const result = await fetchUserCheckins(period)
-    // if (result.length === 0 || result.map((m) => m.createdAt).includes(1576760465)) {
-    //   setCheckins(tempCheckins)
-    //   setLoading(false)
-    //   return
-    // }
-    // setTempCheckins([...tempCheckins, ...result])
+    if (!tempCheckins) return
+    const lastCheckinTimestamp = tempCheckins[tempCheckins.length - 1].createdAt
+    const period: IStartEnd = { beforeTimestamp: lastCheckinTimestamp.toString() }
+    const result = await fetchUserCheckins(period)
+    if (result.length === 0 || result.map((m) => m.createdAt).includes(1576760465)) {
+      setCheckins(tempCheckins)
+      return
+    }
+    setTempCheckins([...tempCheckins, ...result])
   }
+
+  useEffect(() => {
+    if (!user.id || checkins.length === 0) return
+    const addCheckinsToFirestore = async () => {
+      await addCheckins(user.id, checkins)
+      setLoading(false)
+    }
+    addCheckinsToFirestore()
+  }, [checkins, user])
 
   useEffect(() => {
     lazyLoad()
