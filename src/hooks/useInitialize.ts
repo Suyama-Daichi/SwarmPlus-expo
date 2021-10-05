@@ -3,6 +3,7 @@ import { fetchUser, fetchUserCheckins } from '@/service/foursquareApi'
 import { useEffect, useState } from 'react'
 import { Checkin } from '@/types/Foursquare'
 import { IStartEnd } from '@/types/type'
+import { fetchUsers } from '@/api/users'
 import { useRecoil } from './useRecoil'
 
 export const useInitialize = () => {
@@ -23,16 +24,17 @@ export const useInitialize = () => {
   }
 
   const lazyLoad = async () => {
-    if (!tempCheckins) return
-    const lastCheckinTimestamp = tempCheckins[tempCheckins.length - 1].createdAt
-    const period: IStartEnd = { beforeTimestamp: lastCheckinTimestamp.toString() }
-    const result = await fetchUserCheckins(period)
-    if (result.length === 0 || result.map((m) => m.createdAt).includes(1576760465)) {
-      setCheckins(tempCheckins)
-      setLoading(false)
-      return
-    }
-    setTempCheckins([...tempCheckins, ...result])
+    fetchUsers()
+    // if (!tempCheckins) return
+    // const lastCheckinTimestamp = tempCheckins[tempCheckins.length - 1].createdAt
+    // const period: IStartEnd = { beforeTimestamp: lastCheckinTimestamp.toString() }
+    // const result = await fetchUserCheckins(period)
+    // if (result.length === 0 || result.map((m) => m.createdAt).includes(1576760465)) {
+    //   setCheckins(tempCheckins)
+    //   setLoading(false)
+    //   return
+    // }
+    // setTempCheckins([...tempCheckins, ...result])
   }
 
   useEffect(() => {
