@@ -2,17 +2,9 @@ import { atom, selector, useRecoilState, useRecoilValue } from 'recoil'
 import { Checkin, User } from '@/types/Foursquare'
 import { convertAgendaObject } from '@/service/utilFns'
 
-const userAtom = atom<User>({
+const userAtom = atom<User | undefined>({
   key: 'user',
-  default: {
-    id: '',
-    firstName: '',
-    lastName: '',
-    gender: '',
-    countryCode: '',
-    relationship: '',
-    photo: { prefix: '', suffix: '' },
-  },
+  default: undefined,
 })
 
 const requestAtom = atom<{ url: string; request: Promise<any> }[]>({

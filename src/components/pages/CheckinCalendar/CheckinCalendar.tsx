@@ -28,7 +28,7 @@ const CheckinCalendar = () => {
     navigation.setOptions({
       headerRight: () => (
         <Avatar
-          source={{ uri: generateImageUrl(user.photo, 24) }}
+          source={{ uri: user && generateImageUrl(user.photo, 24) }}
           rounded={true}
           containerStyle={{ marginRight: 16 }}
           onPress={() => navigation.navigate('UserProfile')}

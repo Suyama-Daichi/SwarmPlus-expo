@@ -20,7 +20,7 @@ const UserCard = ({ user }: Props) => {
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <Avatar
-        source={{ uri: generateImageUrl(user.photo, '200') }}
+        source={{ uri: user.photo && generateImageUrl(user.photo, '200') }}
         size={'large'}
         rounded={true}
         containerStyle={{ marginVertical: 16 }}

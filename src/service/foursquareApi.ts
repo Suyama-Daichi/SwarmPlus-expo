@@ -1,5 +1,5 @@
 import { AccessToken, IStartEnd } from '@/types/type'
-import type { User, CheckinDetail, FoursquareResponse } from '@/types/Foursquare'
+import type { Response, CheckinDetail, FoursquareResponse } from '@/types/Foursquare'
 import { config } from '@/service/config'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
@@ -10,7 +10,6 @@ const getBaseParams = async () => {
   const params = {
     oauth_token: oauthToken,
     v: '20210301',
-    limit: '250',
     locale: 'ja',
     mode: 'swarm',
   }
@@ -19,15 +18,18 @@ const getBaseParams = async () => {
 }
 
 /** ユーザー情報を取得 */
-export const fetchUser = async (userId?: string): Promise<User> => {
+export const fetchUser = async (userId?: string) => {
   const params = await getBaseParams()
-  return fetch(`https://api.foursquare.com/v2/users/${userId || 'self'}?${params.toString()}`, {
-    method: 'GET',
-  })
+  return await fetch(
+    `https://api.foursquare.com/v2/users/${userId || 'self'}?${params.toString()}`,
+    {
+      method: 'GET',
+    }
+  )
     .catch((err) => {
       console.error(err)
     })
-    .then(async (res) => await responseExtractor<User>({ res, type: 'user' }))
+    .then(async (r) => (await r.json()) as FoursquareResponse)
 }
 
 /**
@@ -35,11 +37,23 @@ export const fetchUser = async (userId?: string): Promise<User> => {
  * @param startEnd 日|月の始まりと末のタイムスタンプ
  * @returns チェックインのリスト
  */
-export const fetchUserCheckins = async (startEnd?: IStartEnd) => {
+export const fetchUserCheckins = async ({
+  startEnd,
+  offset,
+  limit,
+}: {
+  startEnd?: IStartEnd
+  offset?: number
+  limit?: number
+}) => {
   const params = await getBaseParams()
   // params.append('sort', 'oldestfirst')
   startEnd?.afterTimestamp && params.append('afterTimestamp', startEnd.afterTimestamp)
   startEnd?.beforeTimestamp && params.append('beforeTimestamp', startEnd.beforeTimestamp)
+  offset && params.append('offset', offset.toString())
+  limit && params.append('limit', limit.toString())
+
+  console.log(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`)
 
   return await fetch(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`, {
     method: 'GET',

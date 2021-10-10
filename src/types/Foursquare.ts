@@ -81,6 +81,19 @@ export type User = {
   contact?: Contact
   createdAt?: number
   friends?: UserSummary<User>
+  lists?: Lists
+  photos?: Summary<{
+    checkin: Checkin
+    venue: Venue
+    createdAt: number
+    height: number
+    width: number
+    id: string
+    prefix: string
+    source: Source
+    suffix: string
+    visibility: 'string'
+  }>
 }
 
 export type Contact = {
@@ -94,6 +107,27 @@ export type Likes = {
   count: number
   groups: User[]
   summary?: string
+}
+
+export type Lists = {
+  count: number
+  groups: Summary<List>[]
+}
+
+export type List = {
+  id: string
+  canonicalUrl: string
+  collaborative: boolean
+  createdAt: number
+  description: string
+  editable: boolean
+  followers: { count: number }
+  listItems: { count: number }
+  name: string
+  photo: Photo
+  public: boolean
+  updatedAt: number
+  url: string
 }
 
 export type UserSummary<T> = {
