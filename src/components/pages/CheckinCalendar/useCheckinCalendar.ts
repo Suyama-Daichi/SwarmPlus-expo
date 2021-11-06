@@ -16,7 +16,7 @@ export const useCheckinCalendar = () => {
   }
 
   useEffect(() => {
-    init()
+    // init()
   }, [])
 
   return { loading, init, calendarEvent }

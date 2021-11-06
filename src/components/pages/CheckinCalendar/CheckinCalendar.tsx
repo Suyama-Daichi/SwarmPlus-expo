@@ -4,7 +4,6 @@ import { CalendarList } from 'react-native-calendars'
 import { useInitialize } from '@/hooks/useInitialize'
 import CalendarHeader from '@/components/organisms/CalendarHeader'
 import FAB from '@/components/molecules/FAB'
-import { addMonth } from '@/service/dateFns'
 import { useCheckinCalendar } from './useCheckinCalendar'
 
 const CheckinCalendar = () => {
@@ -52,8 +51,7 @@ const CheckinCalendar = () => {
         onPressArrowRight={(addMonth) => addMonth()}
         // Replace default month and year title with custom one. the function receive a date as parameter
         renderHeader={(date) => {
-          setCurrentDate(addMonth(new Date(date)))
-          return <CalendarHeader date={date} />
+          return <CalendarHeader date={date} setCurrentDate={setCurrentDate} />
         }}
         markedDates={calendarEvent}
       />
