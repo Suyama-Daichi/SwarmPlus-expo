@@ -50,8 +50,8 @@ export const fetchUserCheckins = async ({
 }) => {
   const params = await getBaseParams()
   // params.append('sort', 'oldestfirst')
-  period?.afterTimestamp && params.append('afterTimestamp', period.afterTimestamp)
-  period?.beforeTimestamp && params.append('beforeTimestamp', period.beforeTimestamp)
+  period?.afterTimestamp && params.append('afterTimestamp', period.afterTimestamp.toString())
+  period?.beforeTimestamp && params.append('beforeTimestamp', period.beforeTimestamp.toString())
   offset && params.append('offset', offset.toString())
   limit && params.append('limit', limit.toString())
 

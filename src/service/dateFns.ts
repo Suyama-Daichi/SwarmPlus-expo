@@ -77,8 +77,8 @@ export const getStartEndOfMonth = (date?: Date): IStartEnd => {
   const afterTimestamp = startOfMonth(date || new Date())
   const beforeTimestamp = endOfMonth(date || new Date())
   return {
-    afterTimestamp: getUnixTime(afterTimestamp).toString(),
-    beforeTimestamp: getUnixTime(beforeTimestamp).toString(),
+    afterTimestamp: getUnixTime(afterTimestamp),
+    beforeTimestamp: getUnixTime(beforeTimestamp),
   }
 }
 
@@ -95,8 +95,8 @@ export const getStartEndOfDay = (dateObject?: DateObject): IStartEnd => {
     dateObject ? new Date(dateObject.year, dateObject.month - 1, dateObject.day) : new Date()
   )
   return {
-    afterTimestamp: getUnixTime(afterTimestamp).toString(),
-    beforeTimestamp: getUnixTime(beforeTimestamp).toString(),
+    afterTimestamp: getUnixTime(afterTimestamp),
+    beforeTimestamp: getUnixTime(beforeTimestamp),
   }
 }
 

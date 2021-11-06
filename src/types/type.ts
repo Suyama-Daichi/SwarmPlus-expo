@@ -1,8 +1,8 @@
 import { CustomMarking, DotMarking } from 'react-native-calendars'
 
 export type IStartEnd = {
-  afterTimestamp: string
-  beforeTimestamp: string
+  afterTimestamp: number
+  beforeTimestamp: number
 }
 
 export type AccessToken = {
