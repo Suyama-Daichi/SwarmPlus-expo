@@ -8,15 +8,16 @@ export const useCheckinCalendar = () => {
   const { fetchCheckin } = useCheckin()
   const [calendarEvent, setCalenderEvent] = useState<CalendarEvent>({})
 
+  const init = async (date: Date = new Date()) => {
+    const checkins = await fetchCheckin(date)
+    const calendarEvent = convertAgendaObject(checkins)
+    setCalenderEvent(calendarEvent)
+    setLoading(true)
+  }
+
   useEffect(() => {
-    const init = async () => {
-      const checkins = await fetchCheckin(new Date())
-      const calendarEvent = convertAgendaObject(checkins)
-      setCalenderEvent(calendarEvent)
-      setLoading(true)
-    }
     init()
   }, [])
 
-  return { loading, fetchCheckin, calendarEvent }
+  return { loading, init, calendarEvent }
 }

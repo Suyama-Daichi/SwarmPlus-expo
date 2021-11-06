@@ -7,10 +7,11 @@ import {
   endOfDay,
   getUnixTime,
   eachDayOfInterval,
-  addDays,
   min,
   max,
   formatDistanceToNow,
+  addDays,
+  addMonths,
 } from 'date-fns'
 import { DateObject, LocaleConfig } from 'react-native-calendars'
 import { ja } from 'date-fns/locale'
@@ -108,6 +109,10 @@ export const getStartEndOfDay = (dateObject?: DateObject): IStartEnd => {
 export const getDateArray = (start: Date = new Date(), end: Date = addDays(new Date(), 7)) => {
   const dateArray = eachDayOfInterval({ start, end })
   return dateArray.map((m) => getDateString(m))
+}
+
+export const addMonth = (date: Date) => {
+  return addMonths(date, 1)
 }
 
 /**
