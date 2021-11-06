@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { CalendarList } from 'react-native-calendars'
 import { useInitialize } from '@/hooks/useInitialize'
 import CalendarHeader from '@/components/organisms/CalendarHeader'
 import FAB from '@/components/molecules/FAB'
+import { dateObj2Date } from '@/service/dateFns'
 import { useCheckinCalendar } from './useCheckinCalendar'
 
 const CheckinCalendar = () => {
   const { loading } = useInitialize()
   const { calendarEvent, init: fetchCheckins } = useCheckinCalendar()
   const [currentDate, setCurrentDate] = useState<Date>()
+
+  const fetch = useCallback(() => fetchCheckins(currentDate), [currentDate, fetchCheckins])
 
   if (loading) return <ActivityIndicator />
 
@@ -36,6 +39,7 @@ const CheckinCalendar = () => {
         onMonthChange={(month) => {
           console.log('month changed', month)
         }}
+        onVisibleMonthsChange={(date) => date.length === 1 && setCurrentDate(dateObj2Date(date[0]))}
         // Hide month navigation arrows. Default = false
         hideArrows={false}
         // Do not show days of other months in month page. Default = false
@@ -51,11 +55,11 @@ const CheckinCalendar = () => {
         onPressArrowRight={(addMonth) => addMonth()}
         // Replace default month and year title with custom one. the function receive a date as parameter
         renderHeader={(date) => {
-          return <CalendarHeader date={date} setCurrentDate={setCurrentDate} />
+          return <CalendarHeader date={date} />
         }}
         markedDates={calendarEvent}
       />
-      <FAB name={'sync'} label={['更新']} solid={true} onPress={() => fetchCheckins(currentDate)} />
+      <FAB name={'sync'} label={['更新']} solid={true} onPress={fetch} />
     </>
   )
 }
