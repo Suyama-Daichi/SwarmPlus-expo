@@ -1,11 +1,6 @@
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil'
-import { Checkin, User } from '@/types/Foursquare'
+import { Checkin } from '@/types/Foursquare'
 import { convertAgendaObject } from '@/service/utilFns'
-
-const userAtom = atom<User | undefined>({
-  key: 'user',
-  default: undefined,
-})
 
 const requestAtom = atom<{ url: string; request: Promise<any> }[]>({
   key: 'request',
@@ -33,7 +28,6 @@ const checkinAgendaSelector = selector({
 })
 
 export const useRecoil = () => {
-  const [user, setUser] = useRecoilState(userAtom)
   const [checkins, setCheckins] = useRecoilState(checkinsAtom)
   const [fetchHistory, setFetchHistory] = useRecoilState(fetchHistoryAtom)
   const [selectedDateOnMap, setSelectedDateOnMap] = useRecoilState(selectedDateOnMapAtom)
@@ -41,8 +35,6 @@ export const useRecoil = () => {
   const checkinAgenda = useRecoilValue(checkinAgendaSelector)
 
   return {
-    setUser,
-    user,
     requestCache,
     setRequestCache,
     checkins,

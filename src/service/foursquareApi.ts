@@ -1,4 +1,4 @@
-import { AccessToken, IStartEnd } from '@/types/type'
+import { AccessToken, IStartEnd as IPeriod } from '@/types/type'
 import type { Response, CheckinDetail, FoursquareResponse } from '@/types/Foursquare'
 import { config } from '@/service/config'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
@@ -28,28 +28,30 @@ export const fetchUser = async (userId?: string) => {
   )
     .catch((err) => {
       console.error(err)
+      return undefined
     })
-    .then(async (r) => (await r.json()) as FoursquareResponse)
+    .then(async (r) => r && ((await r.json()) as FoursquareResponse))
+    .then((t) => t && t.response.user)
 }
 
 /**
  * ユーザーのチェックインを取得
- * @param startEnd 日|月の始まりと末のタイムスタンプ
+ * @param period 日|月の始まりと末のタイムスタンプ
  * @returns チェックインのリスト
  */
 export const fetchUserCheckins = async ({
-  startEnd,
+  period,
   offset,
-  limit,
+  limit = 250,
 }: {
-  startEnd?: IStartEnd
+  period?: IPeriod
   offset?: number
   limit?: number
 }) => {
   const params = await getBaseParams()
   // params.append('sort', 'oldestfirst')
-  startEnd?.afterTimestamp && params.append('afterTimestamp', startEnd.afterTimestamp)
-  startEnd?.beforeTimestamp && params.append('beforeTimestamp', startEnd.beforeTimestamp)
+  period?.afterTimestamp && params.append('afterTimestamp', period.afterTimestamp)
+  period?.beforeTimestamp && params.append('beforeTimestamp', period.beforeTimestamp)
   offset && params.append('offset', offset.toString())
   limit && params.append('limit', limit.toString())
 

@@ -6,9 +6,11 @@ import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import { setUserId, logEvent } from '@/hooks/useAnalytics'
 import storage from '@/service/reactNativeStorage'
 import { parseURLParams } from '@/service/utilFns'
-import { fetchAccessToken, fetchUser } from '@/service/foursquareApi'
+import { fetchAccessToken } from '@/service/foursquareApi'
+import { useUser } from '../../hooks/useUser'
 
 const SignInByFoursquare = () => {
+  const { fetchSetUser } = useUser()
   const { CLIENT_ID, REDIRECT_URI } = config()
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
 
@@ -18,8 +20,8 @@ const SignInByFoursquare = () => {
     if (code && !loading) {
       const accessToken = await fetchAccessToken(code)
       await storage.save({ key: FOURSQUARE_ACCESS_TOKEN, data: accessToken })
-      const user = await fetchUser()
-      setUserId(user.id)
+      const user = await fetchSetUser()
+      setUserId(user ? user.id : '')
       await logEvent('login')
       navigation.navigate('Main')
     }

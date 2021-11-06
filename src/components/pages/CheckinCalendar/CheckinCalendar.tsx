@@ -1,79 +1,65 @@
-import React, { useEffect } from 'react'
-import { View, ActivityIndicator } from 'react-native'
-import { Agenda, DateObject } from 'react-native-calendars'
-import { dateObj2Date, getDateString, timestamp2Date } from '@/service/dateFns'
-import { COLORS } from '@/constants/Colors'
-import type { Checkin } from '@/types/Foursquare'
-import { Timeline } from '@/components/templates/Timeline'
-import useColorScheme from '@/hooks/useColorScheme'
-import { logEvent } from '@/hooks/useAnalytics'
-import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
-import { useRecoil } from '@/hooks/useRecoil'
-import NoCheckin from '@/components/NoCheckin'
-import { useNavigation } from '@react-navigation/core'
-import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import { generateImageUrl } from '@/service/utilFns'
+import React from 'react'
+import { Text, ActivityIndicator } from 'react-native'
+import { Calendar } from 'react-native-calendars'
 import { useInitialize } from '@/hooks/useInitialize'
 import { useCheckinCalendar } from './useCheckinCalendar'
 
 const CheckinCalendar = () => {
-  const colorScheme = useColorScheme()
-  const navigation = useNavigation<NavigationProp<ParamListBase>>()
-  const { fetchCheckin } = useCheckinCalendar()
-  const { fetchInitialData, loading } = useInitialize()
-
-  const { checkinAgenda, user } = useRecoil()
-
-  const setHeaderRight = () => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Avatar
-          source={{ uri: user && generateImageUrl(user.photo, 24) }}
-          rounded={true}
-          containerStyle={{ marginRight: 16 }}
-          onPress={() => navigation.navigate('UserProfile')}
-        />
-      ),
-    })
-  }
-
-  const renderDay = (dateObject: DateObject, item: Checkin) => {
-    return <Timeline date={timestamp2Date(dateObject?.timestamp)} item={item} />
-  }
-
-  useEffect(() => {
-    fetchInitialData()
-  }, [])
-
-  useEffect(() => {
-    setHeaderRight()
-  }, [user])
+  const { loading } = useInitialize()
+  const { calendarEvent } = useCheckinCalendar()
 
   if (loading) return <ActivityIndicator />
 
   return (
-    <View style={{ flex: 1 }}>
-      <Agenda<Checkin>
-        items={checkinAgenda}
-        // NOTE: loadItemsForMonth()だとonDayPress時にも発火する問題への対応
-        // https://github.com/wix/react-native-calendars/issues/769
-        // onVisibleMonthsChange={(dateObject: DateObject[]) => {
-        //   fetchCheckin(dateObj2Date(dateObject[0]))
-        // }}
-        onDayPress={() => {
-          logEvent('DayPressed')
-        }}
-        displayLoadingIndicator={loading}
-        maxDate={getDateString()}
-        futureScrollRange={1}
-        renderEmptyData={() => <NoCheckin />}
-        renderDay={renderDay}
-        theme={{
-          agendaKnobColor: COLORS[colorScheme].primaryOrange,
-          dotColor: COLORS[colorScheme].primaryOrange,
-        }}
-      />
-    </View>
+    <Calendar
+      // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
+      minDate={'2012-05-10'}
+      // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
+      maxDate={new Date()}
+      // Handler which gets executed on day press. Default = undefined
+      onDayPress={(day) => {
+        console.log('selected day', day)
+      }}
+      // Handler which gets executed on day long press. Default = undefined
+      onDayLongPress={(day) => {
+        console.log('selected day', day)
+      }}
+      // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+      monthFormat={'yyyy MM'}
+      // Handler which gets executed when visible month changes in calendar. Default = undefined
+      onMonthChange={(month) => {
+        console.log('month changed', month)
+      }}
+      // Hide month navigation arrows. Default = false
+      hideArrows={true}
+      // Replace default arrows with custom ones (direction can be 'left' or 'right')
+      renderArrow={(direction) => <Arrow />}
+      // Do not show days of other months in month page. Default = false
+      hideExtraDays={true}
+      // If hideArrows = false and hideExtraDays = false do not switch month when tapping on greyed out
+      // day from another month that is visible in calendar page. Default = false
+      disableMonthChange={true}
+      // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
+      firstDay={1}
+      // Hide day names. Default = false
+      hideDayNames={true}
+      // Handler which gets executed when press arrow icon left. It receive a callback can go back month
+      onPressArrowLeft={(subtractMonth) => subtractMonth()}
+      // Handler which gets executed when press arrow icon right. It receive a callback can go next month
+      onPressArrowRight={(addMonth) => addMonth()}
+      // Disable left arrow. Default = false
+      disableArrowLeft={true}
+      // Disable right arrow. Default = false
+      disableArrowRight={true}
+      // Replace default month and year title with custom one. the function receive a date as parameter
+      renderHeader={(date) => {
+        /*Return JSX*/
+        return <Text></Text>
+      }}
+      // Enable the option to swipe between months. Default = false
+      enableSwipeMonths={true}
+      markedDates={calendarEvent}
+    />
   )
 }
 
