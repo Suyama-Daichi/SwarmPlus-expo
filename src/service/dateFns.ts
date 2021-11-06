@@ -22,7 +22,10 @@ import { IStartEnd } from '@/types/type'
  * @returns 日付文字列 ex: 2020-03-12
  */
 export const getDateString = (date: Date | number = new Date(), formatString = 'yyyy-MM-dd') => {
-  return format(typeof date === 'number' ? new Date(Number(date + '000')) : date, formatString)
+  return format(
+    typeof date === 'number' ? new Date(Number(date + '000')) : new Date(date),
+    formatString
+  )
 }
 
 export const date2Timestamp = (date: Date) => {

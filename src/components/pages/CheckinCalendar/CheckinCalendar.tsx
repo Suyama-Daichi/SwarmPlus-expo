@@ -1,7 +1,8 @@
 import React from 'react'
-import { Text, ActivityIndicator } from 'react-native'
-import { Calendar } from 'react-native-calendars'
+import { ActivityIndicator } from 'react-native'
+import { CalendarList } from 'react-native-calendars'
 import { useInitialize } from '@/hooks/useInitialize'
+import CalendarHeader from '@/components/organisms/CalendarHeader'
 import { useCheckinCalendar } from './useCheckinCalendar'
 
 const CheckinCalendar = () => {
@@ -11,7 +12,9 @@ const CheckinCalendar = () => {
   if (loading) return <ActivityIndicator />
 
   return (
-    <Calendar
+    <CalendarList
+      horizontal={true}
+      pagingEnabled={true}
       // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
       minDate={'2012-05-10'}
       // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
@@ -52,12 +55,8 @@ const CheckinCalendar = () => {
       // Disable right arrow. Default = false
       disableArrowRight={true}
       // Replace default month and year title with custom one. the function receive a date as parameter
-      renderHeader={(date) => {
-        /*Return JSX*/
-        return <Text></Text>
-      }}
+      renderHeader={(date) => <CalendarHeader date={date} />}
       // Enable the option to swipe between months. Default = false
-      enableSwipeMonths={true}
       markedDates={calendarEvent}
     />
   )
