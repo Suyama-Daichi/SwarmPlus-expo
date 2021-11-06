@@ -1,8 +1,9 @@
 import { getStartEndOfMonth } from '@/service/dateFns'
 import { fetchUserCheckins } from '@/service/foursquareApi'
-import { convertAgendaObject } from '@/service/utilFns'
 import { Checkin } from '@/types/Foursquare'
-import { atom, selector, useRecoilValue, useRecoilState } from 'recoil'
+import { atom, useRecoilState } from 'recoil'
+import { addCheckins } from '@/api/checkins'
+import { useUser } from '@/hooks/useUser'
 
 const checkinsAtom = atom<Checkin[]>({
   key: 'checkins',
@@ -10,12 +11,14 @@ const checkinsAtom = atom<Checkin[]>({
 })
 
 export const useCheckin = () => {
+  const { loginUser } = useUser()
   const [checkins, setCheckins] = useRecoilState(checkinsAtom)
 
   const fetchCheckin = async (date: Date) => {
     const period = getStartEndOfMonth(date)
     const checkins = await fetchUserCheckins({ period })
     setCheckins((current) => (current ? [...current, ...checkins] : checkins))
+    loginUser && addCheckins(loginUser.id, checkins)
     return checkins
   }
 
