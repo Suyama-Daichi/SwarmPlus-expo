@@ -34,9 +34,7 @@ const CheckinCalendar = () => {
         console.log('month changed', month)
       }}
       // Hide month navigation arrows. Default = false
-      hideArrows={true}
-      // Replace default arrows with custom ones (direction can be 'left' or 'right')
-      renderArrow={(direction) => <Arrow />}
+      hideArrows={false}
       // Do not show days of other months in month page. Default = false
       hideExtraDays={true}
       // If hideArrows = false and hideExtraDays = false do not switch month when tapping on greyed out
@@ -44,16 +42,10 @@ const CheckinCalendar = () => {
       disableMonthChange={true}
       // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
       firstDay={1}
-      // Hide day names. Default = false
-      hideDayNames={true}
       // Handler which gets executed when press arrow icon left. It receive a callback can go back month
       onPressArrowLeft={(subtractMonth) => subtractMonth()}
       // Handler which gets executed when press arrow icon right. It receive a callback can go next month
       onPressArrowRight={(addMonth) => addMonth()}
-      // Disable left arrow. Default = false
-      disableArrowLeft={true}
-      // Disable right arrow. Default = false
-      disableArrowRight={true}
       // Replace default month and year title with custom one. the function receive a date as parameter
       renderHeader={(date) => <CalendarHeader date={date} />}
       // Enable the option to swipe between months. Default = false
