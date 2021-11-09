@@ -3,7 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import ToolBar from './ToolBar'
 
 type Props = {
-  setCurrentDate: React.Dispatch<React.SetStateAction<Date | undefined>>
+  setCurrentDate: React.Dispatch<React.SetStateAction<Date>>
 }
 
 const DatePicker = ({ setCurrentDate }: Props) => {
@@ -20,6 +20,7 @@ const DatePicker = ({ setCurrentDate }: Props) => {
         is24Hour={true}
         display={'spinner'}
         onChange={(_, date: Date) => setDatePickerDate(date)}
+        minimumDate={new Date(2009, 2, 11)}
         maximumDate={new Date()}
       />
     </>
