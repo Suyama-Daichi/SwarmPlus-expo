@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { CalendarList } from 'react-native-calendars'
 import { useInitialize } from '@/hooks/useInitialize'
@@ -6,25 +6,27 @@ import CalendarHeader from '@/components/organisms/CalendarHeader'
 import FAB from '@/components/molecules/FAB'
 import { dateObj2Date } from '@/service/dateFns'
 import { useCheckinCalendar } from './useCheckinCalendar'
+import DatePicker from '../../molecules/DatePicker'
 
 const CheckinCalendar = () => {
   const { loading } = useInitialize()
   const { calendarEvent, init: fetchCheckins } = useCheckinCalendar()
-  const [currentDate, setCurrentDate] = useState<Date>()
-
+  const [currentDate, setCurrentDate] = useState<Date>(new Date())
+  const maxDate = useMemo(() => new Date(), [])
   const fetch = useCallback(() => fetchCheckins(currentDate), [currentDate, fetchCheckins])
 
   if (loading) return <ActivityIndicator />
-
   return (
     <>
       <CalendarList
+        pastScrollRange={240}
+        current={currentDate}
         horizontal={true}
         pagingEnabled={true}
         // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
         minDate={'2012-05-10'}
         // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-        maxDate={new Date()}
+        maxDate={maxDate}
         // Handler which gets executed on day press. Default = undefined
         onDayPress={(day) => {
           console.log('selected day', day)
@@ -37,6 +39,7 @@ const CheckinCalendar = () => {
         monthFormat={'yyyy MM'}
         // Handler which gets executed when visible month changes in calendar. Default = undefined
         onMonthChange={(month) => {
+          setCurrentDate(dateObj2Date(month))
           console.log('month changed', month)
         }}
         onVisibleMonthsChange={(date) => date.length === 1 && setCurrentDate(dateObj2Date(date[0]))}
@@ -59,6 +62,7 @@ const CheckinCalendar = () => {
         }}
         markedDates={calendarEvent}
       />
+      <DatePicker setCurrentDate={setCurrentDate} />
       <FAB name={'sync'} label={['更新']} solid={true} onPress={fetch} />
     </>
   )
