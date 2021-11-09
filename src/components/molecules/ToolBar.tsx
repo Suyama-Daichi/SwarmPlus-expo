@@ -1,8 +1,9 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { COLORS } from '../../constants/Colors'
 
 type Props = {
-  buttons: { label: string; onPress: () => void }[]
+  buttons: { label: string; onPress?: () => void }[]
 }
 
 const ToolBar = ({ buttons }: Props) => {
@@ -14,8 +15,14 @@ const ToolBar = ({ buttons }: Props) => {
       ]}
     >
       {buttons.map(({ label, onPress }) => (
-        <TouchableOpacity key={label} style={{ padding: 8 }} onPress={() => onPress()}>
-          <Text>{label}</Text>
+        <TouchableOpacity
+          key={label}
+          style={{ padding: 8 }}
+          onPress={() => typeof onPress === 'function' && onPress()}
+        >
+          <Text style={{ fontSize: 20, color: COLORS.common.textSub, fontWeight: 'bold' }}>
+            {label}
+          </Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -23,5 +30,3 @@ const ToolBar = ({ buttons }: Props) => {
 }
 
 export default ToolBar
-
-const styles = StyleSheet.create({})
