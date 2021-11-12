@@ -5,7 +5,7 @@ import { useCheckin } from '@/hooks/useCheckin'
 
 export const useCheckinCalendar = () => {
   const [loading, setLoading] = useState(true)
-  const { fetchCheckin, checkins } = useCheckin()
+  const { fetchCheckin, checkins, fetchCheckinsHard } = useCheckin()
   const [calendarEvent, setCalenderEvent] = useState<CalendarEvent>({})
 
   const init = (date: Date = new Date()) => {
@@ -22,5 +22,5 @@ export const useCheckinCalendar = () => {
     init()
   }, [])
 
-  return { loading, init, calendarEvent }
+  return { loading, init, calendarEvent, fetchCheckinsHard }
 }

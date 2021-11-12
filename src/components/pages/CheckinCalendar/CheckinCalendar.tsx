@@ -10,10 +10,10 @@ import DatePicker from '../../molecules/DatePicker'
 
 const CheckinCalendar = () => {
   const { loading } = useInitialize()
-  const { calendarEvent, init: fetchCheckins } = useCheckinCalendar()
+  const { calendarEvent, init: fetchCheckins, fetchCheckinsHard } = useCheckinCalendar()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
   const maxDate = useMemo(() => new Date(), [])
-  const fetch = useCallback(() => fetchCheckins(currentDate), [currentDate, fetchCheckins])
+  const fetch = useCallback((currentDate: Date) => fetchCheckins(currentDate), [fetchCheckins])
 
   if (loading) return <ActivityIndicator />
   return (
@@ -37,12 +37,7 @@ const CheckinCalendar = () => {
         }}
         // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
         monthFormat={'yyyy MM'}
-        // Handler which gets executed when visible month changes in calendar. Default = undefined
-        onMonthChange={(month) => {
-          setCurrentDate(dateObj2Date(month))
-          console.log('month changed', month)
-        }}
-        onVisibleMonthsChange={(date) => date.length === 1 && setCurrentDate(dateObj2Date(date[0]))}
+        onVisibleMonthsChange={(date) => date.length === 1 && fetch(dateObj2Date(date[0]))}
         // Hide month navigation arrows. Default = false
         hideArrows={false}
         // Do not show days of other months in month page. Default = false
@@ -63,7 +58,12 @@ const CheckinCalendar = () => {
         markedDates={calendarEvent}
       />
       <DatePicker setCurrentDate={setCurrentDate} />
-      <FAB name={'sync'} label={['更新']} solid={true} onPress={fetch} />
+      <FAB
+        name={'sync'}
+        label={['更新']}
+        solid={true}
+        onPress={() => fetchCheckinsHard(currentDate)}
+      />
     </>
   )
 }

@@ -25,5 +25,14 @@ export const useCheckin = () => {
     return checkins
   }
 
-  return { fetchCheckin, checkins, setCheckins }
+  const fetchCheckinsHard = async (date: Date) => {
+    const period = getStartEndOfMonth(date)
+    const checkins = await fetchUserCheckins({ period })
+
+    setCheckins((current) => (current ? [...current, ...checkins] : checkins))
+    loginUser && addCheckins(loginUser.id, checkins)
+    return checkins
+  }
+
+  return { fetchCheckin, fetchCheckinsHard, checkins, setCheckins }
 }
