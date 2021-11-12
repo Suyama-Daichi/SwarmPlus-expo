@@ -15,6 +15,7 @@ import Address from '@/components/organisms/Address'
 import { formatTimestamp } from '@/service/dateFns'
 import { generateImageUrl } from '@/service/utilFns'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import { useUser } from '@/hooks/useUser'
 import { PhotoViewer } from '../molecules/PhotoViewer'
 
 type Props = {
@@ -26,7 +27,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
   const { isMayor, venue, visibility, likes, comments, shout, createdAt, photos } = item
 
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
-  const { user } = useRecoil()
+  const { loginUser } = useUser()
   const [showPhotoViewer, setShowPhotoViewer] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
 
@@ -46,7 +47,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
         rounded
         size={'medium'}
         source={{
-          uri: generateImageUrl(user.photo, '50'),
+          uri: generateImageUrl(loginUser.photo, '50'),
         }}
         icon={{ name: 'person-outline' }}
       >

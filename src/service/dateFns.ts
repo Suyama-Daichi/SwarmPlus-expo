@@ -7,10 +7,11 @@ import {
   endOfDay,
   getUnixTime,
   eachDayOfInterval,
-  addDays,
   min,
   max,
   formatDistanceToNow,
+  addDays,
+  addMonths,
 } from 'date-fns'
 import { DateObject, LocaleConfig } from 'react-native-calendars'
 import { ja } from 'date-fns/locale'
@@ -22,7 +23,15 @@ import { IStartEnd } from '@/types/type'
  * @returns 日付文字列 ex: 2020-03-12
  */
 export const getDateString = (date: Date | number = new Date(), formatString = 'yyyy-MM-dd') => {
-  return format(typeof date === 'number' ? new Date(Number(date + '000')) : date, formatString)
+  return format(
+    typeof date === 'number' ? new Date(Number(date + '000')) : new Date(date),
+    formatString,
+    { locale: ja }
+  )
+}
+
+export const date2Timestamp = (date: Date) => {
+  return Math.round(date.getTime() / 1000)
 }
 
 /**
@@ -69,8 +78,8 @@ export const getStartEndOfMonth = (date?: Date): IStartEnd => {
   const afterTimestamp = startOfMonth(date || new Date())
   const beforeTimestamp = endOfMonth(date || new Date())
   return {
-    afterTimestamp: getUnixTime(afterTimestamp).toString(),
-    beforeTimestamp: getUnixTime(beforeTimestamp).toString(),
+    afterTimestamp: getUnixTime(afterTimestamp),
+    beforeTimestamp: getUnixTime(beforeTimestamp),
   }
 }
 
@@ -87,8 +96,8 @@ export const getStartEndOfDay = (dateObject?: DateObject): IStartEnd => {
     dateObject ? new Date(dateObject.year, dateObject.month - 1, dateObject.day) : new Date()
   )
   return {
-    afterTimestamp: getUnixTime(afterTimestamp).toString(),
-    beforeTimestamp: getUnixTime(beforeTimestamp).toString(),
+    afterTimestamp: getUnixTime(afterTimestamp),
+    beforeTimestamp: getUnixTime(beforeTimestamp),
   }
 }
 
@@ -101,6 +110,10 @@ export const getStartEndOfDay = (dateObject?: DateObject): IStartEnd => {
 export const getDateArray = (start: Date = new Date(), end: Date = addDays(new Date(), 7)) => {
   const dateArray = eachDayOfInterval({ start, end })
   return dateArray.map((m) => getDateString(m))
+}
+
+export const addMonth = (date: Date) => {
+  return addMonths(date, 1)
 }
 
 /**
@@ -132,6 +145,6 @@ export const formatDistanceToNowForTimestamp = (date: Date | undefined) => {
  */
 export const getDay = (date: Date | undefined) => {
   if (!date || !LocaleConfig.locales.jp.dayNamesShort) return
-  const day = LocaleConfig.locales.jp.dayNamesShort[date?.getDay()]
+  const day = LocaleConfig.locales.jp.dayNamesShort[date.getDay()]
   return day
 }

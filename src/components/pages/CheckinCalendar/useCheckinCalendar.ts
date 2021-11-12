@@ -1,45 +1,26 @@
-import { useRecoil } from '@/hooks/useRecoil'
-import { getStartEndOfMonth } from '@/service/dateFns'
-import { fetchUserCheckins, fetchUser } from '@/service/foursquareApi'
-import { generateImageUrl } from '@/service/utilFns'
-import { useState, useEffect } from 'react'
+import { convertAgendaObject } from '@/service/utilFns'
+import { CalendarEvent } from '@/types/type'
+import { useEffect, useState } from 'react'
+import { useCheckin } from '@/hooks/useCheckin'
 
 export const useCheckinCalendar = () => {
   const [loading, setLoading] = useState(true)
-  const { setUser, setCheckins, setFetchHistory, fetchHistory } = useRecoil()
-  const [userProfURL, setUserProfURL] = useState<string>()
+  const { fetchCheckin, checkins, fetchCheckinsHard } = useCheckin()
+  const [calendarEvent, setCalenderEvent] = useState<CalendarEvent>({})
 
-  const fetchCheckin = async (date: Date) => {
-    setLoading(true)
-    const period = getStartEndOfMonth(date)
-    const exists = fetchHistory.some((c) => c.valueOf() === date.valueOf())
-    setFetchHistory(() => {
-      if (fetchHistory.length === 0) return [date]
-      return exists ? fetchHistory : [...fetchHistory, date]
-    })
-    if (exists) {
-      setLoading(false)
-      return
-    }
-    const checkins = await fetchUserCheckins(period)
-    setCheckins((current) => {
-      if (current.length === 0) return checkins.items
-      return [...current, ...checkins.items.filter((f) => current.some((c) => c.id !== f.id))]
-    })
-    setLoading(false)
-  }
-
-  const fetchSetData = async () => {
-    const user = await fetchUser()
-    setUser(user)
-    const uri = generateImageUrl(user.photo, 24)
-    setUserProfURL(uri)
-    await fetchCheckin(new Date())
+  const init = (date: Date = new Date()) => {
+    fetchCheckin(date)
   }
 
   useEffect(() => {
-    fetchSetData()
+    const calendarEvent = convertAgendaObject(checkins)
+    setCalenderEvent(calendarEvent)
+    setLoading(true)
+  }, [checkins])
+
+  useEffect(() => {
+    init()
   }, [])
 
-  return { loading, userProfURL, fetchCheckin }
+  return { loading, init, calendarEvent, fetchCheckinsHard }
 }

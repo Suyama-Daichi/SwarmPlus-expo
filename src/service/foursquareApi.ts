@@ -1,5 +1,5 @@
-import { AccessToken, IStartEnd } from '@/types/type'
-import type { Checkins, User, CheckinDetail } from '@/types/Foursquare'
+import { AccessToken, IStartEnd as IPeriod } from '@/types/type'
+import type { Response, CheckinDetail, FoursquareResponse } from '@/types/Foursquare'
 import { config } from '@/service/config'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
@@ -10,7 +10,6 @@ const getBaseParams = async () => {
   const params = {
     oauth_token: oauthToken,
     v: '20210301',
-    limit: '250',
     locale: 'ja',
     mode: 'swarm',
   }
@@ -19,35 +18,64 @@ const getBaseParams = async () => {
 }
 
 /** ユーザー情報を取得 */
-export const fetchUser = async (userId?: string): Promise<User> => {
+export const fetchUser = async (userId?: string) => {
   const params = await getBaseParams()
-  return fetch(`https://api.foursquare.com/v2/users/${userId || 'self'}?${params.toString()}`, {
-    method: 'GET',
-  })
+  return await fetch(
+    `https://api.foursquare.com/v2/users/${userId || 'self'}?${params.toString()}`,
+    {
+      method: 'GET',
+    }
+  )
     .catch((err) => {
       console.error(err)
+      return undefined
     })
-    .then(async (res) => await responseExtractor<User>({ res, type: 'user' }))
+    .then(async (r) => r && ((await r.json()) as FoursquareResponse))
+    .then((t) => t && t.response.user)
 }
 
 /**
  * ユーザーのチェックインを取得
- * @param startEnd 日|月の始まりと末のタイムスタンプ
+ * @param period 日|月の始まりと末のタイムスタンプ
  * @returns チェックインのリスト
  */
-export const fetchUserCheckins = async (startEnd?: IStartEnd): Promise<Checkins> => {
-  const params = await getBaseParams()
-  if (startEnd) {
-    params.append('afterTimestamp', startEnd.afterTimestamp)
-    params.append('beforeTimestamp', startEnd.beforeTimestamp)
-    params.append('sort', 'oldestfirst')
-  }
+export const fetchUserCheckins = async ({
+  period,
+  offset,
+  limit = 250,
+}: {
+  period?: IPeriod
+  offset?: number
+  limit?: number
+}) => {
+  return new Promise((resolve, reject) => {
+    const fetchData = async () => {
+      const params = await getBaseParams()
+      // params.append('sort', 'oldestfirst')
+      period?.afterTimestamp && params.append('afterTimestamp', period.afterTimestamp.toString())
+      period?.beforeTimestamp && params.append('beforeTimestamp', period.beforeTimestamp.toString())
+      offset && params.append('offset', offset.toString())
+      limit && params.append('limit', limit.toString())
 
-  return await fetch(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`, {
-    method: 'GET',
+      console.log(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`)
+
+      const result = await fetch(
+        `https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`,
+        {
+          method: 'GET',
+        }
+      )
+        .catch((err) => console.error(err))
+        .then(async (res) => {
+          if (!res) return []
+          const response = (await res.json()) as FoursquareResponse
+          return response.response.checkins ? response.response.checkins.items : []
+        })
+      resolve(result)
+    }
+
+    fetchData()
   })
-    .catch((err) => console.error(err))
-    .then(async (res) => await responseExtractor<Checkins>({ res, type: 'checkins' }))
 }
 
 /**

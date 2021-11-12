@@ -1,5 +1,5 @@
 import { Checkin, FoursquareResponse, Icon, Photo } from '@/types/Foursquare'
-import { AgendaItemsMap } from 'react-native-calendars'
+import { CalendarEvent } from '@/types/type'
 import { getDateString } from './dateFns'
 import 'react-native-url-polyfill/auto'
 
@@ -8,32 +8,26 @@ import 'react-native-url-polyfill/auto'
  * @param checkins チェックインオブジェクト
  * @returns AgendaItems: object
  */
-export const convertAgendaObject = (checkins: Checkin[]): AgendaItemsMap<Checkin> => {
-  type GroupBy = { date: string; checkins: Checkin[] }
-  //groupBy
-  const groupBy = checkins.reduce((result: GroupBy[], current) => {
-    // 同日のチェックインがあるか
-    const element = result.find((checkin) => {
-      return checkin.date === getDateString(current.createdAt)
-    })
-    if (element) {
-      //ある時（下記、初期データを操作）
-      element.checkins.push(current)
-    } else {
-      //無いとき（新規に初期データを作成）
-      result.push({
-        date: getDateString(current.createdAt),
-        checkins: [current],
-      })
+export const convertAgendaObject = (checkins: Checkin[]) => {
+  const events = checkins.map((m) => {
+    const dateStr = getDateString(m.createdAt)
+    const { isMayor, like, id, likes, photos, posts, source, venue, createdAt } = m
+    const event = {
+      isMayor,
+      like,
+      id,
+      likes,
+      photos,
+      posts,
+      source,
+      venue,
+      createdAt,
+      marked: true,
     }
-    return result
-  }, [])
-
-  // AgendaObjectに変換
-  // ex: { "2021-03-05" : Checkin[]}
-  const agendaObject = groupBy.reduce((a, b) => ({ ...a, [b.date]: b.checkins }), {})
-
-  return agendaObject
+    return [dateStr, event]
+  })
+  const calendarEvent = Object.fromEntries(events) as CalendarEvent
+  return calendarEvent
 }
 
 /**
@@ -78,4 +72,8 @@ export const responseExtractor = async <T>({ res, type }: Props): Promise<T> => 
     console.error({ error: 'failed', message: parsedRes.meta.errorDetail })
   }
   return parsedRes.response[type] as unknown as T
+}
+
+export const unionArray = <T>(array: T[], key: string) => {
+  return [...new Map(array.map((item) => [item[key], item])).values()]
 }

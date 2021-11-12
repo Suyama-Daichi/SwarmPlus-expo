@@ -1,68 +1,72 @@
-import React, { useEffect } from 'react'
-import { View } from 'react-native'
-import { Agenda, DateObject } from 'react-native-calendars'
-import { dateObj2Date, getDateString, timestamp2Date } from '@/service/dateFns'
-import { COLORS } from '@/constants/Colors'
-import type { Checkin } from '@/types/Foursquare'
-import { Timeline } from '@/components/templates/Timeline'
-import useColorScheme from '@/hooks/useColorScheme'
-import { logEvent } from '@/hooks/useAnalytics'
-import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
-import { useRecoil } from '@/hooks/useRecoil'
-import NoCheckin from '@/components/NoCheckin'
-import { useNavigation } from '@react-navigation/core'
-import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import React, { useState, useCallback, useMemo } from 'react'
+import { ActivityIndicator } from 'react-native'
+import { CalendarList } from 'react-native-calendars'
+import { useInitialize } from '@/hooks/useInitialize'
+import CalendarHeader from '@/components/organisms/CalendarHeader'
+import FAB from '@/components/molecules/FAB'
+import { dateObj2Date } from '@/service/dateFns'
+import { useNavigation } from '@/hooks/useNavigation'
 import { useCheckinCalendar } from './useCheckinCalendar'
+import DatePicker from '../../molecules/DatePicker'
 
 const CheckinCalendar = () => {
-  const colorScheme = useColorScheme()
-  const navigation = useNavigation<NavigationProp<ParamListBase>>()
-  const { loading, userProfURL, fetchCheckin } = useCheckinCalendar()
+  const navigation = useNavigation()
+  const { loading } = useInitialize()
+  const { calendarEvent, init: fetchCheckins, fetchCheckinsHard } = useCheckinCalendar()
+  const [currentDate, setCurrentDate] = useState<Date>(new Date())
+  const maxDate = useMemo(() => new Date(), [])
+  const fetch = useCallback((currentDate: Date) => fetchCheckins(currentDate), [fetchCheckins])
 
-  const { checkinAgenda } = useRecoil()
-
-  const setHeaderRight = () => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Avatar
-          source={{ uri: userProfURL }}
-          rounded={true}
-          containerStyle={{ marginRight: 16 }}
-          onPress={() => navigation.navigate('UserProfile')}
-        />
-      ),
-    })
-  }
-
-  useEffect(() => {
-    setHeaderRight()
-  }, [userProfURL])
-
+  if (loading) return <ActivityIndicator />
   return (
-    <View style={{ flex: 1 }}>
-      <Agenda<Checkin>
-        items={checkinAgenda}
-        // NOTE: loadItemsForMonth()だとonDayPress時にも発火する問題への対応
-        // https://github.com/wix/react-native-calendars/issues/769
-        onVisibleMonthsChange={(dateObject: DateObject[]) => {
-          fetchCheckin(dateObj2Date(dateObject[0]))
+    <>
+      <CalendarList
+        pastScrollRange={240}
+        current={currentDate}
+        horizontal={true}
+        pagingEnabled={true}
+        // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
+        minDate={'2012-05-10'}
+        // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
+        maxDate={maxDate}
+        // Handler which gets executed on day press. Default = undefined
+        onDayPress={(day) => {
+          navigation.navigate('CheckinsByDay', { dateObject: day })
         }}
-        onDayPress={() => {
-          logEvent('DayPressed')
+        // Handler which gets executed on day long press. Default = undefined
+        onDayLongPress={(day) => {
+          console.log('selected day', day)
         }}
-        displayLoadingIndicator={loading}
-        maxDate={getDateString()}
-        futureScrollRange={1}
-        renderEmptyData={() => <NoCheckin />}
-        renderDay={(dateObject, item) => {
-          return <Timeline date={timestamp2Date(dateObject?.timestamp)} item={item} />
+        // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+        monthFormat={'yyyy MM'}
+        onVisibleMonthsChange={(date) => date.length === 1 && fetch(dateObj2Date(date[0]))}
+        // Hide month navigation arrows. Default = false
+        hideArrows={false}
+        // Do not show days of other months in month page. Default = false
+        hideExtraDays={true}
+        // If hideArrows = false and hideExtraDays = false do not switch month when tapping on greyed out
+        // day from another month that is visible in calendar page. Default = false
+        disableMonthChange={true}
+        // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
+        firstDay={0}
+        // Handler which gets executed when press arrow icon left. It receive a callback can go back month
+        onPressArrowLeft={(subtractMonth) => subtractMonth()}
+        // Handler which gets executed when press arrow icon right. It receive a callback can go next month
+        onPressArrowRight={(addMonth) => addMonth()}
+        // Replace default month and year title with custom one. the function receive a date as parameter
+        renderHeader={(date) => {
+          return <CalendarHeader date={date} />
         }}
-        theme={{
-          agendaKnobColor: COLORS[colorScheme].primaryOrange,
-          dotColor: COLORS[colorScheme].primaryOrange,
-        }}
+        markedDates={calendarEvent}
       />
-    </View>
+      <DatePicker setCurrentDate={setCurrentDate} />
+      <FAB
+        name={'sync'}
+        label={['更新']}
+        solid={true}
+        onPress={() => fetchCheckinsHard(currentDate)}
+      />
+    </>
   )
 }
 

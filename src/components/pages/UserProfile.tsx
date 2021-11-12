@@ -1,38 +1,39 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, ActivityIndicator } from 'react-native'
-import { useRecoil } from '@/hooks/useRecoil'
-import { useNavigation, RouteProp } from '@react-navigation/native'
+import { useNavigation, RouteProp, useRoute } from '@react-navigation/native'
 import UserCard from '@/components/card/UserCard'
-import useAsyncFn from 'react-use/lib/useAsyncFn'
 import { CheckinCalendarParamList } from '@/types'
 import { other } from '@/styles/styles'
+import { useUser } from '@/hooks/useUser'
 import { fetchUser } from '@/service/foursquareApi'
+import { User } from '@/types/Foursquare'
 
-type Props = {
-  route: RouteProp<CheckinCalendarParamList, 'UserProfile'>
-}
-
-const UserProfile = ({ route }: Props) => {
+const UserProfile = () => {
+  const route = useRoute<RouteProp<CheckinCalendarParamList, 'UserProfile'>>()
   const userId = route.params?.userId
   const navigation = useNavigation()
-  const { setUser } = useRecoil()
-  const [userTemp, fetchUserTemp] = useAsyncFn(async () => await fetchUser(userId), [])
+  const { loginUser, fetchSetUser, loading } = useUser()
+  const [user, setUser] = useState<User>()
 
   useEffect(() => {
-    fetchUserTemp()
+    const init = async () => {
+      if (!userId) {
+        fetchSetUser()
+      } else {
+        const user = await fetchUser(userId)
+        user && setUser(user)
+      }
+    }
+
+    user && navigation.setOptions({ headerTitle: `${user.checkins?.count}回` })
+    init()
   }, [])
 
-  useEffect(() => {
-    if (!userTemp.value || userTemp.loading) return
-    if (!userId) setUser(userTemp.value) // 自分のユーザーだったら保持
-    navigation.setOptions({ headerTitle: `${userTemp.value.checkins?.count}回` })
-  }, [userTemp.value])
-
-  if (userTemp.loading || !userTemp.value) return <ActivityIndicator />
+  if (loading || !user) return <ActivityIndicator />
 
   return (
     <View style={other.bk_white}>
-      <UserCard user={userTemp.value} />
+      <UserCard user={loginUser || user} />
     </View>
   )
 }
