@@ -1,4 +1,5 @@
 import { DateObject } from 'react-native-calendars'
+import { Checkin } from './types/Foursquare'
 
 export type RootStackParamList = {
   Root: undefined
@@ -8,7 +9,6 @@ export type RootStackParamList = {
 
 export type BottomTabParamList = {
   CheckinCalendarNavigator: undefined
-  MapNavigator: undefined
 }
 
 export type CheckinCalendarParamList = {
@@ -16,10 +16,5 @@ export type CheckinCalendarParamList = {
   CheckinCalendar: undefined
   CheckinDetail: { itemId: string }
   UserProfile: { userId?: string }
-}
-
-export type MapParamList = {
-  CheckinCalendar: undefined
-  CheckinDetail: { itemId: string }
-  Map: undefined
+  Map: { checkins: Checkin[] }
 }

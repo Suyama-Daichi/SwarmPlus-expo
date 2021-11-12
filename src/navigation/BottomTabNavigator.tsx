@@ -7,7 +7,7 @@ import { CheckinDetailScreen } from '@/components/pages/CheckinDetail/CheckinDet
 import BackButton from '@/components/molecules/BackButton'
 
 import { COLORS } from '@/constants/Colors'
-import { BottomTabParamList, CheckinCalendarParamList, MapParamList } from '@/types'
+import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
 import CheckinCalendar from '@/components/pages/CheckinCalendar/CheckinCalendar'
 import ActionMenu from '@/components/ActionSheet'
 import UserProfile from '@/components/pages/UserProfile'
@@ -43,13 +43,6 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
         }}
       />
-      <BottomTab.Screen
-        name="MapNavigator"
-        component={MapNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
-        }}
-      />
     </BottomTab.Navigator>
   )
 }
@@ -63,7 +56,6 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const CheckinCalendarStack = createStackNavigator<CheckinCalendarParamList>()
-const MapStack = createStackNavigator<MapParamList>()
 
 function CheckinCalendarNavigator() {
   return (
@@ -93,7 +85,14 @@ function CheckinCalendarNavigator() {
           headerRight: ActionMenu,
         }}
       />
-
+      <CheckinCalendarStack.Screen
+        name={'Map'}
+        component={MapScreen}
+        options={{
+          headerLeft: BackButton,
+          headerTitle: 'マップで見る',
+        }}
+      />
       <CheckinCalendarStack.Screen
         name={'CheckinDetail'}
         component={CheckinDetailScreen}
@@ -103,28 +102,5 @@ function CheckinCalendarNavigator() {
         }}
       />
     </CheckinCalendarStack.Navigator>
-  )
-}
-
-function MapNavigator() {
-  return (
-    <MapStack.Navigator initialRouteName={'Map'} mode={'card'}>
-      <MapStack.Screen
-        name={'Map'}
-        component={MapScreen}
-        options={{
-          headerLeft: () => null,
-          headerTitle: 'マップで見る',
-        }}
-      />
-      <MapStack.Screen
-        name={'CheckinDetail'}
-        component={CheckinDetailScreen}
-        options={{
-          headerTitle: 'チェックインの詳細',
-          headerLeft: BackButton,
-        }}
-      />
-    </MapStack.Navigator>
   )
 }

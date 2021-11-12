@@ -25,7 +25,7 @@ const CheckinsByDay = () => {
 
   const onPressMapIcon = () => {
     setSelectedDateOnMap(date)
-    navigation.navigate('MapNavigator')
+    navigation.navigate('Map', { checkins: displayCheckins })
   }
 
   useEffect(() => {

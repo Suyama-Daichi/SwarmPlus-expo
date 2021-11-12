@@ -1,10 +1,18 @@
 import { getDateString } from '@/service/dateFns'
 import { Checkin } from '@/types/Foursquare'
-import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/core'
+import {
+  NavigationProp,
+  ParamListBase,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import MapView, { Marker, LatLng, Region } from 'react-native-maps'
 import { useRecoil } from '@/hooks/useRecoil'
+import { useCheckin } from '@/hooks/useCheckin'
+import { BottomTabParamList } from '@/types'
 
 type RegionData = {
   id: string
@@ -16,7 +24,9 @@ type RegionData = {
 
 const MapScreen = () => {
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
-  const { checkinAgenda, selectedDateOnMap } = useRecoil()
+  const { params } = useRoute<RouteProp<BottomTabParamList, 'MapNavigator'>>()
+  const { checkins } = params
+  const { selectedDateOnMap } = useRecoil()
   const [regions, setRegions] = useState<RegionData[]>([])
   const [defaultRegion, setDefaultRegion] = useState<Region>()
 
@@ -45,7 +55,7 @@ const MapScreen = () => {
     navigation.setOptions({
       headerTitle: `${getDateString(selectedDateOnMap, 'yyyy/MM/dd')}の履歴`,
     })
-    getRegion(checkinAgenda[getDateString(selectedDateOnMap)])
+    getRegion(checkins)
   }, [selectedDateOnMap])
 
   return (
@@ -72,5 +82,3 @@ const MapScreen = () => {
 }
 
 export default MapScreen
-
-const styles = StyleSheet.create({})
