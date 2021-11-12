@@ -48,24 +48,34 @@ export const fetchUserCheckins = async ({
   offset?: number
   limit?: number
 }) => {
-  const params = await getBaseParams()
-  // params.append('sort', 'oldestfirst')
-  period?.afterTimestamp && params.append('afterTimestamp', period.afterTimestamp.toString())
-  period?.beforeTimestamp && params.append('beforeTimestamp', period.beforeTimestamp.toString())
-  offset && params.append('offset', offset.toString())
-  limit && params.append('limit', limit.toString())
+  return new Promise((resolve, reject) => {
+    const fetchData = async () => {
+      const params = await getBaseParams()
+      // params.append('sort', 'oldestfirst')
+      period?.afterTimestamp && params.append('afterTimestamp', period.afterTimestamp.toString())
+      period?.beforeTimestamp && params.append('beforeTimestamp', period.beforeTimestamp.toString())
+      offset && params.append('offset', offset.toString())
+      limit && params.append('limit', limit.toString())
 
-  console.log(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`)
+      console.log(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`)
 
-  return await fetch(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`, {
-    method: 'GET',
+      const result = await fetch(
+        `https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`,
+        {
+          method: 'GET',
+        }
+      )
+        .catch((err) => console.error(err))
+        .then(async (res) => {
+          if (!res) return []
+          const response = (await res.json()) as FoursquareResponse
+          return response.response.checkins ? response.response.checkins.items : []
+        })
+      resolve(result)
+    }
+
+    fetchData()
   })
-    .catch((err) => console.error(err))
-    .then(async (res) => {
-      if (!res) return []
-      const response = (await res.json()) as FoursquareResponse
-      return response.response.checkins ? response.response.checkins.items : []
-    })
 }
 
 /**
