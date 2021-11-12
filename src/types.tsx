@@ -1,3 +1,5 @@
+import { DateObject } from 'react-native-calendars'
+
 export type RootStackParamList = {
   Root: undefined
   Auth: undefined
@@ -10,6 +12,7 @@ export type BottomTabParamList = {
 }
 
 export type CheckinCalendarParamList = {
+  CheckinsByDay: { dateObject: DateObject }
   CheckinCalendar: undefined
   CheckinDetail: { itemId: string }
   UserProfile: { userId?: string }

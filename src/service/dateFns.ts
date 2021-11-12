@@ -25,7 +25,8 @@ import { IStartEnd } from '@/types/type'
 export const getDateString = (date: Date | number = new Date(), formatString = 'yyyy-MM-dd') => {
   return format(
     typeof date === 'number' ? new Date(Number(date + '000')) : new Date(date),
-    formatString
+    formatString,
+    { locale: ja }
   )
 }
 

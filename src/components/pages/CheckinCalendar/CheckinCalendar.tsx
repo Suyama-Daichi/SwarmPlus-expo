@@ -5,10 +5,12 @@ import { useInitialize } from '@/hooks/useInitialize'
 import CalendarHeader from '@/components/organisms/CalendarHeader'
 import FAB from '@/components/molecules/FAB'
 import { dateObj2Date } from '@/service/dateFns'
+import { useNavigation } from '@/hooks/useNavigation'
 import { useCheckinCalendar } from './useCheckinCalendar'
 import DatePicker from '../../molecules/DatePicker'
 
 const CheckinCalendar = () => {
+  const navigation = useNavigation()
   const { loading } = useInitialize()
   const { calendarEvent, init: fetchCheckins, fetchCheckinsHard } = useCheckinCalendar()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
@@ -29,7 +31,7 @@ const CheckinCalendar = () => {
         maxDate={maxDate}
         // Handler which gets executed on day press. Default = undefined
         onDayPress={(day) => {
-          console.log('selected day', day)
+          navigation.navigate('CheckinsByDay', { dateObject: day })
         }}
         // Handler which gets executed on day long press. Default = undefined
         onDayLongPress={(day) => {

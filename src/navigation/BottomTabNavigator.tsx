@@ -13,12 +13,14 @@ import ActionMenu from '@/components/ActionSheet'
 import UserProfile from '@/components/pages/UserProfile'
 import { useNavigation } from '@react-navigation/core'
 import MapScreen from '@/components/pages/Map/Map'
+import { useEffect } from 'react'
+import CheckinsByDay from '@/components/pages/CheckinsByDay/CheckinsByDay'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
 export default function BottomTabNavigator() {
   const navigation = useNavigation()
-  React.useEffect(
+  useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
         // Prevent default behavior of leaving the screen
@@ -74,7 +76,14 @@ function CheckinCalendarNavigator() {
           headerTitle: 'カレンダーで振り返る',
         }}
       />
-
+      <CheckinCalendarStack.Screen
+        name={'CheckinsByDay'}
+        component={CheckinsByDay}
+        options={{
+          headerTitle: '',
+          headerLeft: BackButton,
+        }}
+      />
       <CheckinCalendarStack.Screen
         name={'UserProfile'}
         component={UserProfile}
