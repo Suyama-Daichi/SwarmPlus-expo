@@ -9,7 +9,7 @@ const getBaseParams = async () => {
   const oauthToken = await storage.load<string>({ key: FOURSQUARE_ACCESS_TOKEN })
   const params = {
     oauth_token: oauthToken,
-    v: '20210301',
+    v: '20211123',
     locale: 'ja',
     mode: 'swarm',
   }
@@ -50,7 +50,6 @@ export const fetchUserCheckins = async ({
 }) => {
   const fetchData = async (period: IPeriod = initialPeriod) => {
     const params = await getBaseParams()
-    params.append('sort', 'oldestfirst')
     period?.afterTimestamp && params.append('afterTimestamp', period.afterTimestamp.toString())
     period?.beforeTimestamp && params.append('beforeTimestamp', period.beforeTimestamp.toString())
     offset && params.append('offset', offset.toString())
@@ -73,13 +72,13 @@ export const fetchUserCheckins = async ({
     return res
   }
   const result = await fetchData(initialPeriod)
-  while (result.length < 501) {
+  if (result.length < 250) return result
+  while (result.length < 751) {
     const res = await fetchData({
-      beforeTimestamp: result[0].createdAt,
+      beforeTimestamp: result[result.length - 1].createdAt - 1,
       afterTimestamp: initialPeriod.afterTimestamp,
     })
-    // console.log({ last: res[0].createdAt, after: initialPeriod.afterTimestamp })
-    if (res.length === 0 || res[0].createdAt <= initialPeriod.afterTimestamp) break
+    if (res.length === 0) break
     result.push(...res)
   }
   return result
