@@ -8,8 +8,8 @@ export const useCheckinCalendar = () => {
   const { fetchCheckin, checkins, fetchCheckinsHard } = useCheckin()
   const [calendarEvent, setCalenderEvent] = useState<CalendarEvent>({})
 
-  const init = (date: Date = new Date()) => {
-    fetchCheckin(date)
+  const init = async (date: Date = new Date()) => {
+    await fetchCheckin(date)
   }
 
   useEffect(() => {

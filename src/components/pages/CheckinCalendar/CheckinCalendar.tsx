@@ -6,21 +6,33 @@ import CalendarHeader from '@/components/organisms/CalendarHeader'
 import FAB from '@/components/molecules/FAB'
 import { dateObj2Date } from '@/service/dateFns'
 import { useNavigation } from '@/hooks/useNavigation'
+import { useLoading } from '@/hooks/useLoading'
 import { useCheckinCalendar } from './useCheckinCalendar'
 import DatePicker from '../../molecules/DatePicker'
 
 const CheckinCalendar = () => {
   const navigation = useNavigation()
-  const { loading } = useInitialize()
+  const { loading: loadingInit } = useInitialize()
   const { calendarEvent, init: fetchCheckins, fetchCheckinsHard } = useCheckinCalendar()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
   const maxDate = useMemo(() => new Date(), [])
-  const fetch = useCallback((currentDate: Date) => fetchCheckins(currentDate), [fetchCheckins])
+  const { loading, enableLoading, disableLoading } = useLoading()
 
-  if (loading) return <ActivityIndicator />
+  const fetch = useCallback(
+    (currentDate: Date) => {
+      enableLoading()
+      fetchCheckins(currentDate).then(() => {
+        disableLoading()
+      })
+    },
+    [fetchCheckins]
+  )
+
+  if (loadingInit) return <ActivityIndicator />
   return (
     <>
       <CalendarList
+        displayLoadingIndicator={loading}
         pastScrollRange={240}
         current={currentDate}
         horizontal={true}
