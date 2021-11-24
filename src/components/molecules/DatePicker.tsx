@@ -13,6 +13,7 @@ const DatePicker = ({ setCurrentDate }: Props) => {
     <>
       <ToolBar buttons={[{ label: '検索', onPress: () => setCurrentDate(datePickerDate) }]} />
       <DateTimePicker
+        themeVariant={'light'}
         locale={'ja-JP'}
         testID="dateTimePicker"
         value={datePickerDate}
