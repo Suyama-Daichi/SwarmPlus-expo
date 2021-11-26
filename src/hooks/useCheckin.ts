@@ -15,7 +15,7 @@ export const useCheckin = () => {
   const { loginUser } = useUser()
   const [checkins, setCheckins] = useRecoilState(checkinsAtom)
 
-  const fetchCheckin = async (date: Date) => {
+  const fetchCheckinsSoft = async (date: Date) => {
     const period = getStartEndOfMonth(date)
     if (!loginUser) return
     const checkinsInFirestore = await fetchCheckinsFromFirestore(loginUser.id, period)
@@ -28,6 +28,7 @@ export const useCheckin = () => {
   }
 
   const fetchCheckinsHard = async (date: Date) => {
+    console.log(date)
     const period = getStartEndOfMonth(date)
     const checkins = await fetchUserCheckins({ period })
 
@@ -37,5 +38,5 @@ export const useCheckin = () => {
     return checkins
   }
 
-  return { fetchCheckin, fetchCheckinsHard, checkins, setCheckins }
+  return { fetchCheckinsSoft, fetchCheckinsHard, checkins, setCheckins }
 }

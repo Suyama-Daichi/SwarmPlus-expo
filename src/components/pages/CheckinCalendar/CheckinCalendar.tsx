@@ -7,13 +7,15 @@ import FAB from '@/components/molecules/FAB'
 import { dateObj2Date } from '@/service/dateFns'
 import { useNavigation } from '@/hooks/useNavigation'
 import { useLoading } from '@/hooks/useLoading'
+import { useCheckin } from '@/hooks/useCheckin'
 import { useCheckinCalendar } from './useCheckinCalendar'
 import DatePicker from '../../molecules/DatePicker'
 
 const CheckinCalendar = () => {
   const navigation = useNavigation()
   const { loading: loadingInit } = useInitialize()
-  const { calendarEvent, init: fetchCheckins, fetchCheckinsHard } = useCheckinCalendar()
+  const { fetchCheckinsSoft, fetchCheckinsHard } = useCheckin()
+  const { calendarEvent, fetchCheckins } = useCheckinCalendar()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
   const maxDate = useMemo(() => new Date(), [])
   const { loading, enableLoading, disableLoading } = useLoading()
@@ -21,7 +23,7 @@ const CheckinCalendar = () => {
   const fetch = useCallback(
     (currentDate: Date) => {
       enableLoading()
-      fetchCheckins(currentDate).then(() => {
+      fetchCheckins(currentDate, fetchCheckinsSoft).then(() => {
         disableLoading()
       })
     },
@@ -76,7 +78,7 @@ const CheckinCalendar = () => {
         name={'sync'}
         label={['更新']}
         solid={true}
-        onPress={() => fetchCheckinsHard(currentDate)}
+        onPress={() => fetchCheckins(currentDate, fetchCheckinsHard)}
       />
     </>
   )
