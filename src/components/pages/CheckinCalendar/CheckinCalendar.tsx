@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { CalendarList } from 'react-native-calendars'
 import { useInitialize } from '@/hooks/useInitialize'
@@ -6,7 +6,6 @@ import CalendarHeader from '@/components/organisms/CalendarHeader'
 import FAB from '@/components/molecules/FAB'
 import { dateObj2Date } from '@/service/dateFns'
 import { useNavigation } from '@/hooks/useNavigation'
-import { useLoading } from '@/hooks/useLoading'
 import { useCheckin } from '@/hooks/useCheckin'
 import { useCheckinCalendar } from './useCheckinCalendar'
 import DatePicker from '../../molecules/DatePicker'
@@ -15,20 +14,9 @@ const CheckinCalendar = () => {
   const navigation = useNavigation()
   const { loading: loadingInit } = useInitialize()
   const { fetchCheckinsSoft, fetchCheckinsHard } = useCheckin()
-  const { calendarEvent, fetchCheckins } = useCheckinCalendar()
+  const { calendarEvent, fetchCheckins, loading } = useCheckinCalendar()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
   const maxDate = useMemo(() => new Date(), [])
-  const { loading, enableLoading, disableLoading } = useLoading()
-
-  const fetch = useCallback(
-    (currentDate: Date) => {
-      enableLoading()
-      fetchCheckins(currentDate, fetchCheckinsSoft).then(() => {
-        disableLoading()
-      })
-    },
-    [fetchCheckins]
-  )
 
   if (loadingInit) return <ActivityIndicator />
   return (
@@ -53,7 +41,9 @@ const CheckinCalendar = () => {
         }}
         // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
         monthFormat={'yyyy MM'}
-        onVisibleMonthsChange={(date) => date.length === 1 && fetch(dateObj2Date(date[0]))}
+        onVisibleMonthsChange={(date) =>
+          date.length === 1 && fetchCheckins(dateObj2Date(date[0]), fetchCheckinsSoft)
+        }
         // Hide month navigation arrows. Default = false
         hideArrows={false}
         // Do not show days of other months in month page. Default = false

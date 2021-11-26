@@ -3,6 +3,7 @@ import { CalendarEvent } from '@/types/type'
 import { useEffect, useState } from 'react'
 import { useCheckin } from '@/hooks/useCheckin'
 import { atom, useRecoilState } from 'recoil'
+import { useLoading } from '@/hooks/useLoading'
 import { Checkin } from '../../../types/Foursquare'
 
 const fetchedMonthAtom = atom<Date[]>({
@@ -14,11 +15,13 @@ export const useCheckinCalendar = () => {
   const [fetchedMonth, setFetchedMonth] = useRecoilState(fetchedMonthAtom)
   const { checkins } = useCheckin()
   const [calendarEvent, setCalenderEvent] = useState<CalendarEvent>({})
+  const { loading, enableLoading, disableLoading } = useLoading()
 
   const fetchCheckins = async (
     date: Date,
     fetcher: (date: Date) => Promise<Checkin[] | undefined>
   ) => {
+    enableLoading()
     if (
       fetcher.name === 'fetchCheckinsSoft' &&
       fetchedMonth.some((s) => s.getTime() === date.getTime())
@@ -27,6 +30,7 @@ export const useCheckinCalendar = () => {
     }
     await fetcher(date)
     setFetchedMonth((current) => (current ? [...current, date] : [date]))
+    disableLoading()
   }
 
   useEffect(() => {
@@ -34,5 +38,5 @@ export const useCheckinCalendar = () => {
     setCalenderEvent(calendarEvent)
   }, [checkins])
 
-  return { fetchCheckins, calendarEvent }
+  return { loading, fetchCheckins, calendarEvent }
 }
