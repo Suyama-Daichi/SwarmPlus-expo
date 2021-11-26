@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { CalendarList } from 'react-native-calendars'
 import { useInitialize } from '@/hooks/useInitialize'
-import CalendarHeader from '@/components/organisms/CalendarHeader'
 import FAB from '@/components/molecules/FAB'
 import { dateObj2Date } from '@/service/dateFns'
 import { useNavigation } from '@/hooks/useNavigation'
@@ -24,6 +23,7 @@ const CheckinCalendar = () => {
       <CalendarList
         displayLoadingIndicator={loading}
         pastScrollRange={240}
+        futureScrollRange={0}
         current={currentDate}
         horizontal={true}
         pagingEnabled={true}
@@ -40,12 +40,15 @@ const CheckinCalendar = () => {
           console.log('selected day', day)
         }}
         // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-        monthFormat={'yyyy MM'}
-        onVisibleMonthsChange={(date) =>
-          date.length === 1 && fetchCheckins(dateObj2Date(date[0]), fetchCheckinsSoft)
-        }
+        monthFormat={'yyyy / MM'}
+        onVisibleMonthsChange={(date) => {
+          const currentDate = dateObj2Date(date[0])
+          date.length === 1 && fetchCheckins(currentDate, fetchCheckinsSoft)
+          setCurrentDate(currentDate)
+        }}
         // Hide month navigation arrows. Default = false
         hideArrows={false}
+        disableArrowRight={currentDate.getTime() > maxDate.getTime()}
         // Do not show days of other months in month page. Default = false
         hideExtraDays={true}
         // If hideArrows = false and hideExtraDays = false do not switch month when tapping on greyed out
@@ -57,10 +60,6 @@ const CheckinCalendar = () => {
         onPressArrowLeft={(subtractMonth) => subtractMonth()}
         // Handler which gets executed when press arrow icon right. It receive a callback can go next month
         onPressArrowRight={(addMonth) => addMonth()}
-        // Replace default month and year title with custom one. the function receive a date as parameter
-        renderHeader={(date) => {
-          return <CalendarHeader date={date} />
-        }}
         markedDates={calendarEvent}
       />
       <DatePicker setCurrentDate={setCurrentDate} />
