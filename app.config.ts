@@ -1,4 +1,5 @@
 import { ExpoConfig } from '@expo/config'
+import 'dotenv/config'
 
 const commonConfig: ExpoConfig = {
   name: 'SwarmPlus',

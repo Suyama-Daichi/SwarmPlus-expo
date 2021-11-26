@@ -74,6 +74,10 @@ export const responseExtractor = async <T>({ res, type }: Props): Promise<T> => 
   return parsedRes.response[type] as unknown as T
 }
 
-export const unionArray = <T>(array: T[], key: string) => {
-  return [...new Map(array.map((item) => [item[key], item])).values()]
+export const unionArray = <T>(array: T[], key?: string) => {
+  if (key) {
+    return [...new Map(array.map((item) => [item[key], item])).values()] as T[]
+  } else {
+    return [...new Map(array.map((item) => [item, item])).values()] as T[]
+  }
 }
