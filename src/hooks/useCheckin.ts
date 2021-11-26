@@ -17,7 +17,8 @@ export const useCheckin = () => {
 
   const fetchCheckin = async (date: Date) => {
     const period = getStartEndOfMonth(date)
-    const checkinsInFirestore = await fetchCheckinsFromFirestore(loginUser?.id, period)
+    if (!loginUser) return
+    const checkinsInFirestore = await fetchCheckinsFromFirestore(loginUser.id, period)
     const checkins = !checkinsInFirestore.length
       ? await fetchUserCheckins({ period })
       : checkinsInFirestore
