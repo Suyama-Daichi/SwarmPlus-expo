@@ -28,7 +28,6 @@ export const useCheckin = () => {
   }
 
   const fetchCheckinsHard = async (date: Date) => {
-    console.log(date)
     const period = getStartEndOfMonth(date)
     const checkins = await fetchUserCheckins({ period })
 
