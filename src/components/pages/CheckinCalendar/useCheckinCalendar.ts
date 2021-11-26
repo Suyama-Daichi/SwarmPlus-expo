@@ -1,4 +1,4 @@
-import { convertAgendaObject } from '@/service/utilFns'
+import { convertAgendaObject, unionArray } from '@/service/utilFns'
 import { CalendarEvent } from '@/types/type'
 import { useEffect, useState } from 'react'
 import { useCheckin } from '@/hooks/useCheckin'
@@ -6,7 +6,7 @@ import { atom, useRecoilState } from 'recoil'
 import { useLoading } from '@/hooks/useLoading'
 import { Checkin } from '../../../types/Foursquare'
 
-const fetchedMonthAtom = atom<Date[]>({
+const fetchedMonthAtom = atom<number[]>({
   key: 'fetchedMonth',
   default: [],
 })
@@ -22,14 +22,14 @@ export const useCheckinCalendar = () => {
     fetcher: (date: Date) => Promise<Checkin[] | undefined>
   ) => {
     enableLoading()
-    if (
-      fetcher.name === 'fetchCheckinsSoft' &&
-      fetchedMonth.some((s) => s.getTime() === date.getTime())
-    ) {
+    if (fetcher.name === 'fetchCheckinsSoft' && fetchedMonth.includes(date.getMonth())) {
+      disableLoading()
       return
     }
     await fetcher(date)
-    setFetchedMonth((current) => (current ? [...current, date] : [date]))
+    setFetchedMonth((current) =>
+      current ? unionArray<number>([...current, date.getMonth()]) : [date.getMonth()]
+    )
     disableLoading()
   }
 
