@@ -44,7 +44,6 @@ const CheckinCalendar = () => {
         onVisibleMonthsChange={(date) => {
           const currentDate = dateObj2Date(date[0])
           date.length === 1 && fetchCheckins(currentDate, fetchCheckinsSoft)
-          setCurrentDate(currentDate)
         }}
         // Hide month navigation arrows. Default = false
         hideArrows={false}
