@@ -1,5 +1,5 @@
 import { Checkin, FoursquareResponse, Icon, Photo } from '@/types/Foursquare'
-import { CalendarEvent } from '@/types/type'
+import { CalendarEvent, RegionData } from '@/types/type'
 import { getDateString } from './dateFns'
 import 'react-native-url-polyfill/auto'
 
@@ -80,4 +80,25 @@ export const unionArray = <T>(array: T[], key?: string) => {
   } else {
     return [...new Map(array.map((item) => [item, item])).values()] as T[]
   }
+}
+
+/** チェックインからリージョン情報を抽出する */
+export const getRegions = (checkins: Checkin[]) => {
+  const regions = checkins.map((m): RegionData => {
+    return {
+      id: m.id,
+      title: m.venue.name,
+      description: m.shout,
+      createdAt: m.createdAt,
+      latLng: { latitude: m.venue.location.lat, longitude: m.venue.location.lng },
+    }
+  })
+  const firstRegion = {
+    latitude: regions[0].latLng.latitude,
+    longitude: regions[0].latLng.longitude,
+    latitudeDelta: 0.05,
+    longitudeDelta: 0.05,
+  }
+
+  return { regions, firstRegion }
 }
