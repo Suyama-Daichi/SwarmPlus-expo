@@ -39,11 +39,16 @@ const MapScreen = () => {
         backgroundColor: '#fff',
       }}
     >
-      <MapView style={{ flex: 1 }} initialRegion={defaultRegion}>
+      <MapView
+        style={{ flex: 1 }}
+        initialRegion={defaultRegion}
+        onRegionChangeComplete={(r) => console.log(r)}
+      >
         {regions.map((region, i) => (
           <Marker
             key={`${i}`}
             title={region.title}
+            image={region.image && { uri: region.image }}
             tracksViewChanges={false}
             description={region.description}
             coordinate={region.latLng}

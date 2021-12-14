@@ -91,6 +91,7 @@ export const getRegions = (checkins: Checkin[]) => {
       description: m.shout,
       createdAt: m.createdAt,
       latLng: { latitude: m.venue.location.lat, longitude: m.venue.location.lng },
+      image: generateImageUrl(m.photos.items[0], 100),
     }
   })
   const firstRegion = {

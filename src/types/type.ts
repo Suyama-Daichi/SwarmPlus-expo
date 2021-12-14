@@ -20,4 +20,5 @@ export type RegionData = {
   description?: string
   createdAt: number
   latLng: LatLng
+  image?: string
 }
