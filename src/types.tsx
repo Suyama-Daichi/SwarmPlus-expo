@@ -9,6 +9,7 @@ export type RootStackParamList = {
 
 export type BottomTabParamList = {
   CheckinCalendarNavigator: undefined
+  CheckinHistoryMap: { checkins?: Checkin[] }
 }
 
 export type CheckinCalendarParamList = {

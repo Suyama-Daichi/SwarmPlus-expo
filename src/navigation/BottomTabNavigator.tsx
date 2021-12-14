@@ -43,6 +43,13 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
         }}
       />
+      <BottomTab.Screen
+        name="CheckinHistoryMap"
+        component={CheckinHistoryMapNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
+        }}
+      />
     </BottomTab.Navigator>
   )
 }
@@ -91,6 +98,45 @@ function CheckinCalendarNavigator() {
         options={{
           headerLeft: BackButton,
           headerTitle: 'マップで見る',
+        }}
+      />
+      <CheckinCalendarStack.Screen
+        name={'CheckinDetail'}
+        component={CheckinDetailScreen}
+        options={{
+          headerTitle: 'チェックインの詳細',
+          headerLeft: BackButton,
+        }}
+      />
+    </CheckinCalendarStack.Navigator>
+  )
+}
+
+function CheckinHistoryMapNavigator() {
+  return (
+    <CheckinCalendarStack.Navigator initialRouteName={'Map'} mode={'card'}>
+      <CheckinCalendarStack.Screen
+        name={'Map'}
+        component={MapScreen}
+        options={{
+          headerTitle: 'マップで見る',
+        }}
+      />
+      <CheckinCalendarStack.Screen
+        name={'CheckinsByDay'}
+        component={CheckinsByDay}
+        options={{
+          headerTitle: '',
+          headerLeft: BackButton,
+        }}
+      />
+      <CheckinCalendarStack.Screen
+        name={'UserProfile'}
+        component={UserProfile}
+        options={{
+          headerTitle: 'ユーザープロフィール',
+          headerLeft: BackButton,
+          headerRight: ActionMenu,
         }}
       />
       <CheckinCalendarStack.Screen

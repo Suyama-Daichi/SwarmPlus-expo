@@ -8,10 +8,9 @@ import {
   useRoute,
 } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 import MapView, { Marker, LatLng, Region } from 'react-native-maps'
 import { useRecoil } from '@/hooks/useRecoil'
-import { useCheckin } from '@/hooks/useCheckin'
 import { BottomTabParamList } from '@/types'
 
 type RegionData = {
@@ -24,8 +23,8 @@ type RegionData = {
 
 const MapScreen = () => {
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
-  const { params } = useRoute<RouteProp<BottomTabParamList, 'MapNavigator'>>()
-  const { checkins } = params
+  const { params } = useRoute<RouteProp<BottomTabParamList, 'CheckinHistoryMap'>>()
+  const checkins = params?.checkins
   const { selectedDateOnMap } = useRecoil()
   const [regions, setRegions] = useState<RegionData[]>([])
   const [defaultRegion, setDefaultRegion] = useState<Region>()
@@ -51,7 +50,7 @@ const MapScreen = () => {
   }
 
   useEffect(() => {
-    if (!selectedDateOnMap) return
+    if (!selectedDateOnMap || !checkins) return
     navigation.setOptions({
       headerTitle: `${getDateString(selectedDateOnMap, 'yyyy/MM/dd')}の履歴`,
     })
