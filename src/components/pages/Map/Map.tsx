@@ -13,6 +13,7 @@ import { useRecoil } from '@/hooks/useRecoil'
 import { BottomTabParamList } from '@/types'
 import { RegionData } from '@/types/type'
 import { getRegions } from '@/service/utilFns'
+import { useLocation } from '../../../hooks/useLocation'
 const { width } = Dimensions.get('window')
 
 const MapScreen = () => {
@@ -24,16 +25,27 @@ const MapScreen = () => {
   const [defaultRegion, setDefaultRegion] = useState<Region>()
   const [currentRegion, setCurrentRegion] = useState<Region>()
   const [radius, setRadius] = useState(0)
+  const { location } = useLocation()
 
   useEffect(() => {
-    if (!selectedDateOnMap || !checkins) return
-    navigation.setOptions({
-      headerTitle: `${getDateString(selectedDateOnMap, 'yyyy/MM/dd')}の履歴`,
-    })
-    const { regions, firstRegion } = getRegions(checkins)
-    setRegions(regions)
-    setDefaultRegion(firstRegion)
-  }, [selectedDateOnMap])
+    if (selectedDateOnMap && checkins) {
+      navigation.setOptions({
+        headerTitle: `${getDateString(selectedDateOnMap, 'yyyy/MM/dd')}の履歴`,
+      })
+      const { regions, firstRegion } = getRegions(checkins)
+      setRegions(regions)
+      setDefaultRegion(firstRegion)
+    } else {
+      if (!location) return
+      const { latitude, longitude } = location.coords
+      setDefaultRegion({
+        latitude,
+        longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      })
+    }
+  }, [checkins, location, navigation, selectedDateOnMap])
 
   useEffect(() => {
     if (!currentRegion) return
