@@ -7,12 +7,13 @@ import {
   useRoute,
 } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
-import MapView, { Marker, Region } from 'react-native-maps'
+import { View, Dimensions } from 'react-native'
+import MapView, { Circle, Marker, Region } from 'react-native-maps'
 import { useRecoil } from '@/hooks/useRecoil'
 import { BottomTabParamList } from '@/types'
 import { RegionData } from '@/types/type'
 import { getRegions } from '@/service/utilFns'
+const { width } = Dimensions.get('window')
 
 const MapScreen = () => {
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
@@ -21,6 +22,8 @@ const MapScreen = () => {
   const { selectedDateOnMap } = useRecoil()
   const [regions, setRegions] = useState<RegionData[]>([])
   const [defaultRegion, setDefaultRegion] = useState<Region>()
+  const [currentRegion, setCurrentRegion] = useState<Region>()
+  const [radius, setRadius] = useState(0)
 
   useEffect(() => {
     if (!selectedDateOnMap || !checkins) return
@@ -32,6 +35,24 @@ const MapScreen = () => {
     setDefaultRegion(firstRegion)
   }, [selectedDateOnMap])
 
+  useEffect(() => {
+    if (!currentRegion) return
+    const scale = Math.floor(Math.log2(360 * (width / 256 / currentRegion.longitudeDelta)))
+    let rate = 0
+    if (scale > 16) {
+      rate = 2000
+    } else if (scale > 14) {
+      rate = 5000
+    } else if (scale > 12) {
+      rate = 8000
+    } else if (scale > 10) {
+      rate = 20000
+    } else {
+      rate = 30000
+    }
+    setRadius(rate / scale)
+  }, [currentRegion])
+
   return (
     <View
       style={{
@@ -40,9 +61,12 @@ const MapScreen = () => {
       }}
     >
       <MapView
+        region={currentRegion}
         style={{ flex: 1 }}
         initialRegion={defaultRegion}
-        onRegionChangeComplete={(r) => console.log(r)}
+        onRegionChangeComplete={(region: Region) => {
+          setCurrentRegion(region)
+        }}
       >
         {regions.map((region, i) => (
           <Marker
@@ -55,6 +79,9 @@ const MapScreen = () => {
             onCalloutPress={() => navigation.navigate('CheckinDetail', { itemId: region.id })}
           />
         ))}
+        {currentRegion && regions.length === 0 && (
+          <Circle center={currentRegion} radius={radius} fillColor={'rgba(255, 176, 73, 0.5)'} />
+        )}
       </MapView>
     </View>
   )
