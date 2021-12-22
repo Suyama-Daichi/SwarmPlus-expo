@@ -22,7 +22,7 @@ export const useCheckinCalendar = () => {
     fetcher: (date: Date) => Promise<Checkin[] | undefined>
   ) => {
     enableLoading()
-    if (fetcher.name === 'fetchCheckinsSoft' && fetchedMonth.includes(date.getMonth())) {
+    if (fetcher.name === 'fetchCheckinsByDateSoft' && fetchedMonth.includes(date.getMonth())) {
       disableLoading()
       return
     }

@@ -12,7 +12,7 @@ import DatePicker from '../../molecules/DatePicker'
 const CheckinCalendar = () => {
   const navigation = useNavigation()
   const { loading: loadingInit } = useInitialize()
-  const { fetchCheckinsSoft, fetchCheckinsHard } = useCheckin()
+  const { fetchCheckinsByDateSoft, fetchCheckinsByDateHard } = useCheckin()
   const { calendarEvent, fetchCheckins, loading } = useCheckinCalendar()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
   const maxDate = useMemo(() => new Date(), [])
@@ -43,7 +43,7 @@ const CheckinCalendar = () => {
         monthFormat={'yyyy / MM'}
         onVisibleMonthsChange={(date) => {
           const currentDate = dateObj2Date(date[0])
-          date.length === 1 && fetchCheckins(currentDate, fetchCheckinsSoft)
+          date.length === 1 && fetchCheckins(currentDate, fetchCheckinsByDateSoft)
         }}
         // Hide month navigation arrows. Default = false
         hideArrows={false}
@@ -66,7 +66,7 @@ const CheckinCalendar = () => {
         name={'sync'}
         label={['更新']}
         solid={true}
-        onPress={() => fetchCheckins(currentDate, fetchCheckinsHard)}
+        onPress={() => fetchCheckins(currentDate, fetchCheckinsByDateHard)}
       />
     </>
   )

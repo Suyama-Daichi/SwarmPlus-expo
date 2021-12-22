@@ -1,8 +1,15 @@
 import { AccessToken, IStartEnd as IPeriod } from '@/types/type'
-import type { Response, CheckinDetail, FoursquareResponse, Checkin } from '@/types/Foursquare'
+import type {
+  Response,
+  CheckinDetail,
+  FoursquareResponse,
+  Checkin,
+  Venue,
+} from '@/types/Foursquare'
 import { config } from '@/service/config'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
+import { LatLng } from 'react-native-maps'
 import { responseExtractor } from './utilFns'
 
 const getBaseParams = async () => {
@@ -97,6 +104,19 @@ export const fetchCheckinDetails = async (checkinId: string): Promise<CheckinDet
   })
     .catch((err) => console.error(err))
     .then(async (res) => await responseExtractor<CheckinDetail>({ res, type: 'checkin' }))
+}
+
+export const fetchVenuesByLocation = async (ll: LatLng): Promise<Venue[]> => {
+  const params = await getBaseParams()
+  params.append('ll', `${ll.latitude},${ll.longitude}`)
+  console.log(`https://api.foursquare.com/v2/venues/search/?${params.toString()}`)
+  return await fetch(`https://api.foursquare.com/v2/venues/search/?${params.toString()}`, {
+    method: 'GET',
+  }).then(async (res) => {
+    if (!res) return []
+    const response = (await res.json()) as FoursquareResponse
+    return response.response.venues ? response.response.venues : []
+  })
 }
 
 /**

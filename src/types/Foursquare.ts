@@ -22,6 +22,7 @@ export type NotificationItem = {
 export type Response = {
   checkins?: Summary<Checkin>
   checkin?: Checkin
+  venues?: Venue[]
   user?: User
 }
 

@@ -13,6 +13,8 @@ import { useRecoil } from '@/hooks/useRecoil'
 import { BottomTabParamList } from '@/types'
 import { RegionData } from '@/types/type'
 import { getRegions } from '@/service/utilFns'
+import FAB from '@/components/molecules/FAB'
+import { useCheckin } from '@/hooks/useCheckin'
 import { useLocation } from '../../../hooks/useLocation'
 const { width } = Dimensions.get('window')
 
@@ -26,6 +28,12 @@ const MapScreen = () => {
   const [currentRegion, setCurrentRegion] = useState<Region>()
   const [radius, setRadius] = useState(0)
   const { location } = useLocation()
+  const { fetchCheckinsByLocation } = useCheckin()
+
+  const fetchCheckins = () => {
+    if (!currentRegion) return
+    fetchCheckinsByLocation(currentRegion)
+  }
 
   useEffect(() => {
     if (selectedDateOnMap && checkins) {
@@ -95,6 +103,7 @@ const MapScreen = () => {
           <Circle center={currentRegion} radius={radius} fillColor={'rgba(255, 176, 73, 0.5)'} />
         )}
       </MapView>
+      <FAB name={'sync'} label={['取得']} solid={true} onPress={() => fetchCheckins()} />
     </View>
   )
 }
