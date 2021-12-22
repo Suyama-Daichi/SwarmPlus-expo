@@ -6,8 +6,9 @@ import FAB from '@/components/molecules/FAB'
 import { dateObj2Date } from '@/service/dateFns'
 import { useNavigation } from '@/hooks/useNavigation'
 import { useCheckin } from '@/hooks/useCheckin'
+import CalendarHeader from '@/components/molecules/CalendarHeader'
+import DatePickerDialog from '@/components/organisms/DatePickerDialog'
 import { useCheckinCalendar } from './useCheckinCalendar'
-import DatePicker from '../../molecules/DatePicker'
 
 const CheckinCalendar = () => {
   const navigation = useNavigation()
@@ -16,6 +17,7 @@ const CheckinCalendar = () => {
   const { calendarEvent, fetchCheckins, loading } = useCheckinCalendar()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
   const maxDate = useMemo(() => new Date(), [])
+  const [showDatePicker, setShowDatePicker] = useState(false)
 
   if (loadingInit) return <ActivityIndicator />
   return (
@@ -60,8 +62,15 @@ const CheckinCalendar = () => {
         // Handler which gets executed when press arrow icon right. It receive a callback can go next month
         onPressArrowRight={(addMonth) => addMonth()}
         markedDates={calendarEvent}
+        renderHeader={(date) => (
+          <CalendarHeader date={date} onPress={() => setShowDatePicker(true)} />
+        )}
       />
-      <DatePicker setCurrentDate={setCurrentDate} />
+      <DatePickerDialog
+        setCurrentDate={setCurrentDate}
+        showDatePicker={showDatePicker}
+        hideDatePicker={() => setShowDatePicker(false)}
+      />
       <FAB
         name={'sync'}
         label={['更新']}
