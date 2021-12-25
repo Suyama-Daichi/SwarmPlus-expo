@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { CalendarList } from 'react-native-calendars'
 import { useInitialize } from '@/hooks/useInitialize'
@@ -18,6 +18,10 @@ const CheckinCalendar = () => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
   const maxDate = useMemo(() => new Date(), [])
   const [showDatePicker, setShowDatePicker] = useState(false)
+
+  useEffect(() => {
+    setShowDatePicker(false)
+  }, [currentDate])
 
   if (loadingInit) return <ActivityIndicator />
   return (
