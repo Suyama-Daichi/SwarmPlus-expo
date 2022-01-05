@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { CalendarList } from 'react-native-calendars'
 import { useInitialize } from '@/hooks/useInitialize'
@@ -6,8 +6,9 @@ import FAB from '@/components/molecules/FAB'
 import { dateObj2Date } from '@/service/dateFns'
 import { useNavigation } from '@/hooks/useNavigation'
 import { useCheckin } from '@/hooks/useCheckin'
+import CalendarHeader from '@/components/molecules/CalendarHeader'
+import DatePickerDialog from '@/components/organisms/DatePickerDialog'
 import { useCheckinCalendar } from './useCheckinCalendar'
-import DatePicker from '../../molecules/DatePicker'
 
 const CheckinCalendar = () => {
   const navigation = useNavigation()
@@ -16,6 +17,8 @@ const CheckinCalendar = () => {
   const { calendarEvent, fetchCheckins, loading } = useCheckinCalendar()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
   const maxDate = useMemo(() => new Date(), [])
+  const showDatePickerState = useState(false)
+  const [, setShowDatePicker] = showDatePickerState
 
   if (loadingInit) return <ActivityIndicator />
   return (
@@ -42,6 +45,7 @@ const CheckinCalendar = () => {
         // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
         monthFormat={'yyyy / MM'}
         onVisibleMonthsChange={(date) => {
+          if (date.length === 0) return
           const currentDate = dateObj2Date(date[0])
           date.length === 1 && fetchCheckins(currentDate, fetchCheckinsSoft)
         }}
@@ -60,8 +64,11 @@ const CheckinCalendar = () => {
         // Handler which gets executed when press arrow icon right. It receive a callback can go next month
         onPressArrowRight={(addMonth) => addMonth()}
         markedDates={calendarEvent}
+        renderHeader={(date) => (
+          <CalendarHeader date={date} onPress={() => setShowDatePicker(true)} />
+        )}
       />
-      <DatePicker setCurrentDate={setCurrentDate} />
+      <DatePickerDialog setCurrentDate={setCurrentDate} showDatePickerState={showDatePickerState} />
       <FAB
         name={'sync'}
         label={['更新']}

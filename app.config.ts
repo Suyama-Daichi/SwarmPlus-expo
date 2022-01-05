@@ -29,6 +29,12 @@ const commonConfig: ExpoConfig = {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#FFFFFF',
     },
+    package: 'com.symdit.swarmplus',
+    config: {
+      googleMaps: {
+        apiKey: process.env.GOOGLE_API_KEY,
+      },
+    },
   },
   web: {
     config: {
