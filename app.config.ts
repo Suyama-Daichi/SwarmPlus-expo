@@ -30,6 +30,9 @@ const commonConfig: ExpoConfig = {
       backgroundColor: '#FFFFFF',
     },
     package: 'com.symdit.swarmplus',
+    config: {
+      googleMaps: process.env.FB_API_KEY,
+    },
   },
   web: {
     config: {
