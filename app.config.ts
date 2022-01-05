@@ -31,7 +31,9 @@ const commonConfig: ExpoConfig = {
     },
     package: 'com.symdit.swarmplus',
     config: {
-      googleMaps: process.env.FB_API_KEY,
+      googleMaps: {
+        apiKey: process.env.GOOGLE_API_KEY,
+      },
     },
   },
   web: {
