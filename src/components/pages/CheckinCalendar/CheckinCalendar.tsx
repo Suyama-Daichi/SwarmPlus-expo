@@ -18,7 +18,7 @@ const CheckinCalendar = () => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
   const maxDate = useMemo(() => new Date(), [])
   const showDatePickerState = useState(false)
-  const [showDatePicker, setShowDatePicker] = showDatePickerState
+  const [, setShowDatePicker] = showDatePickerState
 
   if (loadingInit) return <ActivityIndicator />
   return (
@@ -45,6 +45,7 @@ const CheckinCalendar = () => {
         // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
         monthFormat={'yyyy / MM'}
         onVisibleMonthsChange={(date) => {
+          if (date.length === 0) return
           const currentDate = dateObj2Date(date[0])
           date.length === 1 && fetchCheckins(currentDate, fetchCheckinsSoft)
         }}
