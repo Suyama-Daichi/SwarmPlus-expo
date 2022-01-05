@@ -17,11 +17,8 @@ const CheckinCalendar = () => {
   const { calendarEvent, fetchCheckins, loading } = useCheckinCalendar()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
   const maxDate = useMemo(() => new Date(), [])
-  const [showDatePicker, setShowDatePicker] = useState(false)
-
-  useEffect(() => {
-    setShowDatePicker(false)
-  }, [currentDate])
+  const showDatePickerState = useState(false)
+  const [showDatePicker, setShowDatePicker] = showDatePickerState
 
   if (loadingInit) return <ActivityIndicator />
   return (
@@ -70,11 +67,7 @@ const CheckinCalendar = () => {
           <CalendarHeader date={date} onPress={() => setShowDatePicker(true)} />
         )}
       />
-      <DatePickerDialog
-        setCurrentDate={setCurrentDate}
-        showDatePicker={showDatePicker}
-        hideDatePicker={() => setShowDatePicker(false)}
-      />
+      <DatePickerDialog setCurrentDate={setCurrentDate} showDatePickerState={showDatePickerState} />
       <FAB
         name={'sync'}
         label={['更新']}

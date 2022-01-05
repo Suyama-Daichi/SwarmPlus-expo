@@ -1,27 +1,14 @@
 import DatePicker from '@/components/molecules/DatePicker'
 import React, { Dispatch, SetStateAction } from 'react'
-import { View, StyleSheet, Platform } from 'react-native'
-import Modal from 'react-native-modal'
+import { StyleSheet } from 'react-native'
 
 type Props = {
   setCurrentDate: Dispatch<SetStateAction<Date>>
-  showDatePicker: boolean
-  hideDatePicker: () => void
+  showDatePickerState: [boolean, React.Dispatch<React.SetStateAction<boolean>>]
 }
 
-const DatePickerDialog = ({ setCurrentDate, showDatePicker, hideDatePicker }: Props) => {
-  const platform = Platform.OS
-  return platform === 'ios' ? (
-    <Modal isVisible={showDatePicker} onBackdropPress={hideDatePicker}>
-      <View style={{ backgroundColor: 'white' }}>
-        <DatePicker setCurrentDate={setCurrentDate} showToolbar={true} />
-      </View>
-    </Modal>
-  ) : showDatePicker ? (
-    <DatePicker setCurrentDate={setCurrentDate} showToolbar={false} />
-  ) : (
-    <></>
-  )
+const DatePickerDialog = ({ setCurrentDate, showDatePickerState }: Props) => {
+  return <DatePicker showDatePickerState={showDatePickerState} setCurrentDate={setCurrentDate} />
 }
 
 export default DatePickerDialog
