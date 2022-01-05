@@ -29,6 +29,7 @@ const commonConfig: ExpoConfig = {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#FFFFFF',
     },
+    package: 'com.symdit.swarmplus',
   },
   web: {
     config: {
