@@ -63,6 +63,12 @@ module.exports = (): ExpoConfig => {
         apiUrl: 'https://production.com/api',
       },
     }
+  } else if (process.env.APP_ENV === 'dev-client') {
+    return {
+      ...commonConfig,
+      name: 'Expo DevClient(SwarmPlus)',
+      extra: {},
+    }
   } else {
     return {
       ...commonConfig,

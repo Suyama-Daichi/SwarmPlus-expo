@@ -5,10 +5,17 @@
   "build": {
     "dev-client": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "APP_ENV": "dev-client"
+      }
     },
     "preview": {},
-    "production": {}
+    "production": {
+      "env": {
+        "APP_ENV": "production"
+      }
+    }
   },
   "submit": {
     "production": {},
