@@ -1,9 +1,7 @@
 import * as Amplitude from 'expo-analytics-amplitude'
-import { AMPLITUDE_KEY } from '@env'
+import Constants from 'expo-constants'
 
-Amplitude.initializeAsync
-
-Amplitude.initializeAsync(AMPLITUDE_KEY)
+Amplitude.initializeAsync(Constants.manifest?.extra.amplitudeKey)
 /**
  * setUserId
  * @param {string} userId

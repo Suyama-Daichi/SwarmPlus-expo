@@ -25,11 +25,13 @@ const commonConfig: ExpoConfig = {
     bundleIdentifier: 'com.donchan.SwarmPlus',
   },
   android: {
+    versionCode: 3,
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#FFFFFF',
     },
     package: 'com.symdit.swarmplus',
+    permissions: [],
     config: {
       googleMaps: {
         apiKey: process.env.GOOGLE_API_KEY,
@@ -61,20 +63,15 @@ module.exports = (): ExpoConfig => {
         apiUrl: 'https://production.com/api',
       },
     }
-  } else if (process.env.APP_ENV === 'staging') {
-    return {
-      ...commonConfig,
-      name: 'SwarmPlus (Staging)',
-      extra: {
-        apiUrl: 'https://staging.com/api',
-      },
-    }
   } else {
     return {
       ...commonConfig,
       name: 'SwarmPlus (Development)',
       extra: {
         apiUrl: 'https://localhost:3000/api',
+        amplitudeKey: process.env.AMPLITUDE_KEY,
+        CLIENT_ID: process.env.CLIENT_ID,
+        CLIENT_SECRET: process.env.CLIENT_SECRET,
       },
     }
   }
