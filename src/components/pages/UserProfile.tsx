@@ -12,28 +12,35 @@ const UserProfile = () => {
   const route = useRoute<RouteProp<CheckinCalendarParamList, 'UserProfile'>>()
   const userId = route.params?.userId
   const navigation = useNavigation()
-  const { loginUser, fetchSetUser, loading } = useUser()
+  const { loginUser } = useUser()
   const [user, setUser] = useState<User>()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const init = async () => {
-      if (!userId) {
-        fetchSetUser()
-      } else {
+      if (userId) {
         const user = await fetchUser(userId)
         user && setUser(user)
+      } else {
+        if (!loginUser) return
+        setUser(loginUser)
       }
+      setLoading(false)
     }
 
-    user && navigation.setOptions({ headerTitle: `${user.checkins?.count}回` })
     init()
-  }, [])
+  }, [userId, loginUser])
+
+  useEffect(() => {
+    if (!user) return
+    user && navigation.setOptions({ headerTitle: `${user.checkins?.count}回` })
+  }, [user])
 
   if (loading || !user) return <ActivityIndicator />
 
   return (
     <View style={other.bk_white}>
-      <UserCard user={loginUser || user} />
+      <UserCard user={user} />
     </View>
   )
 }
