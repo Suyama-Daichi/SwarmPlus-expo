@@ -3,7 +3,7 @@
     "version": ">= 0.43.0"
   },
   "build": {
-    "development-client": {
+    "dev-client": {
       "developmentClient": true,
       "distribution": "internal"
     },
