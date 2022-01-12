@@ -8,7 +8,11 @@ import { useNavigation } from '@/hooks/useNavigation'
 import { useCheckin } from '@/hooks/useCheckin'
 import CalendarHeader from '@/components/molecules/CalendarHeader'
 import DatePickerDialog from '@/components/organisms/DatePickerDialog'
+import { Avatar } from 'react-native-elements'
+import { generateImageUrl } from '@/service/utilFns'
+import HeaderRight from '@/components/molecules/HeaderRight'
 import { useCheckinCalendar } from './useCheckinCalendar'
+import { useUser } from '../../../hooks/useUser'
 
 const CheckinCalendar = () => {
   const navigation = useNavigation()
@@ -19,6 +23,26 @@ const CheckinCalendar = () => {
   const maxDate = useMemo(() => new Date(), [])
   const showDatePickerState = useState(false)
   const [, setShowDatePicker] = showDatePickerState
+  const { loginUser } = useUser()
+
+  useEffect(() => {
+    if (!loginUser) return
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderRight>
+          <Avatar
+            rounded
+            size={'small'}
+            source={{
+              uri: generateImageUrl(loginUser.photo, '50'),
+            }}
+            icon={{ name: 'person-outline' }}
+            onPress={() => navigation.push('UserProfile')}
+          />
+        </HeaderRight>
+      ),
+    })
+  }, [loginUser])
 
   if (loadingInit) return <ActivityIndicator />
   return (
