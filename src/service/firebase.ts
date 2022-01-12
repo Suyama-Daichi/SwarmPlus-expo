@@ -13,7 +13,6 @@ import * as FirebaseCore from 'expo-firebase-core'
 type EnvObj = {
   apiKey: string
   authDomain: string
-  databaseURL: string
   projectId: string
   storageBucket: string
   messagingSenderId: string
@@ -25,7 +24,6 @@ const env = FirebaseCore.DEFAULT_WEB_APP_OPTIONS as EnvObj
 const firebaseConfig = {
   apiKey: env.apiKey,
   authDomain: env.authDomain,
-  databaseURL: env.databaseURL,
   projectId: env.projectId,
   storageBucket: env.storageBucket,
   messagingSenderId: env.messagingSenderId,

@@ -1,5 +1,6 @@
 import { ExpoConfig } from '@expo/config'
 import 'dotenv/config'
+import KEYS from './keys.json'
 
 const commonConfig: ExpoConfig = {
   name: 'SwarmPlus',
@@ -34,23 +35,9 @@ const commonConfig: ExpoConfig = {
     permissions: [],
     config: {
       googleMaps: {
-        apiKey: process.env.GOOGLE_API_KEY,
+        apiKey: KEYS.common.GOOGLE_API_KEY,
       },
     },
-  },
-  web: {
-    config: {
-      firebase: {
-        apiKey: process.env.FB_API_KEY,
-        authDomain: process.env.FB_AUTH_DOMAIN,
-        databaseURL: process.env.FB_DATABASE_URL,
-        projectId: process.env.FB_PROJECT_ID,
-        storageBucket: process.env.FB_STORAGE_BUCKET,
-        messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
-        appId: process.env.FB_APP_ID,
-      },
-    },
-    favicon: './assets/images/favicon.png',
   },
 }
 
@@ -59,25 +46,67 @@ module.exports = (): ExpoConfig => {
     return {
       ...commonConfig,
       name: 'SwarmPlus',
+      web: {
+        config: {
+          firebase: {
+            apiKey: KEYS.production.FB_API_KEY,
+            authDomain: KEYS.production.FB_AUTH_DOMAIN,
+            projectId: KEYS.production.FB_PROJECT_ID,
+            storageBucket: KEYS.production.FB_STORAGE_BUCKET,
+            messagingSenderId: KEYS.production.FB_MESSAGING_SENDER_ID,
+            appId: KEYS.production.FB_APP_ID,
+          },
+        },
+        favicon: './assets/images/favicon.png',
+      },
       extra: {
-        apiUrl: 'https://production.com/api',
+        apiUrl: 'https://localhost:3000/api',
+        amplitudeKey: KEYS.production.AMPLITUDE_KEY,
+        CLIENT_ID: KEYS.common.CLIENT_ID,
+        CLIENT_SECRET: KEYS.common.CLIENT_SECRET,
       },
     }
   } else if (process.env.APP_ENV === 'dev-client') {
     return {
       ...commonConfig,
       name: 'Expo DevClient(SwarmPlus)',
+      web: {
+        config: {
+          firebase: {
+            apiKey: KEYS.development.FB_API_KEY,
+            authDomain: KEYS.development.FB_AUTH_DOMAIN,
+            projectId: KEYS.development.FB_PROJECT_ID,
+            storageBucket: KEYS.development.FB_STORAGE_BUCKET,
+            messagingSenderId: KEYS.development.FB_MESSAGING_SENDER_ID,
+            appId: KEYS.development.FB_APP_ID,
+          },
+        },
+        favicon: './assets/images/favicon.png',
+      },
       extra: {},
     }
   } else {
     return {
       ...commonConfig,
       name: 'SwarmPlus (Development)',
+      web: {
+        config: {
+          firebase: {
+            apiKey: KEYS.development.FB_API_KEY,
+            authDomain: KEYS.development.FB_AUTH_DOMAIN,
+            projectId: KEYS.development.FB_PROJECT_ID,
+            storageBucket: KEYS.development.FB_STORAGE_BUCKET,
+            messagingSenderId: KEYS.development.FB_MESSAGING_SENDER_ID,
+            appId: KEYS.development.FB_APP_ID,
+          },
+        },
+        favicon: './assets/images/favicon.png',
+      },
       extra: {
         apiUrl: 'https://localhost:3000/api',
-        amplitudeKey: process.env.AMPLITUDE_KEY,
-        CLIENT_ID: process.env.CLIENT_ID,
-        CLIENT_SECRET: process.env.CLIENT_SECRET,
+        amplitudeKey: KEYS.development.AMPLITUDE_KEY,
+        CLIENT_ID: KEYS.common.CLIENT_ID,
+        CLIENT_SECRET: KEYS.common.CLIENT_SECRET,
       },
     }
   }
