@@ -29,8 +29,8 @@ export const logEvent = (eventName: string) => {
  */
 export const setCurrentScreen = (screenName: string, props: { [k: string]: string }) => {
   Amplitude.logEventWithPropertiesAsync(screenName, props)
-  Analytics.logEvent('screen_view', { screenName, props })
-  console.info('Analytics', { screenName, props })
+  Analytics.logEvent('screen_view', { screen_name: screenName, props })
+  console.info('Analytics', { screen_name: screenName, props })
 }
 
 /**
