@@ -21,7 +21,7 @@ const SignInByFoursquare = () => {
       const accessToken = await fetchAccessToken(code)
       await storage.save({ key: FOURSQUARE_ACCESS_TOKEN, data: accessToken })
       const user = await fetchSetUser()
-      setUserId(user ? user.id : '')
+      setUserId(user ? user.id : 'undefined')
       logEvent('user_login')
       navigation.navigate('Main')
     }
