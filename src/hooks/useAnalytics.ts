@@ -1,3 +1,4 @@
+import { Analytics } from '@/service/firebase'
 import * as Amplitude from 'expo-analytics-amplitude'
 import Constants from 'expo-constants'
 
@@ -6,8 +7,9 @@ Amplitude.initializeAsync(Constants.manifest?.extra.amplitudeKey)
  * setUserId
  * @param {string} userId
  */
-export const setUserId = async (userId: string) => {
-  await Amplitude.setUserIdAsync(userId)
+export const setUserId = (userId: string) => {
+  Amplitude.setUserIdAsync(userId)
+  Analytics.setUserId(userId)
   console.info('Analytics', { userId })
 }
 
@@ -15,8 +17,9 @@ export const setUserId = async (userId: string) => {
  * logEvent プロパティなし
  * @param {string} name
  */
-export const logEvent = async (eventName: string) => {
-  await Amplitude.logEventAsync(eventName)
+export const logEvent = (eventName: string) => {
+  Amplitude.logEventAsync(eventName)
+  Analytics.logEvent(eventName)
   console.info('Analytics', { eventName })
 }
 /**
@@ -24,16 +27,18 @@ export const logEvent = async (eventName: string) => {
  * @param {string} name
  * @param {object} props
  */
-export const setCurrentScreen = async (screenName: string, props: { [k: string]: string }) => {
-  await Amplitude.logEventWithPropertiesAsync(screenName, props)
-  console.info('Analytics', { screenName, props })
+export const setCurrentScreen = (screenName: string, props: { [k: string]: string }) => {
+  Amplitude.logEventWithPropertiesAsync(screenName, props)
+  Analytics.logEvent('screen_view', { screen_name: screenName, props })
+  console.info('Analytics', { screen_name: screenName, props })
 }
 
 /**
  * setUserProperties
  * @param {object} properties
  */
-export const setUserProperties = async (properties: { [k: string]: string }) => {
-  await Amplitude.setUserPropertiesAsync(properties)
+export const setUserProperties = (properties: { [k: string]: string }) => {
+  Amplitude.setUserPropertiesAsync(properties)
+  Analytics.setUserProperties(properties)
   console.info('Analytics', { properties })
 }
