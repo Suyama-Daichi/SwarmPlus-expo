@@ -22,7 +22,7 @@ const commonConfig: ExpoConfig = {
   ios: {
     supportsTablet: true,
     buildNumber: '1',
-    bundleIdentifier: 'com.donchan.SwarmPlus',
+    bundleIdentifier: 'com.symdit.SwarmPlus',
   },
   android: {
     versionCode: 4,
@@ -42,23 +42,16 @@ const commonConfig: ExpoConfig = {
 
 module.exports = (): ExpoConfig => {
   if (process.env.APP_ENV === 'production') {
+    const android = { ...commonConfig.android }
+    const ios = { ...commonConfig.ios }
+    android.googleServicesFile = './google-services-production.json'
+    ios.googleServicesFile = './GoogleService-Info-production.plist'
     return {
       ...commonConfig,
       name: 'SwarmPlus',
-      web: {
-        config: {
-          firebase: {
-            apiKey: process.env.FB_API_KEY,
-            authDomain: process.env.FB_AUTH_DOMAIN,
-            projectId: process.env.FB_PROJECT_ID,
-            storageBucket: process.env.FB_STORAGE_BUCKET,
-            messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
-            appId: process.env.FB_APP_ID,
-            measurementId: process.env.FB_MEASUREMENT_ID,
-          },
-        },
-        favicon: './assets/images/favicon.png',
-      },
+      android,
+      ios,
+      plugins: ['@react-native-firebase/app'],
       extra: {
         apiUrl: 'https://localhost:3000/api',
         amplitudeKey: process.env.AMPLITUDE_KEY,
@@ -67,43 +60,29 @@ module.exports = (): ExpoConfig => {
       },
     }
   } else if (process.env.APP_ENV === 'dev-client') {
+    const android = { ...commonConfig.android }
+    const ios = { ...commonConfig.ios }
+    android.googleServicesFile = './google-services-production.json'
+    ios.googleServicesFile = './GoogleService-Info-development.plist'
     return {
       ...commonConfig,
       name: 'Expo DevClient(SwarmPlus)',
-      web: {
-        config: {
-          firebase: {
-            apiKey: process.env.FB_API_KEY,
-            authDomain: process.env.FB_AUTH_DOMAIN,
-            projectId: process.env.FB_PROJECT_ID,
-            storageBucket: process.env.FB_STORAGE_BUCKET,
-            messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
-            appId: process.env.FB_APP_ID,
-            measurementId: process.env.FB_MEASUREMENT_ID,
-          },
-        },
-        favicon: './assets/images/favicon.png',
-      },
+      android,
+      ios,
+      plugins: ['@react-native-firebase/app'],
       extra: {},
     }
   } else {
+    const android = { ...commonConfig.android }
+    const ios = { ...commonConfig.ios }
+    android.googleServicesFile = './google-services-production.json'
+    ios.googleServicesFile = './GoogleService-Info-development.plist'
     return {
       ...commonConfig,
       name: 'SwarmPlus (Development)',
-      web: {
-        config: {
-          firebase: {
-            apiKey: process.env.FB_API_KEY,
-            authDomain: process.env.FB_AUTH_DOMAIN,
-            projectId: process.env.FB_PROJECT_ID,
-            storageBucket: process.env.FB_STORAGE_BUCKET,
-            messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
-            appId: process.env.FB_APP_ID,
-            measurementId: process.env.FB_MEASUREMENT_ID,
-          },
-        },
-        favicon: './assets/images/favicon.png',
-      },
+      android,
+      ios,
+      plugins: ['@react-native-firebase/app'],
       extra: {
         apiUrl: 'https://localhost:3000/api',
         amplitudeKey: process.env.AMPLITUDE_KEY,

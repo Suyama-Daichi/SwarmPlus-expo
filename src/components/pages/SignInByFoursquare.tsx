@@ -3,7 +3,7 @@ import React from 'react'
 import { WebView, WebViewNavigation } from 'react-native-webview'
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
-import { setUserId, logEvent } from '@/hooks/useAnalytics'
+import { logEvent } from '@/hooks/useAnalytics'
 import storage from '@/service/reactNativeStorage'
 import { parseURLParams } from '@/service/utilFns'
 import { fetchAccessToken } from '@/service/foursquareApi'
@@ -20,9 +20,8 @@ const SignInByFoursquare = () => {
     if (code && !loading) {
       const accessToken = await fetchAccessToken(code)
       await storage.save({ key: FOURSQUARE_ACCESS_TOKEN, data: accessToken })
-      const user = await fetchSetUser()
-      setUserId(user ? user.id : '')
-      await logEvent('login')
+      await fetchSetUser()
+      logEvent('user_login')
       navigation.navigate('Main')
     }
   }
