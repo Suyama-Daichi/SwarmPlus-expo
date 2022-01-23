@@ -22,7 +22,7 @@ export type NotificationItem = {
 export type Response = {
   checkins?: Summary<Checkin>
   checkin?: Checkin
-  user?: User
+  user?: FoursquareUser
 }
 
 export type Summary<T> = {
@@ -46,24 +46,24 @@ export type Checkin = {
   comments: Summary<Comment>
   source: Source
   sticker?: Sticker
-  with?: User[]
+  with?: FoursquareUser[]
   visibility?: 'private'
 }
 
 export type CheckinDetail = {
   score: CheckinScore
-  user?: User
+  user?: FoursquareUser
   checkinShortUrl?: string
 } & Checkin
 
 export type Comment = {
   id: string
   createdAt: number
-  user: User
+  user: FoursquareUser
   text: string
 }
 
-export type User = {
+export type FoursquareUser = {
   id: string
   firstName: string
   lastName: string
@@ -80,7 +80,7 @@ export type User = {
   bio?: string
   contact?: Contact
   createdAt?: number
-  friends?: UserSummary<User>
+  friends?: UserSummary<FoursquareUser>
   lists?: Lists
   photos?: Summary<{
     checkin: Checkin
@@ -105,7 +105,7 @@ export type Contact = {
 
 export type Likes = {
   count: number
-  groups: User[]
+  groups: FoursquareUser[]
   summary?: string
 }
 
@@ -145,7 +145,7 @@ export type Photo = {
   width: number
   height: number
   demoted: boolean
-  user: User
+  user: FoursquareUser
   visibility: string
 } & Icon
 
