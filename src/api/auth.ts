@@ -1,5 +1,10 @@
 import { genCustomToken } from '@/service/functions'
-import { getAuth, signInWithCustomToken as firebaseSignin } from 'firebase/auth'
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithCustomToken as firebaseSignin,
+  User,
+} from 'firebase/auth'
 
 export const signInWithCustomToken = async (token: string) => {
   const auth = getAuth()
@@ -13,4 +18,18 @@ export const signInWithCustomToken = async (token: string) => {
 export const getCustomToken = async (uid: string) => {
   const customToken = await genCustomToken({ uid: uid })
   return customToken
+}
+
+/** ログイン状態を取得 */
+export const fetchAuthUser = async (): Promise<User | undefined> => {
+  return new Promise((resolve, reject) => {
+    const auth = getAuth()
+    onAuthStateChanged(
+      auth,
+      (user) => {
+        resolve(user || undefined)
+      },
+      (e) => reject(e)
+    )
+  })
 }
