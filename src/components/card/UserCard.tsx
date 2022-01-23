@@ -3,13 +3,13 @@ import { View, Text, Linking } from 'react-native'
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
 import { COLORS } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
-import { User } from '@/types/Foursquare'
+import { FoursquareUser } from '@/types/Foursquare'
 import { other } from '@/styles/styles'
 import { formatTimestamp } from '@/service/dateFns'
 import { generateImageUrl } from '@/service/utilFns'
 
 type Props = {
-  user: User
+  user: FoursquareUser
 }
 
 const UserCard = ({ user }: Props) => {

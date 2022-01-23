@@ -6,14 +6,14 @@ import { CheckinCalendarParamList } from '@/types'
 import { other } from '@/styles/styles'
 import { useUser } from '@/hooks/useUser'
 import { fetchUser } from '@/service/foursquareApi'
-import { User } from '@/types/Foursquare'
+import { FoursquareUser } from '@/types/Foursquare'
 
 const UserProfile = () => {
   const route = useRoute<RouteProp<CheckinCalendarParamList, 'UserProfile'>>()
   const userId = route.params?.userId
   const navigation = useNavigation()
   const { loginUser } = useUser()
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<FoursquareUser>()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

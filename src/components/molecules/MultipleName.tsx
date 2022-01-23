@@ -1,10 +1,10 @@
-import { User } from '@/types/Foursquare'
+import { FoursquareUser } from '@/types/Foursquare'
 import React, { ReactNode } from 'react'
 import { View, Text } from 'react-native'
 import { other, fontColor } from '@/styles/styles'
 
 type Props = {
-  users: User[]
+  users: FoursquareUser[]
   label: ReactNode
   sum?: string
 }
