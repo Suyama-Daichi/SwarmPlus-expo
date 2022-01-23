@@ -6,6 +6,7 @@ import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
 import { COLORS } from '@/constants/Colors'
 import { reloadAsync } from 'expo-updates'
+import { signOutAuth } from '@/api/auth'
 
 export const ActionMenu = () => {
   const options = ['ログアウト', 'キャンセル']
@@ -16,6 +17,7 @@ export const ActionMenu = () => {
 
   const logOut = async () => {
     await storage.remove({ key: FOURSQUARE_ACCESS_TOKEN })
+    await signOutAuth()
     reloadAsync()
   }
 

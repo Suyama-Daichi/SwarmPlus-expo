@@ -3,6 +3,7 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithCustomToken as firebaseSignin,
+  signOut,
   User,
 } from 'firebase/auth'
 
@@ -32,4 +33,18 @@ export const fetchAuthUser = async (): Promise<User | undefined> => {
       (e) => reject(e)
     )
   })
+}
+
+/** FirebaseAuthenticationからサインアウト */
+export const signOutAuth = () => {
+  const auth = getAuth()
+  signOut(auth)
+    .then(() => {
+      // Sign-out successful.
+      console.log('sign out')
+    })
+    .catch((error) => {
+      console.error(error)
+      // An error happened.
+    })
 }
