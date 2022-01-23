@@ -57,6 +57,15 @@ module.exports = (): ExpoConfig => {
         amplitudeKey: process.env.AMPLITUDE_KEY,
         CLIENT_ID: process.env.CLIENT_ID,
         CLIENT_SECRET: process.env.CLIENT_SECRET,
+        FIREBASE: {
+          apiKey: process.env.FB_API_KEY,
+          authDomain: process.env.FB_AUTH_DOMAIN,
+          projectId: process.env.FB_PROJECT_ID,
+          storageBucket: process.env.FB_STORAGE_BUCKET,
+          messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
+          appId: process.env.FB_APP_ID,
+          measurementId: process.env.FB_MEASUREMENT_ID,
+        },
       },
     }
   } else if (process.env.APP_ENV === 'dev-client') {
@@ -70,7 +79,17 @@ module.exports = (): ExpoConfig => {
       android,
       ios,
       plugins: ['@react-native-firebase/app'],
-      extra: {},
+      extra: {
+        FIREBASE: {
+          apiKey: process.env.FB_API_KEY,
+          authDomain: process.env.FB_AUTH_DOMAIN,
+          projectId: process.env.FB_PROJECT_ID,
+          storageBucket: process.env.FB_STORAGE_BUCKET,
+          messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
+          appId: process.env.FB_APP_ID,
+          measurementId: process.env.FB_MEASUREMENT_ID,
+        },
+      },
     }
   } else {
     const android = { ...commonConfig.android }
@@ -88,6 +107,15 @@ module.exports = (): ExpoConfig => {
         amplitudeKey: process.env.AMPLITUDE_KEY,
         CLIENT_ID: process.env.CLIENT_ID,
         CLIENT_SECRET: process.env.CLIENT_SECRET,
+        FIREBASE: {
+          apiKey: process.env.FB_API_KEY,
+          authDomain: process.env.FB_AUTH_DOMAIN,
+          projectId: process.env.FB_PROJECT_ID,
+          storageBucket: process.env.FB_STORAGE_BUCKET,
+          messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
+          appId: process.env.FB_APP_ID,
+          measurementId: process.env.FB_MEASUREMENT_ID,
+        },
       },
     }
   }
