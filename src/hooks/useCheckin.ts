@@ -12,18 +12,18 @@ const checkinsAtom = atom<Checkin[]>({
 })
 
 export const useCheckin = () => {
-  const { loginUser } = useUser()
+  const { foursquareUser } = useUser()
   const [checkins, setCheckins] = useRecoilState(checkinsAtom)
 
   const fetchCheckinsSoft = async (date: Date) => {
     const period = getStartEndOfMonth(date)
-    if (!loginUser) return
-    const checkinsInFirestore = await fetchCheckinsFromFirestore(loginUser.id, period)
+    if (!foursquareUser) return
+    const checkinsInFirestore = await fetchCheckinsFromFirestore(foursquareUser.id, period)
     const checkins = !checkinsInFirestore.length
       ? await fetchUserCheckins({ period })
       : checkinsInFirestore
     setCheckins((current) => unionArray(current ? [...current, ...checkins] : checkins, 'id'))
-    loginUser && addCheckins(loginUser.id, checkins)
+    foursquareUser && addCheckins(foursquareUser.id, checkins)
     return checkins
   }
 
@@ -33,7 +33,7 @@ export const useCheckin = () => {
 
     setCheckins((current) => unionArray(current ? [...current, ...checkins] : checkins, 'id'))
 
-    loginUser && addCheckins(loginUser.id, checkins)
+    foursquareUser && addCheckins(foursquareUser.id, checkins)
     return checkins
   }
 

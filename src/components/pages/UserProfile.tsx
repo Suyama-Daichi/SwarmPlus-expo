@@ -12,7 +12,7 @@ const UserProfile = () => {
   const route = useRoute<RouteProp<CheckinCalendarParamList, 'UserProfile'>>()
   const userId = route.params?.userId
   const navigation = useNavigation()
-  const { loginUser } = useUser()
+  const { foursquareUser } = useUser()
   const [user, setUser] = useState<FoursquareUser>()
   const [loading, setLoading] = useState(true)
 
@@ -22,14 +22,14 @@ const UserProfile = () => {
         const user = await fetchUser(userId)
         user && setUser(user)
       } else {
-        if (!loginUser) return
-        setUser(loginUser)
+        if (!foursquareUser) return
+        setUser(foursquareUser)
       }
       setLoading(false)
     }
 
     init()
-  }, [userId, loginUser])
+  }, [userId, foursquareUser])
 
   useEffect(() => {
     if (!user) return

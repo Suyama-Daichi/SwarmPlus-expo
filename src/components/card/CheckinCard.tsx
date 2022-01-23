@@ -27,7 +27,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
   const { isMayor, venue, visibility, likes, comments, shout, createdAt, photos } = item
 
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
-  const { loginUser } = useUser()
+  const { foursquareUser } = useUser()
   const [showPhotoViewer, setShowPhotoViewer] = useState(false)
   const [imageIndex, setImageIndex] = useState(0)
 
@@ -47,7 +47,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
         rounded
         size={'medium'}
         source={{
-          uri: generateImageUrl(loginUser.photo, '50'),
+          uri: generateImageUrl(foursquareUser.photo, '50'),
         }}
         icon={{ name: 'person-outline' }}
       >

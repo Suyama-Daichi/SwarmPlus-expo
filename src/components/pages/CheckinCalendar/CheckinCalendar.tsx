@@ -23,10 +23,11 @@ const CheckinCalendar = () => {
   const maxDate = useMemo(() => new Date(), [])
   const showDatePickerState = useState(false)
   const [, setShowDatePicker] = showDatePickerState
-  const { loginUser } = useUser()
+  const { foursquareUser } = useUser()
 
   useEffect(() => {
-    if (!loginUser) return
+    if (!foursquareUser) return
+
     navigation.setOptions({
       headerRight: () => (
         <HeaderRight>
@@ -34,7 +35,7 @@ const CheckinCalendar = () => {
             rounded
             size={'small'}
             source={{
-              uri: generateImageUrl(loginUser.photo, '50'),
+              uri: generateImageUrl(foursquareUser.photo, '50'),
             }}
             icon={{ name: 'person-outline' }}
             onPress={() => navigation.push('UserProfile')}
@@ -42,7 +43,7 @@ const CheckinCalendar = () => {
         </HeaderRight>
       ),
     })
-  }, [loginUser])
+  }, [foursquareUser])
 
   if (loadingInit) return <ActivityIndicator />
   return (

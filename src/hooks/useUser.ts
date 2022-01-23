@@ -5,8 +5,8 @@ import { User } from 'firebase/auth'
 import { useState } from 'react'
 import { atom, useRecoilState } from 'recoil'
 
-const loginUserAtom = atom<FoursquareUser | undefined>({
-  key: 'loginUser',
+const foursquareUserAtom = atom<FoursquareUser | undefined>({
+  key: 'foursquareUser',
   default: undefined,
 })
 const authUserAtom = atom<User | undefined>({
@@ -14,7 +14,7 @@ const authUserAtom = atom<User | undefined>({
   default: undefined,
 })
 export const useUser = () => {
-  const [loginUser, setUser] = useRecoilState(loginUserAtom)
+  const [foursquareUser, setUser] = useRecoilState(foursquareUserAtom)
   const [loading, setLoading] = useState(true)
   const [authUser, setAuthUser] = useRecoilState(authUserAtom)
   const loadFinished = () => setLoading(false)
@@ -31,7 +31,7 @@ export const useUser = () => {
   return {
     fetchSetUser,
     setAuthUser,
-    loginUser,
+    foursquareUser,
     authUser,
     loading,
   }
