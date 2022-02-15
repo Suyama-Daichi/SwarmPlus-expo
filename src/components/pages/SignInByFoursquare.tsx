@@ -8,7 +8,7 @@ import storage from '@/service/reactNativeStorage'
 import { parseURLParams } from '@/service/utilFns'
 import { fetchAccessToken } from '@/service/foursquareApi'
 import { getCustomToken, signInWithCustomToken } from '@/api/auth'
-import { useUser } from '../../hooks/useUser'
+import { useUser } from '@/hooks/useUser'
 
 const SignInByFoursquare = () => {
   const { fetchSetUser, setAuthUser } = useUser()
@@ -23,9 +23,9 @@ const SignInByFoursquare = () => {
       await storage.save({ key: FOURSQUARE_ACCESS_TOKEN, data: accessToken })
       const user = await fetchSetUser()
       if (!user) return
-      const token = (await getCustomToken(user.id)).data.customToken
-      const authUser = await signInWithCustomToken(token)
-      setAuthUser(authUser.user)
+      const token = (await getCustomToken(user.id, accessToken)).data.customToken
+      const userCredential = await signInWithCustomToken(token)
+      setAuthUser(userCredential.user)
       logEvent('user_login')
       navigation.navigate('Main')
     }

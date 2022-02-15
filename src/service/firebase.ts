@@ -3,7 +3,7 @@ import { CollectionReference, DocumentReference } from 'firebase/firestore'
 import 'firebase/storage'
 import { getFunctions } from 'firebase/functions'
 // Optionally import the services that you want to use
-//import {...} from "firebase/auth";
+//import { ..., getAuth } from 'firebase/auth';
 //import {...} from "firebase/database";
 //import {...} from "firebase/firestore";
 //import {...} from "firebase/functions";
@@ -11,6 +11,7 @@ import { getFunctions } from 'firebase/functions'
 import fs from '@react-native-firebase/firestore'
 import analytics from '@react-native-firebase/analytics'
 import Constants from 'expo-constants'
+import { getAuth } from '@firebase/auth'
 
 type EnvObj = {
   apiKey: string
@@ -38,6 +39,7 @@ const app = initializeApp(firebaseConfig)
 
 export const functions = getFunctions(app)
 export const firestore = fs()
+export const auth = getAuth(app)
 export const Analytics = analytics()
 export type CollectionRef = CollectionReference
 export type DocumentRef = DocumentReference
