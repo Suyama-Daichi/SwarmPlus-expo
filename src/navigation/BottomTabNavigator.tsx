@@ -15,11 +15,13 @@ import { useNavigation } from '@react-navigation/core'
 import MapScreen from '@/components/pages/Map/Map'
 import { useEffect } from 'react'
 import CheckinsByDay from '@/components/pages/CheckinsByDay/CheckinsByDay'
+import { useInitialize } from '@/hooks/useInitialize'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
 export default function BottomTabNavigator() {
   const navigation = useNavigation()
+  useInitialize()
   useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
