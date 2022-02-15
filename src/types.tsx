@@ -8,12 +8,12 @@ export type RootStackParamList = {
 }
 
 export type BottomTabParamList = {
-  CheckinCalendarNavigator: undefined
+  CheckinSearchNavigator: undefined
 }
 
-export type CheckinCalendarParamList = {
+export type CheckinSearchParamList = {
   CheckinsByDay: { dateObject: DateObject }
-  CheckinCalendar: undefined
+  CheckinSearch: undefined
   CheckinDetail: { itemId: string }
   UserProfile: { userId?: string }
   Map: { checkins: Checkin[] }

@@ -1,5 +1,5 @@
 import { CheckinCard } from '@/components/card/CheckinCard'
-import { CheckinCalendarParamList } from '@/types'
+import { CheckinSearchParamList } from '@/types'
 import { RouteProp, useRoute } from '@react-navigation/core'
 import React, { useEffect } from 'react'
 import { FlatList, View } from 'react-native'
@@ -12,7 +12,7 @@ import { COLORS } from '@/constants/Colors'
 import { useRecoil } from '@/hooks/useRecoil'
 
 const CheckinsByDay = () => {
-  const { params } = useRoute<RouteProp<CheckinCalendarParamList, 'CheckinsByDay'>>()
+  const { params } = useRoute<RouteProp<CheckinSearchParamList, 'CheckinsByDay'>>()
   const { dateObject } = params
   const navigation = useNavigation()
   const { checkins } = useCheckin()

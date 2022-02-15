@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { View, ActivityIndicator } from 'react-native'
 import { useNavigation, RouteProp, useRoute } from '@react-navigation/native'
 import UserCard from '@/components/card/UserCard'
-import { CheckinCalendarParamList } from '@/types'
+import { CheckinSearchParamList } from '@/types'
 import { other } from '@/styles/styles'
 import { useUser } from '@/hooks/useUser'
 import { fetchUser } from '@/service/foursquareApi'
 import { FoursquareUser } from '@/types/Foursquare'
 
 const UserProfile = () => {
-  const route = useRoute<RouteProp<CheckinCalendarParamList, 'UserProfile'>>()
+  const route = useRoute<RouteProp<CheckinSearchParamList, 'UserProfile'>>()
   const userId = route.params?.userId
   const navigation = useNavigation()
   const { foursquareUser } = useUser()

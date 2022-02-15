@@ -7,8 +7,8 @@ import { CheckinDetailScreen } from '@/components/pages/CheckinDetail/CheckinDet
 import BackButton from '@/components/molecules/BackButton'
 
 import { COLORS } from '@/constants/Colors'
-import { BottomTabParamList, CheckinCalendarParamList } from '@/types'
-import CheckinCalendar from '@/components/pages/CheckinCalendar/CheckinCalendar'
+import { BottomTabParamList, CheckinSearchParamList } from '@/types'
+import CheckinSearch from '@/components/pages/CheckinSearch/CheckinSearch'
 import ActionMenu from '@/components/ActionSheet'
 import UserProfile from '@/components/pages/UserProfile'
 import { useNavigation } from '@react-navigation/core'
@@ -33,12 +33,12 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="CheckinCalendarNavigator"
+      initialRouteName="CheckinSearchNavigator"
       tabBarOptions={{ activeTintColor: COLORS[colorScheme].tint, showLabel: false }}
     >
       <BottomTab.Screen
-        name="CheckinCalendarNavigator"
-        component={CheckinCalendarNavigator}
+        name="CheckinSearchNavigator"
+        component={CheckinSearchNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
         }}
@@ -55,20 +55,20 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const CheckinCalendarStack = createStackNavigator<CheckinCalendarParamList>()
+const CheckinSearchStack = createStackNavigator<CheckinSearchParamList>()
 
-function CheckinCalendarNavigator() {
+function CheckinSearchNavigator() {
   return (
-    <CheckinCalendarStack.Navigator initialRouteName={'CheckinCalendar'} mode={'card'}>
-      <CheckinCalendarStack.Screen
-        name={'CheckinCalendar'}
-        component={CheckinCalendar}
+    <CheckinSearchStack.Navigator initialRouteName={'CheckinSearch'} mode={'card'}>
+      <CheckinSearchStack.Screen
+        name={'CheckinSearch'}
+        component={CheckinSearch}
         options={{
           headerLeft: () => null,
-          headerTitle: 'カレンダーで振り返る',
+          headerTitle: 'チェックイン検索',
         }}
       />
-      <CheckinCalendarStack.Screen
+      <CheckinSearchStack.Screen
         name={'CheckinsByDay'}
         component={CheckinsByDay}
         options={{
@@ -76,7 +76,7 @@ function CheckinCalendarNavigator() {
           headerLeft: BackButton,
         }}
       />
-      <CheckinCalendarStack.Screen
+      <CheckinSearchStack.Screen
         name={'UserProfile'}
         component={UserProfile}
         options={{
@@ -85,7 +85,7 @@ function CheckinCalendarNavigator() {
           headerRight: ActionMenu,
         }}
       />
-      <CheckinCalendarStack.Screen
+      <CheckinSearchStack.Screen
         name={'Map'}
         component={MapScreen}
         options={{
@@ -93,7 +93,7 @@ function CheckinCalendarNavigator() {
           headerTitle: 'マップで見る',
         }}
       />
-      <CheckinCalendarStack.Screen
+      <CheckinSearchStack.Screen
         name={'CheckinDetail'}
         component={CheckinDetailScreen}
         options={{
@@ -101,6 +101,6 @@ function CheckinCalendarNavigator() {
           headerLeft: BackButton,
         }}
       />
-    </CheckinCalendarStack.Navigator>
+    </CheckinSearchStack.Navigator>
   )
 }

@@ -6,9 +6,9 @@ export default {
     screens: {
       Root: {
         screens: {
-          CheckinCalendar: {
+          CheckinSearch: {
             screens: {
-              CheckinCalendarScreen: 'one',
+              CheckinSearchScreen: 'one',
             },
           },
         },
