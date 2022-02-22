@@ -1,11 +1,6 @@
 import { genCustomToken } from '@/service/functions'
 import { auth } from '@/service/firebase'
-import {
-  onAuthStateChanged,
-  signInWithCustomToken as firebaseSignin,
-  signOut,
-  User,
-} from 'firebase/auth'
+import { signInWithCustomToken as firebaseSignin, signOut } from 'firebase/auth'
 
 export const signInWithCustomToken = async (token: string) => {
   const userCredential = await firebaseSignin(auth, token).catch((e) => {

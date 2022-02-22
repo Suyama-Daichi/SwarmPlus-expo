@@ -27,7 +27,7 @@ export const useUser = () => {
     user && setFoursquareUser(user)
     loadFinished()
     return user
-  }, [setFoursquareUser])
+  }, [])
 
   return {
     fetchSetUser,

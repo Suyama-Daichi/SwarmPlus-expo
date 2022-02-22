@@ -27,6 +27,7 @@ export const useInitialize = () => {
         storage.save({ key: FOURSQUARE_ACCESS_TOKEN, data: claims['accessToken'] })
         setAuthUser({ ...user })
         // FoursquareUserを取得
+        // Firestoreから取得する
         fetchSetUser()
         setUserId(user.uid)
       },
@@ -37,7 +38,7 @@ export const useInitialize = () => {
     return () => {
       unsubscribe()
     }
-  }, [fetchSetUser, setAuthUser])
+  }, [])
 
   return { loading }
 }
