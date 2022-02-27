@@ -1,5 +1,5 @@
 import { CheckinCard } from '@/components/card/CheckinCard'
-import { CheckinSearchParamList } from '@/types'
+import { CheckinSearchParamList } from '@/RouteParamList'
 import { RouteProp, useRoute } from '@react-navigation/core'
 import React, { useEffect } from 'react'
 import { FlatList, View } from 'react-native'

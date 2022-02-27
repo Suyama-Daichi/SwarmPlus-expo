@@ -15,7 +15,7 @@ import { formatTimestamp, formatDistanceToNowForTimestamp, timestamp2Date } from
 import { generateImageUrl, removeShoutWith } from '@/service/utilFns'
 import { NoData } from '@/components/organisms/NoData'
 import useColorScheme from '@/hooks/useColorScheme'
-import { CheckinSearchParamList } from '@/types'
+import { CheckinSearchParamList } from '@/RouteParamList'
 import { useRoute, RouteProp } from '@react-navigation/native'
 import { useCheckinDetail } from './useCheckinDetail'
 

@@ -2,9 +2,13 @@ import { DateObject } from 'react-native-calendars'
 import { Checkin } from './types/Foursquare'
 
 export type RootStackParamList = {
-  Root: undefined
+  Onboarding: undefined
   Auth: undefined
   Main: undefined
+}
+
+export type AppNavigatorParamList = {
+  BottomTabsNavigator: undefined
 }
 
 export type BottomTabParamList = {

@@ -12,7 +12,7 @@ import { View, StyleSheet } from 'react-native'
 import MapView, { Marker, LatLng, Region } from 'react-native-maps'
 import { useRecoil } from '@/hooks/useRecoil'
 import { useCheckin } from '@/hooks/useCheckin'
-import { BottomTabParamList } from '@/types'
+import { BottomTabParamList } from '@/RouteParamList'
 
 type RegionData = {
   id: string
