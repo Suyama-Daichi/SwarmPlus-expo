@@ -15,10 +15,11 @@ export const ActionMenu = () => {
 
   const { showActionSheetWithOptions } = useActionSheet()
 
-  const logOut = async () => {
-    await storage.remove({ key: FOURSQUARE_ACCESS_TOKEN })
-    await signOutAuth()
-    reloadAsync()
+  const logout = async () => {
+    // await storage.remove({ key: FOURSQUARE_ACCESS_TOKEN })
+    const result = await signOutAuth()
+    console.log(result)
+    // reloadAsync()
   }
 
   const actionSheetHandler = () => {
@@ -38,7 +39,7 @@ export const ActionMenu = () => {
             {
               text: 'ログアウト',
               style: 'destructive',
-              onPress: logOut,
+              onPress: logout,
             },
           ])
         }

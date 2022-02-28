@@ -1,44 +1,41 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useUser } from '@/hooks/useUser'
 import { setUserId } from '@/hooks/useAnalytics'
-import { onAuthStateChanged } from 'firebase/auth'
-import { auth } from '@/service/firebase'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
 import storage from '@/service/reactNativeStorage'
-import { useNavigation } from '@/hooks/useNavigation'
 
 export const useInitialize = () => {
-  const { fetchSetUser, setAuthUser } = useUser()
+  const { fetchSetUser, authUser, fetchSetCurrentAuth } = useUser()
   const [loading, setLoading] = useState(true)
-  const navigation = useNavigation()
+  const [isNewUser, setIsNewUser] = useState<boolean | undefined>(undefined)
 
-  useEffect(() => {
-    // authを取得
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (user) => {
-        if (!user) {
-          // ログインしていなければトップに戻る
-          navigation.popToTop()
-          return
-        }
-        const claims = jwtDecode<JwtPayload>(user.accessToken)
-        storage.save({ key: FOURSQUARE_ACCESS_TOKEN, data: claims['accessToken'] })
-        setAuthUser({ ...user })
-        // FoursquareUserを取得
-        // Firestoreから取得する
-        fetchSetUser()
-        setUserId(user.uid)
-      },
-      (e) => {
-        console.error(e)
-      }
-    )
-    return () => {
-      unsubscribe()
-    }
+  const initialize = useCallback(() => {
+    fetchSetCurrentAuth()
   }, [])
 
-  return { loading }
+  const initializeInLogin = useCallback(() => {
+    if (!authUser) {
+      setIsNewUser(!!authUser)
+      return
+    } else {
+      const claims = jwtDecode<JwtPayload>(authUser.accessToken)
+      storage.save({ key: FOURSQUARE_ACCESS_TOKEN, data: claims['accessToken'] })
+      // // FoursquareUserを取得
+      // // Firestoreから取得する
+      fetchSetUser()
+      setUserId(authUser.uid)
+      setIsNewUser(!authUser)
+    }
+  }, [authUser, fetchSetUser])
+
+  useEffect(() => {
+    initialize()
+  }, [])
+
+  useEffect(() => {
+    initializeInLogin()
+  }, [authUser, initializeInLogin])
+
+  return { loading, isNewUser }
 }
