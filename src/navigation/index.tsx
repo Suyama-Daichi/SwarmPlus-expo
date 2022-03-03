@@ -1,14 +1,18 @@
-import * as React from 'react'
+import React from 'react'
 import AppOnboarding from '@/components/pages/Onboarding'
 import { AppNavigatorParamList } from '@/RouteParamList'
 import { createStackNavigator } from '@react-navigation/stack'
 import BottomTabsNavigator from '@/navigation/BottomTabNavigator'
 import { NavigationContainer } from '@react-navigation/native'
 import { useInitialize } from '@/hooks/useInitialize'
+import Login from '@/components/pages/Login'
+import { ActivityIndicator } from 'react-native'
 
 const Navigation = () => {
-  const { isNewUser } = useInitialize()
+  const { isNewUser, loading } = useInitialize()
   const Stack = createStackNavigator()
+
+  if (loading) return <ActivityIndicator />
 
   return (
     <NavigationContainer>
@@ -18,6 +22,7 @@ const Navigation = () => {
       >
         <Stack.Screen name="AppNavigator" component={AppNavigator} />
         <Stack.Screen name="InitialOnboarding" component={AppOnboarding} />
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
   )

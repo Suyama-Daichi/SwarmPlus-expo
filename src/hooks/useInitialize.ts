@@ -1,41 +1,37 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { useUser } from '@/hooks/useUser'
-import { setUserId } from '@/hooks/useAnalytics'
-import jwtDecode, { JwtPayload } from 'jwt-decode'
-import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
-import storage from '@/service/reactNativeStorage'
+import { fetchCurrentAuth } from '@/api/auth'
+import { useAuth } from '@/hooks/useAuth'
+import jwtDecode from 'jwt-decode'
 
 export const useInitialize = () => {
-  const { fetchSetUser, authUser, fetchSetCurrentAuth } = useUser()
-  const [loading, setLoading] = useState(true)
-  const [isNewUser, setIsNewUser] = useState<boolean | undefined>(undefined)
+  const { fetchSetUser } = useUser()
+  const { setAuthUser, authUser, logout, setAccessToken } = useAuth()
+  const [loading, setLoading] = useState<boolean>(true)
 
-  const initialize = useCallback(() => {
-    fetchSetCurrentAuth()
-  }, [])
-
-  const initializeInLogin = useCallback(() => {
-    if (!authUser) {
-      setIsNewUser(!!authUser)
-      return
-    } else {
-      const claims = jwtDecode<JwtPayload>(authUser.accessToken)
-      storage.save({ key: FOURSQUARE_ACCESS_TOKEN, data: claims['accessToken'] })
-      // // FoursquareUserを取得
-      // // Firestoreから取得する
-      fetchSetUser()
-      setUserId(authUser.uid)
-      setIsNewUser(!authUser)
-    }
-  }, [authUser, fetchSetUser])
+  const initialize = useCallback(async () => {
+    const currentAuth = await fetchCurrentAuth()
+    if (!currentAuth) return
+    const accessToken = jwtDecode<string>(currentAuth['stsTokenManager'].accessToken)
+      .accessToken as string
+    if (typeof accessToken !== 'string') return
+    setAccessToken(accessToken)
+    setAuthUser(currentAuth)
+  }, [setAccessToken, setAuthUser])
 
   useEffect(() => {
     initialize()
   }, [])
 
   useEffect(() => {
-    initializeInLogin()
-  }, [authUser, initializeInLogin])
+    if (authUser !== undefined) return
+    setLoading(false)
+  }, [authUser])
 
-  return { loading, isNewUser }
+  useEffect(() => {
+    if (!authUser) return
+    fetchSetUser()
+  }, [authUser, fetchSetUser, logout])
+
+  return { loading, isNewUser: !authUser }
 }

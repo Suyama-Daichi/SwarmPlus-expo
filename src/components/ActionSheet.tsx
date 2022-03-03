@@ -2,25 +2,16 @@ import React from 'react'
 import { Alert } from 'react-native'
 import { useActionSheet } from '@expo/react-native-action-sheet'
 import { Ionicons } from '@expo/vector-icons'
-import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
-import storage from '@/service/reactNativeStorage'
 import { COLORS } from '@/constants/Colors'
-import { reloadAsync } from 'expo-updates'
-import { signOutAuth } from '@/api/auth'
+import { useAuth } from '@/hooks/useAuth'
 
 export const ActionMenu = () => {
   const options = ['ログアウト', 'キャンセル']
   const destructiveButtonIndex = 0
   const cancelButtonIndex = 1
+  const { logout } = useAuth()
 
   const { showActionSheetWithOptions } = useActionSheet()
-
-  const logout = async () => {
-    // await storage.remove({ key: FOURSQUARE_ACCESS_TOKEN })
-    const result = await signOutAuth()
-    console.log(result)
-    // reloadAsync()
-  }
 
   const actionSheetHandler = () => {
     showActionSheetWithOptions(

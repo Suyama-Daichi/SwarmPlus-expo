@@ -11,7 +11,7 @@ const AppOnboarding = () => {
     <Onboarding
       bottomBarColor={'orange'}
       onDone={() => {
-        navigation.navigate('AppNavigator')
+        navigation.navigate('Login')
       }}
       pages={[
         {

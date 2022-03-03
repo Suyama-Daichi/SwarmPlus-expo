@@ -1,14 +1,10 @@
 import { AccessToken, IStartEnd as IPeriod } from '@/types/type'
 import type { Response, CheckinDetail, FoursquareResponse, Checkin } from '@/types/Foursquare'
 import { config } from '@/service/config'
-import { FOURSQUARE_ACCESS_TOKEN } from '@/constants/StorageKeys'
-import storage from '@/service/reactNativeStorage'
 import { responseExtractor } from './utilFns'
 
-const getBaseParams = async () => {
-  const oauthToken = await storage.load<string>({ key: FOURSQUARE_ACCESS_TOKEN })
+const getBaseParams = () => {
   const params = {
-    oauth_token: oauthToken,
     v: '20211123',
     locale: 'ja',
     mode: 'swarm',
@@ -18,8 +14,9 @@ const getBaseParams = async () => {
 }
 
 /** ユーザー情報を取得 */
-export const fetchUser = async (userId?: string) => {
-  const params = await getBaseParams()
+export const fetchUser = async (token: string, userId?: string) => {
+  const params = getBaseParams()
+  params.append('oauth_token', token)
   return await fetch(
     `https://api.foursquare.com/v2/users/${userId || 'self'}?${params.toString()}`,
     {
@@ -49,7 +46,7 @@ export const fetchUserCheckins = async ({
   limit?: number
 }) => {
   const fetchData = async (period: IPeriod = initialPeriod) => {
-    const params = await getBaseParams()
+    const params = getBaseParams()
     period?.afterTimestamp && params.append('afterTimestamp', period.afterTimestamp.toString())
     period?.beforeTimestamp && params.append('beforeTimestamp', period.beforeTimestamp.toString())
     offset && params.append('offset', offset.toString())
@@ -89,8 +86,12 @@ export const fetchUserCheckins = async ({
  * @param checkinId チェックインID
  * @returns チェックインの詳細
  */
-export const fetchCheckinDetails = async (checkinId: string): Promise<CheckinDetail> => {
-  const params = await getBaseParams()
+export const fetchCheckinDetails = async (
+  token: string,
+  checkinId: string
+): Promise<CheckinDetail> => {
+  const params = getBaseParams()
+  params.append('oauth_token', token)
 
   return await fetch(`https://api.foursquare.com/v2/checkins/${checkinId}?${params.toString()}`, {
     method: 'GET',
