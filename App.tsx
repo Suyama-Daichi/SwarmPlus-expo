@@ -7,6 +7,7 @@ import { RecoilRoot } from 'recoil'
 import useCachedResources from '@/hooks/useCachedResources'
 import Navigation from '@/navigation'
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
+import { NativeBaseProvider } from 'native-base'
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
@@ -16,12 +17,14 @@ export default function App() {
   } else {
     return (
       <RecoilRoot>
-        <ActionSheetProvider>
-          <SafeAreaProvider>
-            <Navigation />
-            <StatusBar />
-          </SafeAreaProvider>
-        </ActionSheetProvider>
+        <NativeBaseProvider>
+          <ActionSheetProvider>
+            <SafeAreaProvider>
+              <Navigation />
+              <StatusBar />
+            </SafeAreaProvider>
+          </ActionSheetProvider>
+        </NativeBaseProvider>
       </RecoilRoot>
     )
   }
