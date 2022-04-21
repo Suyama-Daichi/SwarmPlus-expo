@@ -4,34 +4,31 @@ import { fetchCurrentAuth } from '@/api/auth'
 import { useAuth } from '@/hooks/useAuth'
 import jwtDecode from 'jwt-decode'
 
+/** アプリのコールドスタート時の処理 */
 export const useInitialize = () => {
   const { fetchSetUser } = useUser()
-  const { setAuthUser, authUser, logout, setAccessToken } = useAuth()
-  const [loading, setLoading] = useState<boolean>(true)
+  const { setAuthUser, authUser, logout, setAccessToken, accessToken } = useAuth()
+  const [loading, setLoading] = useState<boolean>(false)
 
   const initialize = useCallback(async () => {
     const currentAuth = await fetchCurrentAuth()
-    if (!currentAuth) return
+    if (!currentAuth) return setLoading(false)
     const accessToken = jwtDecode<string>(currentAuth['stsTokenManager'].accessToken)
       .accessToken as string
-    if (typeof accessToken !== 'string') return
+    if (typeof accessToken !== 'string') return setLoading(false)
     setAccessToken(accessToken)
     setAuthUser(currentAuth)
-  }, [setAccessToken, setAuthUser])
+  }, [])
 
   useEffect(() => {
+    setLoading(true)
     initialize()
   }, [])
 
   useEffect(() => {
-    if (authUser !== undefined) return
+    if (!accessToken) return
     setLoading(false)
-  }, [authUser])
-
-  useEffect(() => {
-    if (!authUser) return
-    fetchSetUser()
-  }, [authUser, fetchSetUser, logout])
+  }, [accessToken])
 
   return { loading, isNewUser: !authUser }
 }
