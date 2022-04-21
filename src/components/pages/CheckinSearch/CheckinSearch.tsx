@@ -5,20 +5,14 @@ import { generateImageUrl } from '@/service/utilFns'
 import { Box, Heading, Input, VStack } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import { Avatar } from 'react-native-elements'
-import DateTimePicker, { Event } from '@react-native-community/datetimepicker'
 import { getDateString } from '@/service/dateFns'
+import DatePicker from '@/components/molecules/DatePicker'
 
 const CheckinSearch = () => {
   const { foursquareUser } = useUser()
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(false)
   const navigation = useNavigation()
-
-  const onChange = (event: Event, selectedDate?: Date) => {
-    const currentDate = selectedDate
-    setShow(false)
-    currentDate && setDate(currentDate)
-  }
 
   useEffect(() => {
     if (!foursquareUser) return
@@ -60,15 +54,7 @@ const CheckinSearch = () => {
           w="100%"
         />
       </Box>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={'date'}
-          is24Hour={true}
-          onChange={onChange}
-        />
-      )}
+      <DatePicker showDatePickerState={[show, setShow]} setCurrentDate={setDate} />
     </VStack>
   )
 }

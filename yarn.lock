@@ -13855,10 +13855,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-date-picker@npm:^4.1.5":
-  version: 4.1.5
-  resolution: "react-native-date-picker@npm:4.1.5"
-  checksum: c5e53582e4d408cb1c9f8136695d2e0ace4456f00758d591853827c953fba7dd25b73975c34db423b1c519fc079c6a9095b4c3ca4a8c3d4293d4f68fa68991d4
+"react-native-date-picker@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "react-native-date-picker@npm:4.2.1"
+  checksum: bf52302e9a26acb2808e7c73fe48fda1d2d31238001452f6082d48a93ba27831f435e1192949ea398d2bec59c4b1d45723907f177f3f8b7aef476c8cf09105b5
   languageName: node
   linkType: hard
 
@@ -15748,7 +15748,7 @@ __metadata:
     react-dom: 17.0.1
     react-native: 0.64.3
     react-native-calendars: ^1.1264.0
-    react-native-date-picker: ^4.1.5
+    react-native-date-picker: ^4.2.1
     react-native-elements: ^3.3.2
     react-native-gesture-handler: ~2.1.0
     react-native-image-zoom-viewer: ^3.0.1
