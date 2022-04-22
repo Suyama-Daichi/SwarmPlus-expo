@@ -2,7 +2,7 @@ import HeaderRight from '@/components/molecules/HeaderRight'
 import { useNavigation } from '@/hooks/useNavigation'
 import { useUser } from '@/hooks/useUser'
 import { generateImageUrl } from '@/service/utilFns'
-import { Box, Heading, Input, VStack } from 'native-base'
+import { Box, Heading, Input, Text, VStack } from 'native-base'
 import React, { useEffect, useState, useCallback } from 'react'
 import { Avatar } from 'react-native-elements'
 import { getDateString } from '@/service/dateFns'
@@ -40,6 +40,7 @@ const CheckinSearch = () => {
 
   return (
     <VStack px={'8px'} space="3" bgColor={'white'}>
+      <Text>{foursquareUser?.checkins?.count}回のチェックインから検索</Text>
       <Box alignItems="center">
         <Heading alignSelf={'flex-start'} size={'sm'}>
           ベニュー名から検索
