@@ -3,7 +3,7 @@ import { useNavigation } from '@/hooks/useNavigation'
 import { useUser } from '@/hooks/useUser'
 import { generateImageUrl } from '@/service/utilFns'
 import { Box, Heading, Input, VStack } from 'native-base'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Avatar } from 'react-native-elements'
 import { getDateString } from '@/service/dateFns'
 import DatePicker from '@/components/molecules/DatePicker'
@@ -13,6 +13,10 @@ const CheckinSearch = () => {
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(false)
   const navigation = useNavigation()
+
+  const onSetDate = useCallback((date: Date) => {
+    setDate(date)
+  }, [])
 
   useEffect(() => {
     if (!foursquareUser) return
@@ -54,7 +58,7 @@ const CheckinSearch = () => {
           w="100%"
         />
       </Box>
-      <DatePicker showDatePickerState={[show, setShow]} setCurrentDate={setDate} />
+      <DatePicker showDatePickerState={[show, setShow]} onConfirm={onSetDate} />
     </VStack>
   )
 }

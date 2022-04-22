@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import DP from 'react-native-date-picker'
 
 type Props = {
-  setCurrentDate: React.Dispatch<React.SetStateAction<Date>>
+  onConfirm: (date: Date) => void
   showDatePickerState: [boolean, React.Dispatch<React.SetStateAction<boolean>>]
 }
 
-const DatePicker = ({ setCurrentDate, showDatePickerState }: Props) => {
+const DatePicker = ({ onConfirm, showDatePickerState }: Props) => {
   const [showDatePicker, setShowDatePicker] = showDatePickerState
-
   const [datePickerDate, setDatePickerDate] = useState(new Date())
 
   return (
@@ -20,7 +19,7 @@ const DatePicker = ({ setCurrentDate, showDatePickerState }: Props) => {
         date={datePickerDate}
         onConfirm={(date) => {
           setShowDatePicker(false)
-          setCurrentDate(date)
+          onConfirm(date)
           setDatePickerDate(date)
         }}
         onCancel={() => {
