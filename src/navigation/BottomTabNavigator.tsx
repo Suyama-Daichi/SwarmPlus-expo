@@ -3,18 +3,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import useColorScheme from '@/hooks/useColorScheme'
-import { CheckinDetailScreen } from '@/components/pages/CheckinDetail/CheckinDetail'
+import { CheckinDetailScreen } from '@/components/pages/CheckinDetail'
 import BackButton from '@/components/molecules/BackButton'
 
 import { COLORS } from '@/constants/Colors'
 import { BottomTabParamList, CheckinSearchParamList } from '@/RouteParamList'
-import CheckinSearch from '@/components/pages/CheckinSearch/CheckinSearch'
 import ActionMenu from '@/components/ActionSheet'
-import UserProfile from '@/components/pages/UserProfile'
+import { UserProfile, MapScreen, CheckinSearch, SearchResult } from '@/components/pages'
 import { useNavigation } from '@react-navigation/core'
-import MapScreen from '@/components/pages/Map/Map'
 import { useEffect } from 'react'
-import CheckinsByDay from '@/components/pages/CheckinsByDay/CheckinsByDay'
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -69,8 +66,8 @@ function CheckinSearchNavigator() {
         }}
       />
       <CheckinSearchStack.Screen
-        name={'CheckinsByDay'}
-        component={CheckinsByDay}
+        name={'SearchResult'}
+        component={SearchResult}
         options={{
           headerTitle: '',
           headerLeft: BackButton,

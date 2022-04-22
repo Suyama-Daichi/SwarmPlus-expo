@@ -1,4 +1,3 @@
-import { DateObject } from 'react-native-calendars'
 import { Checkin } from './types/Foursquare'
 
 export type RootStackParamList = {
@@ -16,7 +15,7 @@ export type BottomTabParamList = {
 }
 
 export type CheckinSearchParamList = {
-  CheckinsByDay: { dateObject: DateObject }
+  SearchResult: { query: { keyword: string; date: string } }
   CheckinSearch: undefined
   CheckinDetail: { itemId: string }
   UserProfile: { userId?: string }

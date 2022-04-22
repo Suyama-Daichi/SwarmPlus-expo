@@ -9,7 +9,7 @@ import { getCustomToken, signInWithCustomToken } from '@/api/auth'
 import { useAuth } from '@/hooks/useAuth'
 import { SafeAreaView } from 'react-native'
 
-const Login = () => {
+export const Login = () => {
   const { setAuthUser, setAccessToken } = useAuth()
   const { CLIENT_ID, REDIRECT_URI } = config()
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
@@ -46,5 +46,3 @@ const Login = () => {
     </>
   )
 }
-
-export default Login

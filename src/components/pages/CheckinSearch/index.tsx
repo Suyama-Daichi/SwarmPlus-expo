@@ -8,7 +8,7 @@ import { Avatar } from 'react-native-elements'
 import { getDateString } from '@/service/dateFns'
 import DatePicker from '@/components/molecules/DatePicker'
 
-const CheckinSearch = () => {
+export const CheckinSearch = () => {
   const { foursquareUser } = useUser()
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(false)
@@ -63,5 +63,3 @@ const CheckinSearch = () => {
     </VStack>
   )
 }
-
-export default CheckinSearch

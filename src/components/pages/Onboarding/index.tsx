@@ -3,9 +3,9 @@ import Onboarding from 'react-native-onboarding-swiper'
 import { Image } from 'react-native-elements'
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native'
 import { ImageSourcePropType } from 'react-native'
-import CalendarImage from '../../../assets/images/calendar-view.png'
+import CalendarImage from '../../../../assets/images/calendar-view.png'
 
-const AppOnboarding = () => {
+export const AppOnboarding = () => {
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
   return (
     <Onboarding
@@ -24,5 +24,3 @@ const AppOnboarding = () => {
     />
   )
 }
-
-export default AppOnboarding

@@ -1,11 +1,11 @@
 import React from 'react'
-import AppOnboarding from '@/components/pages/Onboarding'
+import { AppOnboarding, Login } from '@/components/pages'
 import { AppNavigatorParamList } from '@/RouteParamList'
 import { createStackNavigator } from '@react-navigation/stack'
 import BottomTabsNavigator from '@/navigation/BottomTabNavigator'
 import { NavigationContainer } from '@react-navigation/native'
 import { useInitialize } from '@/hooks/useInitialize'
-import Login from '@/components/pages/Login'
+
 import { ActivityIndicator } from 'react-native'
 
 const Navigation = () => {

@@ -8,7 +8,7 @@ import { useUser } from '@/hooks/useUser'
 import { fetchUser } from '@/service/foursquareApi'
 import { FoursquareUser } from '@/types/Foursquare'
 
-const UserProfile = () => {
+export const UserProfile = () => {
   const route = useRoute<RouteProp<CheckinSearchParamList, 'UserProfile'>>()
   const userId = route.params?.userId
   const navigation = useNavigation()
@@ -44,5 +44,3 @@ const UserProfile = () => {
     </View>
   )
 }
-
-export default UserProfile

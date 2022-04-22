@@ -22,7 +22,7 @@ type RegionData = {
   latLng: LatLng
 }
 
-const MapScreen = () => {
+export const MapScreen = () => {
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
   const { params } = useRoute<RouteProp<BottomTabParamList, 'MapNavigator'>>()
   const { checkins } = params
@@ -80,5 +80,3 @@ const MapScreen = () => {
     </View>
   )
 }
-
-export default MapScreen
