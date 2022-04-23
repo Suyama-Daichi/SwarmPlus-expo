@@ -3,12 +3,14 @@ import { useUser } from '@/hooks/useUser'
 import { fetchCurrentAuth } from '@/api/auth'
 import { useAuth } from '@/hooks/useAuth'
 import jwtDecode from 'jwt-decode'
+import { useFetchCheckins } from '@/hooks/useCheckin'
 
 /** アプリのコールドスタート時の処理 */
 export const useInitialize = () => {
   const { fetchSetUser } = useUser()
   const { setAuthUser, authUser, logout, setAccessToken, accessToken } = useAuth()
   const [loading, setLoading] = useState<boolean>(false)
+  const { fetchCheckins } = useFetchCheckins()
 
   const initialize = useCallback(async () => {
     const currentAuth = await fetchCurrentAuth()
@@ -18,6 +20,7 @@ export const useInitialize = () => {
     if (typeof accessToken !== 'string') return setLoading(false)
     setAccessToken(accessToken)
     setAuthUser(currentAuth)
+    fetchCheckins()
   }, [])
 
   useEffect(() => {

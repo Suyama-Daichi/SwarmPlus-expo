@@ -1,5 +1,5 @@
-import { AccessToken, IStartEnd as IPeriod } from '@/types/type'
-import type { Response, CheckinDetail, FoursquareResponse, Checkin } from '@/types/Foursquare'
+import { AccessToken } from '@/types/type'
+import type { CheckinDetail, FoursquareResponse, Checkin } from '@/types/Foursquare'
 import { config } from '@/service/config'
 import { responseExtractor } from './utilFns'
 
@@ -33,52 +33,25 @@ export const fetchUser = async (token: string, userId?: string) => {
 
 /**
  * ユーザーのチェックインを取得
- * @param period 日|月の始まりと末のタイムスタンプ
- * @returns チェックインのリスト
  */
-export const fetchUserCheckins = async ({
-  period: initialPeriod,
-  offset,
-  limit = 250,
-}: {
-  period: IPeriod
-  offset?: number
-  limit?: number
-}) => {
-  const fetchData = async (period: IPeriod = initialPeriod) => {
-    const params = getBaseParams()
-    period?.afterTimestamp && params.append('afterTimestamp', period.afterTimestamp.toString())
-    period?.beforeTimestamp && params.append('beforeTimestamp', period.beforeTimestamp.toString())
-    offset && params.append('offset', offset.toString())
-    limit && params.append('limit', limit.toString())
+export const fetchUserCheckins = async (
+  oauthToken: string,
+  beforeTimestamp?: number,
+  limit = 250
+) => {
+  const params = getBaseParams()
+  params.append('oauth_token', oauthToken)
+  beforeTimestamp && params.append('beforeTimestamp', beforeTimestamp.toString())
+  limit && params.append('limit', limit.toString())
 
-    console.log(`https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`)
+  const res = await fetch(
+    `https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`,
+    {
+      method: 'GET',
+    }
+  )
 
-    const res = await fetch(
-      `https://api.foursquare.com/v2/users/self/checkins?${params.toString()}`,
-      {
-        method: 'GET',
-      }
-    )
-      .catch((err) => console.error(err))
-      .then(async (res) => {
-        if (!res) return []
-        const response = (await res.json()) as FoursquareResponse
-        return response.response.checkins ? response.response.checkins.items : []
-      })
-    return res
-  }
-  const result = await fetchData(initialPeriod)
-  if (result.length < 250) return result
-  while (result.length < 751) {
-    const res = await fetchData({
-      beforeTimestamp: result[result.length - 1].createdAt - 1,
-      afterTimestamp: initialPeriod.afterTimestamp,
-    })
-    if (res.length === 0) break
-    result.push(...res)
-  }
-  return result
+  return (await res.json()) as Checkin[]
 }
 
 /**

@@ -15,13 +15,24 @@ export const addCheckins = (id: string, checkins: Checkin[]) => {
   batch.commit()
 }
 
-export const fetchCheckinsFromFirestore = async (id: string, period: IPeriod) => {
+/** Firestoreからチェックインの配列を取得 */
+export const fetchCheckinsFromFirestore = async (uid: string, period: IPeriod) => {
   const query = usersRef
-    .doc(id)
+    .doc(uid)
     .collection(CHECKINS)
     .where('createdAt', '>=', period.afterTimestamp)
     .where('createdAt', '<=', period.beforeTimestamp)
 
   const checkins = await GET<Checkin[]>(query)
   return checkins
+}
+
+/** ユーザーの最古のチェックインをFirestoreから取得する */
+export const fetchOldestCheckinsFromFirestore = async (
+  uid: string
+): Promise<Checkin | undefined> => {
+  const query = usersRef.doc(uid).collection(CHECKINS).orderBy('createdAt', 'asc').limit(1)
+
+  const checkins = await GET<Checkin[]>(query)
+  return checkins[0]
 }
