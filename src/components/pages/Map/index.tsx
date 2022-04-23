@@ -8,10 +8,9 @@ import {
   useRoute,
 } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 import MapView, { Marker, LatLng, Region } from 'react-native-maps'
 import { useRecoil } from '@/hooks/useRecoil'
-import { useCheckin } from '@/hooks/useCheckin'
 import { BottomTabParamList } from '@/RouteParamList'
 
 type RegionData = {
