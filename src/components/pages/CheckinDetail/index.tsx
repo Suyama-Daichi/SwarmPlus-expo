@@ -14,7 +14,6 @@ import { MayorIcon } from '@/components/atoms/MayorIcon'
 import { formatTimestamp, formatDistanceToNowForTimestamp, timestamp2Date } from '@/service/dateFns'
 import { generateImageUrl, removeShoutWith } from '@/service/utilFns'
 import { NoData } from '@/components/organisms/NoData'
-import useColorScheme from '@/hooks/useColorScheme'
 import { CheckinSearchParamList } from '@/RouteParamList'
 import { useRoute, RouteProp } from '@react-navigation/native'
 import { useCheckinDetail } from './useCheckinDetail'
@@ -23,7 +22,6 @@ export const CheckinDetailScreen = () => {
   const route = useRoute<RouteProp<CheckinSearchParamList, 'CheckinDetail'>>()
   const { checkinDetail, loading } = useCheckinDetail(route.params.itemId)
 
-  const colorScheme = useColorScheme()
   if (loading) return <ActivityIndicator />
   if (!checkinDetail) return <NoData />
 
@@ -37,7 +35,7 @@ export const CheckinDetailScreen = () => {
               label={
                 <Icon
                   name={'heart'}
-                  color={COLORS[colorScheme].pink}
+                  color={COLORS['light'].pink}
                   solid={true}
                   type={'font-awesome-5'}
                   size={12}
@@ -52,7 +50,7 @@ export const CheckinDetailScreen = () => {
               label={
                 <Icon
                   name={'users'}
-                  color={COLORS[colorScheme].primaryOrange}
+                  color={COLORS['light'].primaryOrange}
                   solid={true}
                   type={'font-awesome-5'}
                   size={12}

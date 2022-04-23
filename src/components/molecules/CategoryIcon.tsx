@@ -1,5 +1,4 @@
 import { COLORS } from '@/constants/Colors'
-import useColorScheme from '@/hooks/useColorScheme'
 import React from 'react'
 import { View } from 'react-native'
 import { Image } from 'react-native-elements'
@@ -12,10 +11,8 @@ type Props = {
 }
 
 const CategoryIcon = ({ icon, size }: Props) => {
-  const colorScheme = useColorScheme()
-
   return (
-    <View style={[{ backgroundColor: COLORS[colorScheme].backgroundSecond }, { width: size }]}>
+    <View style={[{ backgroundColor: COLORS['light'].backgroundSecond }, { width: size }]}>
       <Image
         source={{
           uri: generateImageUrl(icon, '32'),

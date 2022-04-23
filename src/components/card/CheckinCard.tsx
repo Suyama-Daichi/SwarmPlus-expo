@@ -6,9 +6,7 @@ import { useNavigation } from '@react-navigation/core'
 import type { Checkin } from '@/types/Foursquare'
 import window from '@/constants/Layout'
 import { COLORS } from '@/constants/Colors'
-import { useRecoil } from '@/hooks/useRecoil'
 import { fontColor, fontSize } from '@/styles/styles'
-import useColorScheme from '@/hooks/useColorScheme'
 import { Ionicons } from '@expo/vector-icons'
 import CategoryIcon from '@/components/molecules/CategoryIcon'
 import Address from '@/components/organisms/Address'
@@ -23,9 +21,7 @@ type Props = {
 }
 
 export const CheckinCard = React.memo(({ item }: Props) => {
-  const colorScheme = useColorScheme()
   const { isMayor, venue, visibility, likes, comments, shout, createdAt, photos } = item
-
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
   const { foursquareUser } = useUser()
   const [showPhotoViewer, setShowPhotoViewer] = useState(false)
@@ -40,7 +36,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
       style={[
         styles.container,
         { flexDirection: 'row' },
-        { borderBottomColor: COLORS[colorScheme].backgroundSecond, borderBottomWidth: 0.4 },
+        { borderBottomColor: COLORS['light'].backgroundSecond, borderBottomWidth: 0.4 },
       ]}
     >
       <Avatar
@@ -56,8 +52,8 @@ export const CheckinCard = React.memo(({ item }: Props) => {
             size={24}
             name={'crown'}
             type={'font-awesome-5'}
-            color={COLORS[colorScheme].coinCrown}
-            style={{ backgroundColor: COLORS[colorScheme].background }}
+            color={COLORS['light'].coinCrown}
+            style={{ backgroundColor: COLORS['light'].background }}
             iconStyle={{ fontSize: 14 }}
           />
         )}
@@ -84,7 +80,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
               type={'font-awesome-5'}
               size={16}
               solid
-              color={COLORS[colorScheme].pink}
+              color={COLORS['light'].pink}
               style={{ paddingHorizontal: 4 }}
             />
             {likes.count}
@@ -96,7 +92,7 @@ export const CheckinCard = React.memo(({ item }: Props) => {
               type={'font-awesome-5'}
               size={16}
               solid
-              color={COLORS[colorScheme].backgroundSecond}
+              color={COLORS['light'].backgroundSecond}
               style={{ paddingHorizontal: 4 }}
             />
             {comments.count}

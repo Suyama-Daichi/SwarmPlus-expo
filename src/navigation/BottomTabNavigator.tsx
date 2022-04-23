@@ -2,10 +2,8 @@ import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
-import useColorScheme from '@/hooks/useColorScheme'
 import { CheckinDetailScreen } from '@/components/pages/CheckinDetail'
 import BackButton from '@/components/molecules/BackButton'
-
 import { COLORS } from '@/constants/Colors'
 import { BottomTabParamList, CheckinSearchParamList } from '@/RouteParamList'
 import ActionMenu from '@/components/ActionSheet'
@@ -26,12 +24,10 @@ export default function BottomTabNavigator() {
     [navigation]
   )
 
-  const colorScheme = useColorScheme()
-
   return (
     <BottomTab.Navigator
       initialRouteName="CheckinSearchNavigator"
-      tabBarOptions={{ activeTintColor: COLORS[colorScheme].tint, showLabel: false }}
+      tabBarOptions={{ activeTintColor: COLORS['light'].tint, showLabel: false }}
     >
       <BottomTab.Screen
         name="CheckinSearchNavigator"
