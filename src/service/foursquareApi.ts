@@ -51,7 +51,7 @@ export const fetchUserCheckins = async (
     }
   )
 
-  return (await res.json()) as Checkin[]
+  return ((await res.json()) as FoursquareResponse).response.checkins?.items
 }
 
 /**

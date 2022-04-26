@@ -5,10 +5,11 @@ import { IStartEnd as IPeriod } from '@/types/type'
 import { GET } from '@/service/firestoreFns'
 const usersRef = firestore.collection(USERS)
 
-export const addCheckins = (id: string, checkins: Checkin[]) => {
+/** チェックインデータをFirestoreに保存する */
+export const saveCheckinsToFirestore = (uid: string, checkins: Checkin[]) => {
   const batch = firestore.batch()
   checkins.forEach((checkin) => {
-    const checkinRef = usersRef.doc(id).collection(CHECKINS).doc(checkin.id)
+    const checkinRef = usersRef.doc(uid).collection(CHECKINS).doc(checkin.id)
     batch.set(checkinRef, checkin)
   })
 

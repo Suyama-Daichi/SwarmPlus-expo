@@ -1,5 +1,5 @@
 import { fetchUserCheckins } from '@/service/foursquareApi'
-import { fetchOldestCheckinsFromFirestore } from '@/api/checkins'
+import { fetchOldestCheckinsFromFirestore, saveCheckinsToFirestore } from '@/api/checkins'
 import { useUser } from '@/hooks/useUser'
 import { useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
@@ -15,7 +15,9 @@ export const useFetchCheckins = () => {
     const oldestCheckin = await fetchOldestCheckinsFromFirestore(foursquareUser.id)
     // 最古のチェックインから250件取得する
     const checkinsFromFoursquare = await fetchUserCheckins(accessToken, oldestCheckin?.createdAt)
+    if (!checkinsFromFoursquare || checkinsFromFoursquare.length === 0) return
     // 取得したチェックインをFirestoreに保存する
+    saveCheckinsToFirestore(foursquareUser.id, checkinsFromFoursquare)
   }, [accessToken, foursquareUser])
 
   return { fetchCheckins }
