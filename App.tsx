@@ -1,13 +1,14 @@
 import { Navigation } from '@/routes/Navigation'
 import { StatusBar } from 'expo-status-bar'
-import { SafeAreaView } from 'react-native'
+import { NativeBaseProvider } from 'native-base'
 
 const App = () => {
   return (
     <>
-      <SafeAreaView />
-      <StatusBar style="auto" />
-      <Navigation />
+      <NativeBaseProvider>
+        <StatusBar style="auto" />
+        <Navigation />
+      </NativeBaseProvider>
     </>
   )
 }
