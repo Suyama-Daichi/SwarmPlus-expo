@@ -1,10 +1,12 @@
-import { View } from '@/components/atoms/View'
-import { Text } from 'native-base'
+import { SocialLoginButton, VStack } from '@/components'
 
 export const LoginScreen = () => {
   return (
-    <View>
-      <Text>ログイン画面</Text>
-    </View>
+    <VStack flex={1} alignItems="center" space={'1'}>
+      <SocialLoginButton.Twitter />
+      <SocialLoginButton.Facebook />
+      <SocialLoginButton.Google />
+      <SocialLoginButton.Apple />
+    </VStack>
   )
 }
