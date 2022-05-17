@@ -44,17 +44,13 @@ module.exports = (): ExpoConfig => {
   if (process.env.APP_ENV === 'production') {
     const android = { ...commonConfig.android }
     const ios = { ...commonConfig.ios }
-    android.googleServicesFile = './google-services-production.json'
-    ios.googleServicesFile = './GoogleService-Info-production.plist'
     return {
       ...commonConfig,
       name: 'SwarmPlus',
       android,
       ios,
-      plugins: ['@react-native-firebase/app'],
       extra: {
         apiUrl: 'https://localhost:3000/api',
-        amplitudeKey: process.env.AMPLITUDE_KEY,
         CLIENT_ID: process.env.CLIENT_ID,
         CLIENT_SECRET: process.env.CLIENT_SECRET,
       },
@@ -62,30 +58,27 @@ module.exports = (): ExpoConfig => {
   } else if (process.env.APP_ENV === 'dev-client') {
     const android = { ...commonConfig.android }
     const ios = { ...commonConfig.ios }
-    android.googleServicesFile = './google-services-production.json'
-    ios.googleServicesFile = './GoogleService-Info-development.plist'
     return {
       ...commonConfig,
       name: 'Expo DevClient(SwarmPlus)',
       android,
       ios,
-      plugins: ['@react-native-firebase/app'],
-      extra: {},
+      extra: {
+        apiUrl: 'https://localhost:3000/api',
+        CLIENT_ID: process.env.CLIENT_ID,
+        CLIENT_SECRET: process.env.CLIENT_SECRET,
+      },
     }
   } else {
     const android = { ...commonConfig.android }
     const ios = { ...commonConfig.ios }
-    android.googleServicesFile = './google-services-production.json'
-    ios.googleServicesFile = './GoogleService-Info-development.plist'
     return {
       ...commonConfig,
       name: 'SwarmPlus (Development)',
       android,
       ios,
-      plugins: ['@react-native-firebase/app'],
       extra: {
         apiUrl: 'https://localhost:3000/api',
-        amplitudeKey: process.env.AMPLITUDE_KEY,
         CLIENT_ID: process.env.CLIENT_ID,
         CLIENT_SECRET: process.env.CLIENT_SECRET,
       },

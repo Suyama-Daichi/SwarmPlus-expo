@@ -83,3 +83,5 @@ GoogleService-Info-development.plist
 GoogleService-Info-production.plist
 google-services-development.json
 google-services-production.json
+.yarn/cache/*
+.yarn/install-state.gz
