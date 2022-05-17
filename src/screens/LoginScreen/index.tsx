@@ -1,10 +1,12 @@
 import { Input, SocialLoginButton, VStack } from '@/components'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import { Button, Divider, Icon, Text } from 'native-base'
 import { useState } from 'react'
 
 export const LoginScreen = () => {
   const [visible, setVisible] = useState(false)
+  const navigation = useNavigation()
 
   return (
     <VStack flex={1} space="10">
@@ -41,6 +43,9 @@ export const LoginScreen = () => {
       </VStack>
       <VStack alignItems={'center'}>
         <Button width={'3/5'}>ログイン</Button>
+        <Button variant={'link'} onPress={() => navigation.push('signup')}>
+          新規登録
+        </Button>
       </VStack>
     </VStack>
   )

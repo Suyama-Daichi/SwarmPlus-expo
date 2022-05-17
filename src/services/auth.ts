@@ -8,3 +8,21 @@ export const signInWithProvider = async (provider: Provider) => {
 
   console.log({ user, session, error })
 }
+
+export const signInWithEmail = async (email: string, password: string) => {
+  const { user, error } = await supabase.auth.signIn({
+    email,
+    password,
+  })
+
+  console.log({ user, error })
+}
+
+export const signUpWithEmail = async (email: string, password: string) => {
+  const { user, error } = await supabase.auth.signUp({
+    email,
+    password,
+  })
+
+  console.log({ user, error })
+}
