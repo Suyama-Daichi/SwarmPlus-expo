@@ -1,10 +1,11 @@
-import { View } from '@/components/atoms/View'
-import { Text } from 'react-native'
+import { View } from '@/components'
+import { signOut } from '@/services/auth'
+import { Button } from 'native-base'
 
 export const HomeScreen = () => {
   return (
     <View>
-      <Text>ホーム画面</Text>
+      <Button onPress={() => signOut()}>ログアウト</Button>
     </View>
   )
 }

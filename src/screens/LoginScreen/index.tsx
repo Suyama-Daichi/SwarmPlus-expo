@@ -50,7 +50,11 @@ export const LoginScreen = () => {
         <Button
           isLoading={loading}
           width={'3/5'}
-          onPress={() => signInWithEmailHandler(email, password)}
+          onPress={() =>
+            signInWithEmailHandler(email, password).then(
+              (error) => error && navigation.push('home')
+            )
+          }
         >
           ログイン
         </Button>
