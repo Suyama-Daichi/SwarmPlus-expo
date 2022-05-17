@@ -3,8 +3,10 @@ import { useAuth } from '@/hooks/useAuth'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Button, Icon, Text } from 'native-base'
 import { useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 
 export const SignupScreen = () => {
+  const navigation = useNavigation()
   const [visible, setVisible] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -54,7 +56,11 @@ export const SignupScreen = () => {
         <Button
           isLoading={loading}
           width={'3/5'}
-          onPress={() => signUpWithEmailHandler(email, password)}
+          onPress={() =>
+            signUpWithEmailHandler(email, password).then(
+              (error) => error && navigation.push('home')
+            )
+          }
         >
           新規登録
         </Button>
