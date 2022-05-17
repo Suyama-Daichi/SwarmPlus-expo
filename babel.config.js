@@ -8,6 +8,7 @@ module.exports = function (api) {
         {
           alias: {
             '@': './src',
+            '@native-base/icons': '@native-base/icons/lib',
           },
           extensions: ['.ts', '.tsx'],
         },
