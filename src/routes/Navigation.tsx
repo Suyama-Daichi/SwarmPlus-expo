@@ -6,9 +6,9 @@ export const Navigation = () => {
   const RootStack = createStackNavigator()
   return (
     <NavigationContainer>
-      <RootStack.Navigator initialRouteName="home">
-        <RootStack.Screen name="home" component={HomeScreen} />
+      <RootStack.Navigator initialRouteName="login">
         <RootStack.Screen name="login" component={LoginScreen} />
+        <RootStack.Screen name="home" component={HomeScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   )

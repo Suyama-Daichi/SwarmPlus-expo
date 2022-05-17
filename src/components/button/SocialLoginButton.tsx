@@ -1,10 +1,12 @@
 import { Button, Icon } from 'native-base'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { signInWithProvider } from '@/services/auth'
 
 export const SocialLoginButton = {
   Twitter: () => {
     return (
       <Button
+        onPress={() => signInWithProvider('twitter')}
         w={'3/5'}
         backgroundColor={'#1DA1F2'}
         leftIcon={<Icon as={FontAwesome5} name={'twitter'} color="white" />}
