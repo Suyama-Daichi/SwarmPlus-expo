@@ -67,6 +67,8 @@ module.exports = (): ExpoConfig => {
         apiUrl: 'https://localhost:3000/api',
         CLIENT_ID: process.env.CLIENT_ID,
         CLIENT_SECRET: process.env.CLIENT_SECRET,
+        SUPABASE_URL: process.env.SUPABASE_URL,
+        SUPABASE_SECRET: process.env.SUPABASE_SECRET,
       },
     }
   } else {
@@ -81,6 +83,8 @@ module.exports = (): ExpoConfig => {
         apiUrl: 'https://localhost:3000/api',
         CLIENT_ID: process.env.CLIENT_ID,
         CLIENT_SECRET: process.env.CLIENT_SECRET,
+        SUPABASE_URL: process.env.SUPABASE_URL,
+        SUPABASE_SECRET: process.env.SUPABASE_SECRET,
       },
     }
   }
