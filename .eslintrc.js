@@ -1,27 +1,26 @@
 module.exports = {
   env: {
-    browser: true,
-    es2021: true,
+    es6: true,
+    node: true,
+    'react-native/react-native': true,
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:import/warnings',
-    'plugin:import/typescript',
-  ],
-  parser: '@typescript-eslint/parser',
+  parser: 'babel-eslint',
+  plugins: ['react', 'react-hooks', 'react-native', 'prettier', 'import'],
   parserOptions: {
+    version: 2018,
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 12,
-    sourceType: 'module',
-    project: 'tsconfig.json',
   },
-  plugins: ['react', 'react-hooks', 'react-native', 'import', '@typescript-eslint'],
+  extends: [
+    'standard',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:prettier/recommended',
+    'prettier/react',
+  ],
   rules: {
     curly: ['error', 'multi-line'],
     'no-console': 'warn',
@@ -36,13 +35,10 @@ module.exports = {
         'newlines-between': 'ignore',
       },
     ],
-    '@typescript-eslint/restrict-template-expressions': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-floating-promises': 'off',
-  },
-  settings: {
-    react: {
-      version: 'detect',
-    },
-  },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    }
+   },
 }
