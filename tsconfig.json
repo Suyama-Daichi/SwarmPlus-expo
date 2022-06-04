@@ -1,20 +1,12 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "checkJs": true,
-    "lib": ["dom", "esnext"],
-    "moduleResolution": "node",
-    "noEmit": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
     "strict": true,
-    "downlevelIteration": true,
-    "baseUrl": "./",
+    // React 17以降に対する設定
+    // https://qiita.com/osa-osa/items/00385d3677b89b8effc1#%E8%A7%A3%E6%B1%BA%E7%AD%96
+    "jsx": "react-jsx",
     "paths": {
       "@/*": ["./src/*"]
     }
-  },
-  "extends": "expo/tsconfig.base"
+  }
 }
