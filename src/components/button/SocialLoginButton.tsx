@@ -1,6 +1,6 @@
 import { Button, Icon } from 'native-base'
 import { FontAwesome5 } from '@expo/vector-icons'
-import { signInWithProvider } from '@/services/auth'
+import { signInWithProvider } from '@/services/auth.supabase'
 
 export const SocialLoginButton = {
   Twitter: () => {

@@ -1,14 +1,16 @@
-import { NativeBaseProvider } from 'native-base'
-import { Navigation } from '@/routes/Navigation'
 import { StatusBar } from 'expo-status-bar'
+import { Providers } from './src/components/Providers'
 
-const App = () => {
+import { Navigation } from './src/routes/Navigation'
+
+export default function App() {
   return (
-    <NativeBaseProvider>
-      <StatusBar style="auto" />
-      <Navigation />
-    </NativeBaseProvider>
+    <Providers>
+      <>
+        <Navigation />
+        <StatusBar />
+      </>
+    </Providers>
   )
+  
 }
-
-export default App

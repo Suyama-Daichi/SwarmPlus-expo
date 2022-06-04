@@ -29,7 +29,6 @@ export const signUpWithEmail = async (email: string, password: string) => {
 
 export const getSessionUser = () => {
   const user = supabase.auth.user()
-  console.log(user)
   return user
 }
 

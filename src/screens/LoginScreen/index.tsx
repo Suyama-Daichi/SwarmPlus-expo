@@ -1,9 +1,9 @@
 import { Input, SocialLoginButton, VStack } from '@/components'
+import { useAuth } from '@/hooks/useAuth'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { Button, Divider, Icon, Text } from 'native-base'
 import { useState } from 'react'
-import { useAuth } from '@/hooks/useAuth'
 
 export const LoginScreen = () => {
   const [visible, setVisible] = useState(false)

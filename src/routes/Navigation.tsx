@@ -1,11 +1,14 @@
-import { HomeScreen, LoginScreen, SignupScreen } from '@/screens'
-import { getSessionUser } from '@/services/auth'
+import { HomeScreen, LoginScreen, SignupScreen } from '../screens'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import { useInitialize } from '@/hooks/useInitialize'
+import { ActivityIndicator } from '@/components/atoms/ActivityIndicator'
 
 export const Navigation = () => {
   const RootStack = createStackNavigator()
-  const user = getSessionUser()
+  const { user, loading } = useInitialize()
+
+  if(loading) return <ActivityIndicator />
 
   return (
     <NavigationContainer>

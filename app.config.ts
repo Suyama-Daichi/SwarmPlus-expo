@@ -1,91 +1,108 @@
 import { ExpoConfig } from '@expo/config'
+import appJson from './app.json'
+import packageJson from './package.json'
 import 'dotenv/config'
 
-const commonConfig: ExpoConfig = {
-  name: 'SwarmPlus',
-  slug: 'SwarmPlus',
-  scheme: 'swarmplus',
-  version: '0.0.1',
-  orientation: 'portrait',
-  icon: './assets/images/icon.png',
-  primaryColor: '#FFB049',
-  userInterfaceStyle: 'automatic',
-  updates: {
-    fallbackToCacheTimeout: 0,
-  },
-  assetBundlePatterns: ['**/*'],
-  splash: {
-    image: './assets/images/splash.png',
-    resizeMode: 'contain',
-    backgroundColor: '#ffffff',
-  },
+const releaseBranch = process.env.RELEASE_BRANCH
+
+/* 動的パラーメーター */
+const dynamicConfig = {
+  version: packageJson.version,
   ios: {
-    supportsTablet: true,
-    buildNumber: '1',
-    bundleIdentifier: 'com.symdit.SwarmPlus',
-  },
-  android: {
-    versionCode: 4,
-    adaptiveIcon: {
-      foregroundImage: './assets/images/adaptive-icon.png',
-      backgroundColor: '#FFFFFF',
-    },
-    package: 'com.symdit.swarmplus',
-    permissions: [],
-    config: {
-      googleMaps: {
-        apiKey: process.env.GOOGLE_API_KEY,
-      },
-    },
+    buildNumber: appJson.expo.ios.buildNumber,
   },
 }
 
+const common = {
+    name: "Expo-Template",
+    slug: "Expo-Template",
+    owner: "suyama-daichi",
+    orientation: "portrait",
+    splash: {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    updates: {
+      "fallbackToCacheTimeout": 0
+    },
+    assetBundlePatterns: ["**/*"],
+    ios: {
+      "usesAppleSignIn": true,
+      infoPlist: {
+        CFBundleDevelopmentRegion: "ja_JP",
+        NSPhotoLibraryUsageDescription:
+          "プロフィール写真をアップロードするためにフォトライブラリを使用します"
+      },
+      config: {
+        "usesNonExemptEncryption": false
+      }
+    }
+  }
+
 module.exports = (): ExpoConfig => {
-  if (process.env.APP_ENV === 'production') {
-    const android = { ...commonConfig.android }
-    const ios = { ...commonConfig.ios }
-    return {
-      ...commonConfig,
-      name: 'SwarmPlus',
-      android,
-      ios,
-      extra: {
-        apiUrl: 'https://localhost:3000/api',
-        CLIENT_ID: process.env.CLIENT_ID,
-        CLIENT_SECRET: process.env.CLIENT_SECRET,
-      },
-    }
-  } else if (process.env.APP_ENV === 'dev-client') {
-    const android = { ...commonConfig.android }
-    const ios = { ...commonConfig.ios }
-    return {
-      ...commonConfig,
-      name: 'Expo DevClient(SwarmPlus)',
-      android,
-      ios,
-      extra: {
-        apiUrl: 'https://localhost:3000/api',
-        CLIENT_ID: process.env.CLIENT_ID,
-        CLIENT_SECRET: process.env.CLIENT_SECRET,
-        SUPABASE_URL: process.env.SUPABASE_URL,
-        SUPABASE_SECRET: process.env.SUPABASE_SECRET,
-      },
-    }
-  } else {
-    const android = { ...commonConfig.android }
-    const ios = { ...commonConfig.ios }
-    return {
-      ...commonConfig,
-      name: 'SwarmPlus (Development)',
-      android,
-      ios,
-      extra: {
-        apiUrl: 'https://localhost:3000/api',
-        CLIENT_ID: process.env.CLIENT_ID,
-        CLIENT_SECRET: process.env.CLIENT_SECRET,
-        SUPABASE_URL: process.env.SUPABASE_URL,
-        SUPABASE_SECRET: process.env.SUPABASE_SECRET,
-      },
-    }
+  switch (releaseBranch) {
+    case 'production':
+      return {
+        ...dynamicConfig,
+        ...common,
+        icon: "./assets/images/icon.png",
+        ios: {
+          bundleIdentifier: "jp.symdit.expo-template",
+          googleServicesFile: "./GoogleService-Info-Production.plist"
+        },
+        web: {
+          config: {
+            firebase: {
+              apiKey: process.env.FB_API_KEY,
+              authDomain: process.env.FB_AUTH_DOMAIN,
+              databaseURL: process.env.FB_DATABASE_URL,
+              projectId: process.env.FB_PROJECT_ID,
+              storageBucket: process.env.FB_STORAGE_BUKET,
+              messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
+              appId: process.env.FB_APP_ID,
+              measurementId: process.env.FB_MEASUREMENT_ID
+            },
+          },
+        },
+        extra: {
+          supabase: {
+            supabaseUrl: process.env.SUPABASE_URL,
+            supabaseAnonKey: process.env.SUPABASE_ANON_KEY
+          },
+          releaseChannel: "develop"
+        }
+      } as ExpoConfig
+    case 'develop':
+      return {
+          ...dynamicConfig,
+          ...common,
+          icon: "./assets/images/icon.png",
+          ios: {
+            bundleIdentifier: "jp.symdit.expo-template-dev",
+            googleServicesFile: "./GoogleService-Info-Development.plist"
+          },
+          web: {
+            config: {
+              firebase: {
+                  apiKey: process.env.FB_API_KEY,
+                  authDomain: process.env.FB_AUTH_DOMAIN,
+                  databaseURL: process.env.FB_DATABASE_URL,
+                  projectId: process.env.FB_PROJECT_ID,
+                  storageBucket: process.env.FB_STORAGE_BUKET,
+                  messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
+                  appId: process.env.FB_APP_ID,
+                  measurementId: process.env.FB_MEASUREMENT_ID
+              }
+            }
+          },
+          extra: {
+            supabase: {
+              supabaseUrl: process.env.SUPABASE_URL,
+              supabaseAnonKey: process.env.SUPABASE_ANON_KEY
+            },
+            releaseChannel: "develop"
+          }
+      } as ExpoConfig
   }
 }

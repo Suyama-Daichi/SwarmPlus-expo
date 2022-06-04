@@ -7,9 +7,9 @@ import { useNavigation } from '@react-navigation/native'
 
 export const SignupScreen = () => {
   const navigation = useNavigation()
-  const [visible, setVisible] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [ visible, setVisible ] = useState(false)
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
 
   const { signUpWithEmailHandler, loading } = useAuth()
 
