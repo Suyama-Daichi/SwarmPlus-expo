@@ -14,7 +14,10 @@ export const Navigation = () => {
     <NavigationContainer>
       <RootStack.Navigator>
         {user ? (
-          <RootStack.Screen name="home" component={HomeScreen} />
+          <>
+            <RootStack.Screen name="home" component={HomeScreen} />
+            <RootStack.Screen name="login" component={LoginScreen} />
+          </>
         ) : (
           <>
             <RootStack.Screen name="login" component={LoginScreen} />

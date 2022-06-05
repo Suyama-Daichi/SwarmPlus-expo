@@ -1,67 +1,44 @@
-import { Input, SocialLoginButton, VStack } from '@/components'
-import { useAuth } from '@/hooks/useAuth'
-import { FontAwesome5 } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
-import { Button, Divider, Icon, Text } from 'native-base'
-import { useState } from 'react'
+import { useCallback } from 'react'
+import { WebView, WebViewNavigation } from 'react-native-webview'
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native'
+import { SafeAreaView } from 'react-native'
+import { foursquareConfig } from '@/libs/foursquare'
+import { logEvent } from '@/hooks/useAnalytics'
+import { parseURLParams } from '@/utils/utilFns'
+import { fetchAccessToken, fetchUser } from '@/api/foursquareApi'
+import { getCustomToken, signInWithCustomToken } from '@/services/auth.firebase'
 
 export const LoginScreen = () => {
-  const [visible, setVisible] = useState(false)
-  const navigation = useNavigation()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const { signInWithEmailHandler, loading } = useAuth()
+  const { CLIENT_ID, REDIRECT_URI } = foursquareConfig
+  const navigation = useNavigation<NavigationProp<ParamListBase>>()
+
+  const onNavigationStateChange = useCallback(
+    async (navigationState: WebViewNavigation) => {
+      const { url, loading } = navigationState
+      const code = parseURLParams(url, 'code')
+      if (code && !loading) {
+        const accessToken = await fetchAccessToken(code)
+        const user = await fetchUser(accessToken)
+        if (!user) return
+        const token = (await getCustomToken(user.id, accessToken)).data.customToken
+        const userCredential = await signInWithCustomToken(token)
+        logEvent('user_login')
+        navigation.navigate('home')
+      }
+    },
+    [navigation]
+  )
 
   return (
-    <VStack flex={1} space="10">
-      <VStack alignItems={'center'} space={1}>
-        <SocialLoginButton.Twitter />
-        <SocialLoginButton.Facebook />
-        <SocialLoginButton.Google />
-        <SocialLoginButton.Apple />
-      </VStack>
-      <VStack alignItems={'center'}>
-        <Text>または</Text>
-        <Divider thickness={'1.5'} />
-      </VStack>
-      <VStack alignItems={'center'}>
-        <VStack>
-          <Text>メールアドレス</Text>
-          <Input placeholder="email" onChangeText={(email) => setEmail(email)} />
-        </VStack>
-        <VStack>
-          <Text>パスワード</Text>
-          <Input
-            type={visible ? 'text' : 'password'}
-            placeholder="password"
-            onChangeText={(password) => setPassword(password)}
-            rightElement={
-              <Icon
-                as={FontAwesome5}
-                name={visible ? 'eye' : 'eye-slash'}
-                onPress={() => setVisible(!visible)}
-                mr="2"
-              />
-            }
-          />
-        </VStack>
-      </VStack>
-      <VStack alignItems={'center'}>
-        <Button
-          isLoading={loading}
-          width={'3/5'}
-          onPress={() =>
-            signInWithEmailHandler(email, password).then(
-              (error) => error && navigation.push('home')
-            )
-          }
-        >
-          ログイン
-        </Button>
-        <Button variant={'link'} onPress={() => navigation.push('signup')}>
-          新規登録
-        </Button>
-      </VStack>
-    </VStack>
+    <>
+      <SafeAreaView />
+      <WebView
+        incognito={true}
+        source={{
+          uri: `https://foursquare.com/oauth2/authenticate?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`,
+        }}
+        onNavigationStateChange={onNavigationStateChange}
+      />
+    </>
   )
 }

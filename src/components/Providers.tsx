@@ -8,12 +8,12 @@ type Props = {
 };
 export const Providers = ({ children }: Props) => {
   return (
-    <NativeBaseProvider>
-      <AxiosClientProvider>
         <RecoilRoot>
-          <SafeAreaProvider>{children}</SafeAreaProvider>
+          <NativeBaseProvider>
+            <AxiosClientProvider>
+              <SafeAreaProvider>{children}</SafeAreaProvider>
+            </AxiosClientProvider>
+          </NativeBaseProvider>
         </RecoilRoot>
-      </AxiosClientProvider>
-    </NativeBaseProvider>
   )
 }

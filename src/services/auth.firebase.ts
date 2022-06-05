@@ -1,12 +1,14 @@
-import { auth } from '@/libs/firebase'
+import { auth, functions } from '@/libs/firebase'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   signOut as FBSignOut,
-  AuthProvider
+  AuthProvider,
+  signInWithCustomToken as firebaseSignin,
 } from 'firebase/auth'
+import { httpsCallable } from '@firebase/functions'
 
 export const signInWithProvider = async (provider: AuthProvider) => {
   const user = await signInWithPopup(auth, provider)
@@ -42,7 +44,6 @@ export const signInWithEmail = async (email: string, password: string) => {
       const errorCode = error.code
       const errorMessage = error.message
     })
-  console.log(user)
   return user
 }
 
@@ -56,16 +57,34 @@ export const signUpWithEmail = async (email: string, password: string) => {
       const errorCode = error.code
       const errorMessage = error.message
     })
-  console.log(user)
   return user
 }
 
 export const getSessionUser = () => {
   const { currentUser: user } = auth
-  console.log(user)
   return user
 }
 
 export const signOut = async () => {
   await FBSignOut(auth)
 }
+
+export const signInWithCustomToken = async (token: string) => {
+  const userCredential = await firebaseSignin(auth, token).catch((e) => {
+    throw new Error(e)
+  })
+  return userCredential
+}
+
+/** カスタムトークンを生成する関数定義 */
+const genCustomToken = httpsCallable<
+  { uid: string; accessToken: string },
+  { customToken: string }
+>(functions, 'auth-genCustomToken')
+
+/** カスタムトークンを取得 */
+export const getCustomToken = async (uid: string, accessToken: string) => {
+  const customToken = await genCustomToken({ uid: uid, accessToken })
+  return customToken
+}
+
