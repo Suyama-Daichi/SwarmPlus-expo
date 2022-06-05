@@ -31,7 +31,6 @@ export const fetchUserCheckins = async (
   limit = 250
 ) => {
   const params = getBaseParams()
-  console.log(beforeTimestamp, limit)
   params.append('oauth_token', oauthToken)
   beforeTimestamp && params.append('beforeTimestamp', beforeTimestamp.toString())
   limit && params.append('limit', limit.toString())

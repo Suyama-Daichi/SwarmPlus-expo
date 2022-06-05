@@ -30,7 +30,6 @@ export const signInWithProvider = async (provider: AuthProvider) => {
       const credential = GoogleAuthProvider.credentialFromError(error)
       // ...
     })
-  console.log({ user })
   return user
 }
 

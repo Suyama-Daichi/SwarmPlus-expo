@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import axios, { AxiosRequestConfig } from 'axios'
 import { useAuth } from '@/hooks/useAuth'
 
