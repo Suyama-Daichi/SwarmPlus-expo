@@ -1,22 +1,23 @@
-import { signOut } from '@/services/auth.supabase'
 import { useNavigation } from '@react-navigation/native'
 import { Button, FlatList, View } from 'native-base'
 import { CardItem } from '@/components/CardItem'
-import useSWR from 'swr'
-import { fetchArticles } from '@/api/fetchArticles'
 import { Modal } from '@/components/atoms/Modal'
 import { ActivityIndicator } from '@/components/atoms/ActivityIndicator'
+import { fetchUserCheckins } from '@/api/foursquareApi'
+import { useFetchFoursquare } from '@/hooks/useFetch'
+import { useAuth } from '@/hooks/useAuth';
 
 export const HomeScreen = () => {
   const navigation = useNavigation()
-  const { data, error } = useSWR('news', fetchArticles)
+  const {logout} = useAuth()
+  const { data: checkins, error: FSError } = useFetchFoursquare([0, 20], fetchUserCheckins, {errorRetryCount: 0})
 
   const logoutHandler = async () => {
-    await signOut()
+    logout()
     navigation.push('login')
   }
 
-  if(error) return <Modal
+  if(FSError) return <Modal
     isOpen={true}
     onClose={() => {console.log('called')}}
     headerTitle={'エラーが発生しました'}
@@ -27,11 +28,11 @@ export const HomeScreen = () => {
 
   return (
     <>
-      {!data ? <ActivityIndicator /> :
+      {!checkins ? <ActivityIndicator /> :
         <View>
           <Button onPress={logoutHandler}>ログアウト</Button>
           <FlatList
-            data={data.articles}
+            data={checkins?.items}
             horizontal={true}
             renderItem={({ item }) => <CardItem item={item} />} />
         </View>

@@ -68,7 +68,12 @@ module.exports = (): ExpoConfig => {
         extra: {
           supabase: {
             supabaseUrl: process.env.SUPABASE_URL,
-            supabaseAnonKey: process.env.SUPABASE_ANON_KEY
+            supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+          },
+          foursquare: {
+            client_id: process.env.CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET,
+            redirect_uri: process.env.REDIECT_URI
           },
           releaseChannel: "develop"
         }
@@ -99,8 +104,13 @@ module.exports = (): ExpoConfig => {
           extra: {
             supabase: {
               supabaseUrl: process.env.SUPABASE_URL,
-              supabaseAnonKey: process.env.SUPABASE_ANON_KEY
+              supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
             },
+            foursquare: {
+              client_id: process.env.CLIENT_ID,
+              client_secret: process.env.CLIENT_SECRET,
+              redirect_uri: process.env.REDIECT_URI
+          },
             releaseChannel: "develop"
           }
       } as ExpoConfig

@@ -2,9 +2,10 @@ import { useState } from 'react'
 import {
   getSessionUser, signInWithEmail, signInWithProvider, signUpWithEmail
 } from '@/services/auth.firebase'
-import { AuthProvider } from '@firebase/auth'
+import { AuthProvider, User } from '@firebase/auth'
 import { atom, useRecoilState } from 'recoil'
 import jwtDecode from 'jwt-decode'
+import { signOut } from '../services/auth.firebase';
 
 const accessTokenAtom = atom<string | undefined>({
   key: 'accessToken',
@@ -32,12 +33,16 @@ export const useAuth = () => {
 
   const sessionUser = getSessionUser()
 
-  const setFoursquareAccessToken = () => {
-    if(!sessionUser)return
+  const setFoursquareAccessToken = (sessionUser: User |null) => {
+    if(!sessionUser) return
     const accessToken = jwtDecode<string>(sessionUser['stsTokenManager'].accessToken)
       .accessToken as string
     setAccessToken(accessToken)
     return accessToken
+  }
+
+  const logout = () => {
+    signOut()
   }
 
   return {
@@ -47,5 +52,7 @@ export const useAuth = () => {
     setFoursquareAccessToken,
     sessionUser,
     accessToken,
-    loading }
+    loading,
+    logout
+  }
 }

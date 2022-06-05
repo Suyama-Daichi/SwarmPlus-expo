@@ -13,7 +13,7 @@ export const useInitialize = () => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           setUser(user);
-          setFoursquareAccessToken()
+          setFoursquareAccessToken(user)
         } else {
           // setUser();
         }
