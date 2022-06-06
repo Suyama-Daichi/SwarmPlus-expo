@@ -46,7 +46,10 @@ module.exports = {
     // 配列の[]の内側にスペースを入れる
     'array-bracket-spacing': ['error', 'never'],
     // 1行あたりの最大文字列長(現在auto fixできない)
-    'max-len': ['error', { code: 100 }],
+    'max-len': [
+      'error',
+      { code: 100, ignoreTemplateLiterals: true, ignoreStrings: true, ignoreUrls: true },
+    ],
     // 末尾に半角・全角スペースをつけない
     'no-trailing-spaces': ['error'],
     // TSの重複ルールをオフ
