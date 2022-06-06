@@ -6,10 +6,12 @@ type Props = {
 }
 export const CardItem = ({ imageUrl, title }: Props) => {
   return (
-    <Card w={'120px'} p={'4px'} >
+    <Card w={'120px'} p={'4px'}>
       <Button variant={'ghost'}>
-        <Image alt='s' source={{ uri: imageUrl }} h='16' resizeMode='contain' />
-        <Text numberOfLines={2} lineHeight='sm'>{title}</Text>
+        <Image alt="s" source={{ uri: imageUrl }} h="16" resizeMode="contain" />
+        <Text numberOfLines={2} lineHeight="sm">
+          {title}
+        </Text>
       </Button>
     </Card>
   )

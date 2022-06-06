@@ -12,10 +12,12 @@ const getBaseParams = () => {
 }
 
 /** ユーザー情報を取得 */
-export const fetchUser = async(token: string, userId?: string) => {
+export const fetchUser = async (token: string, userId?: string) => {
   const params = getBaseParams()
   params.append('oauth_token', token)
-  const res = await axiosClient.get<FoursquareResponse>(`${BASE_URL}users/${userId || 'self'}?${params.toString()}`).then(t => t.data)
+  const res = await axiosClient
+    .get<FoursquareResponse>(`${BASE_URL}users/${userId || 'self'}?${params.toString()}`)
+    .then((t) => t.data)
   const user = pickFoursquareBody<FoursquareUser>(res)
 
   return user
@@ -33,7 +35,9 @@ export const fetchUserCheckins = async (
   params.append('oauth_token', oauthToken)
   beforeTimestamp && params.append('beforeTimestamp', beforeTimestamp.toString())
   limit && params.append('limit', limit.toString())
-  const res = await axiosClient.get<FoursquareResponse>(`${BASE_URL}users/self/checkins?${params.toString()}`).then(t => t.data)
+  const res = await axiosClient
+    .get<FoursquareResponse>(`${BASE_URL}users/self/checkins?${params.toString()}`)
+    .then((t) => t.data)
   const checkins = pickFoursquareBody<Summary<Checkin>>(res)
   return checkins
 }
@@ -43,13 +47,12 @@ export const fetchUserCheckins = async (
  * @param checkinId チェックインID
  * @returns チェックインの詳細
  */
-export const fetchCheckinDetails = async (
-  token: string,
-  checkinId: string
-): Promise<unknown> => {
+export const fetchCheckinDetails = async (token: string, checkinId: string): Promise<unknown> => {
   const params = getBaseParams()
   params.append('oauth_token', token)
-  const res = await axiosClient.get<FoursquareResponse>(`${BASE_URL}checkins/${checkinId}?${params.toString()}`).then(t => t.data)
+  const res = await axiosClient
+    .get<FoursquareResponse>(`${BASE_URL}checkins/${checkinId}?${params.toString()}`)
+    .then((t) => t.data)
   const checkin = pickFoursquareBody<Checkin>(res)
 
   return checkin
@@ -64,8 +67,10 @@ export const fetchAccessToken = async (code: string) => {
   const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } = foursquareConfig
 
   const res = await axiosClient
-    .get(`https://foursquare.com/oauth2/access_token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=authorization_code&redirect_uri=${REDIRECT_URI}&code=${code}`)
-    .then(t => t.data.access_token as string)
+    .get(
+      `https://foursquare.com/oauth2/access_token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=authorization_code&redirect_uri=${REDIRECT_URI}&code=${code}`
+    )
+    .then((t) => t.data.access_token as string)
 
   return res
 }

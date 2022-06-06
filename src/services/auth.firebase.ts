@@ -20,7 +20,8 @@ export const signInWithProvider = async (provider: AuthProvider) => {
       const user = result.user
       return user
       // ...
-    }).catch((error) => {
+    })
+    .catch((error) => {
       // Handle Errors here.
       const errorCode = error.code
       const errorMessage = error.message
@@ -76,14 +77,13 @@ export const signInWithCustomToken = async (token: string) => {
 }
 
 /** カスタムトークンを生成する関数定義 */
-const genCustomToken = httpsCallable<
-  { uid: string; accessToken: string },
-  { customToken: string }
->(functions, 'auth-genCustomToken')
+const genCustomToken = httpsCallable<{ uid: string; accessToken: string }, { customToken: string }>(
+  functions,
+  'auth-genCustomToken'
+)
 
 /** カスタムトークンを取得 */
 export const getCustomToken = async (uid: string, accessToken: string) => {
   const customToken = await genCustomToken({ uid: uid, accessToken })
   return customToken
 }
-

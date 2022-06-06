@@ -9,5 +9,5 @@ export const foursquareConfig = {
     v: '20211123',
     locale: 'ja',
     mode: 'swarm',
-  }
+  },
 }

@@ -4,8 +4,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { RecoilRoot } from 'recoil'
 
 type Props = {
-  children: JSX.Element;
-};
+  children: JSX.Element
+}
 export const Providers = ({ children }: Props) => {
   return (
     <RecoilRoot>

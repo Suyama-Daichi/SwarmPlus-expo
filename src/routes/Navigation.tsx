@@ -8,7 +8,7 @@ export const Navigation = () => {
   const RootStack = createStackNavigator()
   const { user, loading } = useInitialize()
 
-  if(loading) return <ActivityIndicator />
+  if (loading) return <ActivityIndicator />
 
   return (
     <NavigationContainer>

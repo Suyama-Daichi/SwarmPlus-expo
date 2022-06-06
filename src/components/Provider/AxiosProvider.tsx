@@ -37,11 +37,11 @@ export function AxiosClientProvider({ children }: {children: React.ReactElement}
       },
       (error) => {
         switch (error.response?.status) {
-        case 401:
+          case 401:
           // なにかする
-          break
-        default:
-          break
+            break
+          default:
+            break
         }
         return Promise.reject(error)
       }
