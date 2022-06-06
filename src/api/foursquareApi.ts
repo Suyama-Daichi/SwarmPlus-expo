@@ -1,9 +1,8 @@
-import { AccessToken } from '@/types/type'
-import type { CheckinDetail, FoursquareResponse, Checkin, FoursquareUser } from '@/types/Foursquare'
+import type { FoursquareResponse, Checkin, FoursquareUser } from '@/types/Foursquare'
 import { foursquareConfig } from '@/libs/foursquare'
-import { axiosClient } from '@/components/Provider/AxiosProvider';
-import { pickFoursquareBody } from '@/utils/responsePicker';
-import { Summary } from '@/types/Foursquare';
+import { axiosClient } from '@/components/Provider/AxiosProvider'
+import { pickFoursquareBody } from '@/utils/responsePicker'
+import { Summary } from '@/types/Foursquare'
 
 const BASE_URL = 'https://api.foursquare.com/v2/'
 

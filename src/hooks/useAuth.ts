@@ -5,7 +5,7 @@ import {
 import { AuthProvider, User } from '@firebase/auth'
 import { atom, useRecoilState } from 'recoil'
 import jwtDecode from 'jwt-decode'
-import { signOut } from '../services/auth.firebase';
+import { signOut } from '@/services/auth.firebase'
 
 const accessTokenAtom = atom<string | undefined>({
   key: 'accessToken',

@@ -3,8 +3,8 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 import { getAuth } from 'firebase/auth'
-import Constants from 'expo-constants';
-import * as Analytics from 'expo-firebase-analytics';
+import Constants from 'expo-constants'
+import * as Analytics from 'expo-firebase-analytics'
 import { getFunctions } from 'firebase/functions'
 
 const firebaseConstants = Constants.manifest?.web?.config?.firebase

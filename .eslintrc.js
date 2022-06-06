@@ -1,44 +1,56 @@
 module.exports = {
-  env: {
-    es6: true,
-    node: true,
-    'react-native/react-native': true,
+  'env': {
+    'browser': true,
+    'es2021': true,
+    'node': true,
+    'jest/globals': true,
   },
-  parser: 'babel-eslint',
-  plugins: ['react', 'react-hooks', 'react-native', 'prettier', 'import'],
-  parserOptions: {
-    version: 2018,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
-  extends: [
-    'standard',
+  'extends': [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:prettier/recommended',
-    'prettier/react',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@cspell/recommended'
   ],
-  rules: {
-    curly: ['error', 'multi-line'],
-    'no-console': 'warn',
-    'react/prop-types': 'off',
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
-    'react/display-name': 'off',
-    'import/order': [
-      'warn',
-      {
-        groups: [['builtin', 'external'], 'internal', ['parent', 'index', 'sibling']],
-        'newlines-between': 'ignore',
-      },
+  'parser': '@typescript-eslint/parser',
+  'parserOptions': {
+    'ecmaFeatures': {
+      'jsx': true
+    },
+    'ecmaVersion': 'latest',
+    'sourceType': 'module'
+  },
+  'plugins': [
+    'react',
+    '@typescript-eslint',
+    'jest',
+    '@cspell'
+  ],
+  'rules': {
+    'indent': [
+      'error',
+      2
     ],
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    }
-   },
+    'linebreak-style': [
+      'error',
+      'unix'
+    ],
+    'quotes': [
+      'error',
+      'single'
+    ],
+    'semi': [
+      'error',
+      'never'
+    ],
+    // React 17に対する設定
+    'react/react-in-jsx-scope': 'off',
+    // カンマの後にスペースを入れる
+    'comma-spacing': ['error', { 'before': false, 'after': true }],
+    // オブジェクトの{}内側にスペースを入れる
+    'object-curly-spacing': ['error', 'always'],
+    // 配列の[]の内側にスペースを入れる
+    'array-bracket-spacing': ['error', 'never'],
+    // 1行あたりの最大文字列長(現在auto fixできない)
+    'max-len': ['error', { 'code': 100 }]
+  }
 }
