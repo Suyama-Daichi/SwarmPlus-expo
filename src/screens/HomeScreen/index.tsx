@@ -5,12 +5,13 @@ import { Modal } from '@/components/atoms/Modal'
 import { ActivityIndicator } from '@/components/atoms/ActivityIndicator'
 import { fetchUserCheckins } from '@/api/foursquareApi'
 import { useFetchFoursquare } from '@/hooks/useFetch'
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth'
+import { generateImageUrl } from '@/utils/utilFns'
 
 export const HomeScreen = () => {
   const navigation = useNavigation()
-  const {logout} = useAuth()
-  const { data: checkins, error: FSError } = useFetchFoursquare([0, 20], fetchUserCheckins, {errorRetryCount: 0})
+  const { logout } = useAuth()
+  const { data: checkins, error: FSError } = useFetchFoursquare([0, 20], fetchUserCheckins, { errorRetryCount: 0 })
 
   const logoutHandler = async () => {
     logout()
@@ -34,7 +35,7 @@ export const HomeScreen = () => {
           <FlatList
             data={checkins?.items}
             horizontal={true}
-            renderItem={({ item }) => <CardItem item={item} />} />
+            renderItem={({ item }) => <CardItem imageUrl={generateImageUrl(item.photos[0])} title={item.venue.name} />} />
         </View>
       }
     </>
