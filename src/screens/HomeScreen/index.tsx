@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { StackActions, useNavigation } from '@react-navigation/native'
 import { Button, FlatList, View } from 'native-base'
 import { CardItem } from '@/components/CardItem'
 import { Modal } from '@/components/atoms/Modal'
@@ -11,35 +11,48 @@ import { generateImageUrl } from '@/utils/utilFns'
 export const HomeScreen = () => {
   const navigation = useNavigation()
   const { logout } = useAuth()
-  const { data: checkins, error: FSError } = useFetchFoursquare([0, 20], fetchUserCheckins, { errorRetryCount: 0 })
+  const { data: checkins, error: FSError } = useFetchFoursquare([0, 20], fetchUserCheckins, {
+    errorRetryCount: 0,
+  })
 
   const logoutHandler = async () => {
-    logout()
-    navigation.push('login')
+    logout().then(() => {
+      navigation.dispatch(StackActions.replace('login'))
+    })
   }
 
-  if(FSError) return (
-    <Modal
-      isOpen={true}
-      onClose={() => {console.log('called')}}
-      headerTitle={'エラーが発生しました'}
-      body={'エラー番号: xxxをサポートにお知らせください'}
-      buttons={[
-        { title: 'はい', onPress: () => {}, close: true },
-        { title: 'いいえ', onPress: () => {} }]} />
-  )
+  if (FSError)
+    return (
+      <Modal
+        isOpen={true}
+        onClose={() => {
+          console.log('called')
+        }}
+        headerTitle={'エラーが発生しました'}
+        body={'エラー番号: xxxをサポートにお知らせください'}
+        buttons={[
+          { title: 'はい', onPress: () => {}, close: true },
+          { title: 'いいえ', onPress: () => {} },
+        ]}
+      />
+    )
 
   return (
     <>
-      {!checkins ? <ActivityIndicator /> :
+      {!checkins ? (
+        <ActivityIndicator />
+      ) : (
         <View>
           <Button onPress={logoutHandler}>ログアウト</Button>
           <FlatList
             data={checkins?.items}
             horizontal={true}
-            renderItem={({ item }) => <CardItem imageUrl={generateImageUrl(item.photos.items[0])} title={item.venue.name} />} />
+            renderItem={({ item }) => (
+              <CardItem imageUrl={generateImageUrl(item.photos.items[0])} title={item.venue.name} />
+            )}
+          />
         </View>
-      }
+      )}
     </>
   )
 }

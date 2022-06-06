@@ -44,8 +44,8 @@ export const useAuth = () => {
     return accessToken
   }
 
-  const logout = () => {
-    signOut()
+  const logout = async () => {
+    await signOut()
   }
 
   return {

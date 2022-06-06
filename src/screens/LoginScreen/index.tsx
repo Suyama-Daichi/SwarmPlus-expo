@@ -1,6 +1,11 @@
 import { useCallback } from 'react'
 import { WebView, WebViewNavigation } from 'react-native-webview'
-import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native'
+import {
+  NavigationProp,
+  ParamListBase,
+  StackActions,
+  useNavigation,
+} from '@react-navigation/native'
 import { SafeAreaView } from 'react-native'
 import { foursquareConfig } from '@/libs/foursquare'
 import { logEvent } from '@/hooks/useAnalytics'
@@ -23,7 +28,7 @@ export const LoginScreen = () => {
         const token = (await getCustomToken(user.id, accessToken)).data.customToken
         const userCredential = await signInWithCustomToken(token)
         logEvent('user_login')
-        navigation.navigate('home')
+        navigation.dispatch(StackActions.replace('home'))
       }
     },
     [navigation]
@@ -33,7 +38,7 @@ export const LoginScreen = () => {
     <>
       <SafeAreaView />
       <WebView
-        incognito={true}
+        incognito={false}
         source={{
           uri: `https://foursquare.com/oauth2/authenticate?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`,
         }}
