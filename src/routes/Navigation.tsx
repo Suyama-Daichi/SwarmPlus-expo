@@ -12,19 +12,10 @@ export const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <RootStack.Navigator>
-        {user ? (
-          <>
-            <RootStack.Screen name="home" component={HomeScreen} />
-            <RootStack.Screen name="login" component={LoginScreen} />
-          </>
-        ) : (
-          <>
-            <RootStack.Screen name="login" component={LoginScreen} />
-            <RootStack.Screen name="signup" component={SignupScreen} />
-            <RootStack.Screen name="home" component={HomeScreen} />
-          </>
-        )}
+      <RootStack.Navigator initialRouteName={user ? 'home' : 'login'}>
+        <RootStack.Screen name="login" component={LoginScreen} />
+        <RootStack.Screen name="signup" component={SignupScreen} />
+        <RootStack.Screen name="home" component={HomeScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   )
