@@ -35,7 +35,7 @@ export const HomeScreen = () => {
           <FlatList
             data={checkins?.items}
             horizontal={true}
-            renderItem={({ item }) => <CardItem imageUrl={generateImageUrl(item.photos[0])} title={item.venue.name} />} />
+            renderItem={({ item }) => <CardItem imageUrl={generateImageUrl(item.photos.items[0])} title={item.venue.name} />} />
         </View>
       }
     </>
