@@ -26,14 +26,12 @@ export const SignupScreen = () => {
             type={visible ? 'text' : 'password'}
             placeholder="password"
             onChangeText={(password) => setPassword(password)}
-            rightElement={
-              <Icon
-                as={FontAwesome5}
-                name={visible ? 'eye' : 'eye-slash'}
-                onPress={() => setVisible(!visible)}
-                mr="2"
-              />
-            }
+            rightElement={<Icon
+              as={FontAwesome5}
+              name={visible ? 'eye' : 'eye-slash'}
+              onPress={() => setVisible(!visible)}
+              mr="2"
+            />}
           />
         </VStack>
         <VStack>
@@ -41,14 +39,12 @@ export const SignupScreen = () => {
           <Input
             type={visible ? 'text' : 'password'}
             placeholder="password"
-            rightElement={
-              <Icon
-                as={FontAwesome5}
-                name={visible ? 'eye' : 'eye-slash'}
-                onPress={() => setVisible(!visible)}
-                mr="2"
-              />
-            }
+            rightElement={<Icon
+              as={FontAwesome5}
+              name={visible ? 'eye' : 'eye-slash'}
+              onPress={() => setVisible(!visible)}
+              mr="2"
+            />}
           />
         </VStack>
       </VStack>
@@ -59,8 +55,7 @@ export const SignupScreen = () => {
           onPress={() =>
             signUpWithEmailHandler(email, password).then(
               (error) => error && navigation.push('home')
-            )
-          }
+            )}
         >
           新規登録
         </Button>

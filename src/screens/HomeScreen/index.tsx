@@ -18,14 +18,16 @@ export const HomeScreen = () => {
     navigation.push('login')
   }
 
-  if(FSError) return <Modal
-    isOpen={true}
-    onClose={() => {console.log('called')}}
-    headerTitle={'エラーが発生しました'}
-    body={'エラー番号: xxxをサポートにお知らせください'}
-    buttons={[
-      { title: 'はい', onPress: () => {}, close: true },
-      { title: 'いいえ', onPress: () => {} }]}/>
+  if(FSError) return (
+    <Modal
+      isOpen={true}
+      onClose={() => {console.log('called')}}
+      headerTitle={'エラーが発生しました'}
+      body={'エラー番号: xxxをサポートにお知らせください'}
+      buttons={[
+        { title: 'はい', onPress: () => {}, close: true },
+        { title: 'いいえ', onPress: () => {} }]} />
+  )
 
   return (
     <>
