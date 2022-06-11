@@ -27,7 +27,7 @@ const common = {
   },
   assetBundlePatterns: ['**/*'],
   ios: {
-    bundleIdentifier: 'jp.symdit.expo-swarm-plus',
+    bundleIdentifier: 'jp.symdit.swarm-plus',
     usesAppleSignIn: true,
     infoPlist: {
       CFBundleDevelopmentRegion: 'ja_JP',
@@ -41,16 +41,14 @@ const common = {
 }
 
 module.exports = (): ExpoConfig => {
+  const ios = { ...common.ios }
   switch (releaseBranch) {
     case 'production':
       return {
+        icon: './assets/images/icon.png',
         ...dynamicConfig,
         ...common,
-        icon: './assets/images/icon.png',
-        ios: {
-          bundleIdentifier: 'jp.symdit.swarm-plus',
-          googleServicesFile: './GoogleService-Info-Production.plist',
-        },
+        ios: ios,
         web: {
           config: {
             firebase: {
@@ -58,7 +56,7 @@ module.exports = (): ExpoConfig => {
               authDomain: process.env.FB_AUTH_DOMAIN,
               databaseURL: process.env.FB_DATABASE_URL,
               projectId: process.env.FB_PROJECT_ID,
-              storageBucket: process.env.FB_STORAGE_BUKET,
+              storageBucket: process.env.FB_STORAGE_BUCKET,
               messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
               appId: process.env.FB_APP_ID,
               measurementId: process.env.FB_MEASUREMENT_ID,
@@ -73,7 +71,7 @@ module.exports = (): ExpoConfig => {
           foursquare: {
             client_id: process.env.CLIENT_ID,
             client_secret: process.env.CLIENT_SECRET,
-            redirect_uri: process.env.REDIECT_URI,
+            redirect_uri: process.env.REDIRECT_URI,
           },
           releaseChannel: 'develop',
         },
@@ -83,10 +81,7 @@ module.exports = (): ExpoConfig => {
         ...dynamicConfig,
         ...common,
         icon: './assets/images/icon.png',
-        ios: {
-          bundleIdentifier: 'jp.symdit.expo-swarm-plus',
-          googleServicesFile: './GoogleService-Info-Development.plist',
-        },
+        ios: ios,
         web: {
           config: {
             firebase: {
@@ -94,7 +89,7 @@ module.exports = (): ExpoConfig => {
               authDomain: process.env.FB_AUTH_DOMAIN,
               databaseURL: process.env.FB_DATABASE_URL,
               projectId: process.env.FB_PROJECT_ID,
-              storageBucket: process.env.FB_STORAGE_BUKET,
+              storageBucket: process.env.FB_STORAGE_BUCKET,
               messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
               appId: process.env.FB_APP_ID,
               measurementId: process.env.FB_MEASUREMENT_ID,
@@ -109,7 +104,7 @@ module.exports = (): ExpoConfig => {
           foursquare: {
             client_id: process.env.CLIENT_ID,
             client_secret: process.env.CLIENT_SECRET,
-            redirect_uri: process.env.REDIECT_URI,
+            redirect_uri: process.env.REDIRECT_URI,
           },
           releaseChannel: 'develop',
         },

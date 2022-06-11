@@ -1,11 +1,11 @@
 {
   "name": "swarm-plus",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "RELEASE_BRANCH=develop expo run:ios",
-    "build": "RELEASE_BRANCH=develop eas build",
+    "build": "RELEASE_BRANCH=develop eas build --platform=ios --non-interactive",
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll",
