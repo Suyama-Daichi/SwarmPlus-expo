@@ -14,30 +14,30 @@ const dynamicConfig = {
 }
 
 const common = {
-  name: 'Expo-Template',
-  slug: 'Expo-Template',
+  name: 'Swarm-Plus',
+  slug: 'Swarm-Plus',
   owner: 'suyama-daichi',
   orientation: 'portrait',
   splash: {
-    'image': './assets/images/splash.png',
-    'resizeMode': 'cover',
-    'backgroundColor': '#ffffff'
+    image: './assets/images/splash.png',
+    resizeMode: 'cover',
+    backgroundColor: '#ffffff',
   },
   updates: {
-    'fallbackToCacheTimeout': 0
+    fallbackToCacheTimeout: 0,
   },
   assetBundlePatterns: ['**/*'],
   ios: {
-    'usesAppleSignIn': true,
+    usesAppleSignIn: true,
     infoPlist: {
       CFBundleDevelopmentRegion: 'ja_JP',
       NSPhotoLibraryUsageDescription:
-          'プロフィール写真をアップロードするためにフォトライブラリを使用します'
+        'プロフィール写真をアップロードするためにフォトライブラリを使用します',
     },
     config: {
-      'usesNonExemptEncryption': false
-    }
-  }
+      usesNonExemptEncryption: false,
+    },
+  },
 }
 
 module.exports = (): ExpoConfig => {
@@ -48,8 +48,8 @@ module.exports = (): ExpoConfig => {
         ...common,
         icon: './assets/images/icon.png',
         ios: {
-          bundleIdentifier: 'jp.symdit.expo-template',
-          googleServicesFile: './GoogleService-Info-Production.plist'
+          bundleIdentifier: 'jp.symdit.swarm-plus',
+          googleServicesFile: './GoogleService-Info-Production.plist',
         },
         web: {
           config: {
@@ -61,7 +61,7 @@ module.exports = (): ExpoConfig => {
               storageBucket: process.env.FB_STORAGE_BUKET,
               messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
               appId: process.env.FB_APP_ID,
-              measurementId: process.env.FB_MEASUREMENT_ID
+              measurementId: process.env.FB_MEASUREMENT_ID,
             },
           },
         },
@@ -73,10 +73,10 @@ module.exports = (): ExpoConfig => {
           foursquare: {
             client_id: process.env.CLIENT_ID,
             client_secret: process.env.CLIENT_SECRET,
-            redirect_uri: process.env.REDIECT_URI
+            redirect_uri: process.env.REDIECT_URI,
           },
-          releaseChannel: 'develop'
-        }
+          releaseChannel: 'develop',
+        },
       } as ExpoConfig
     case 'develop':
       return {
@@ -84,8 +84,8 @@ module.exports = (): ExpoConfig => {
         ...common,
         icon: './assets/images/icon.png',
         ios: {
-          bundleIdentifier: 'jp.symdit.expo-template-dev',
-          googleServicesFile: './GoogleService-Info-Development.plist'
+          bundleIdentifier: 'jp.symdit.expo-swarm-plus',
+          googleServicesFile: './GoogleService-Info-Development.plist',
         },
         web: {
           config: {
@@ -97,9 +97,9 @@ module.exports = (): ExpoConfig => {
               storageBucket: process.env.FB_STORAGE_BUKET,
               messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
               appId: process.env.FB_APP_ID,
-              measurementId: process.env.FB_MEASUREMENT_ID
-            }
-          }
+              measurementId: process.env.FB_MEASUREMENT_ID,
+            },
+          },
         },
         extra: {
           supabase: {
@@ -109,10 +109,10 @@ module.exports = (): ExpoConfig => {
           foursquare: {
             client_id: process.env.CLIENT_ID,
             client_secret: process.env.CLIENT_SECRET,
-            redirect_uri: process.env.REDIECT_URI
+            redirect_uri: process.env.REDIECT_URI,
           },
-          releaseChannel: 'develop'
-        }
+          releaseChannel: 'develop',
+        },
       } as ExpoConfig
   }
 }
