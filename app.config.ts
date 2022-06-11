@@ -5,17 +5,8 @@ import 'dotenv/config'
 
 const releaseBranch = process.env.RELEASE_BRANCH
 
-/* 動的パラーメーター */
-const dynamicConfig = {
-  version: packageJson.version,
-  ios: {
-    buildNumber: appJson.expo.ios.buildNumber,
-  },
-}
-
 const common = {
-  name: 'Swarm-Plus',
-  slug: 'Swarm-Plus',
+  version: packageJson.version,
   orientation: 'portrait',
   splash: {
     image: './assets/images/splash.png',
@@ -26,29 +17,33 @@ const common = {
     fallbackToCacheTimeout: 0,
   },
   assetBundlePatterns: ['**/*'],
-  ios: {
-    bundleIdentifier: 'jp.symdit.swarm-plus',
-    usesAppleSignIn: true,
-    infoPlist: {
-      CFBundleDevelopmentRegion: 'ja_JP',
-      NSPhotoLibraryUsageDescription:
-        'プロフィール写真をアップロードするためにフォトライブラリを使用します',
-    },
-    config: {
-      usesNonExemptEncryption: false,
-    },
+}
+
+const commonIos = {
+  usesAppleSignIn: true,
+  buildNumber: appJson.expo.ios.buildNumber,
+  infoPlist: {
+    CFBundleDevelopmentRegion: 'ja_JP',
+    NSPhotoLibraryUsageDescription:
+      'プロフィール写真をアップロードするためにフォトライブラリを使用します',
+  },
+  config: {
+    usesNonExemptEncryption: false,
   },
 }
 
-module.exports = (): ExpoConfig => {
-  const ios = { ...common.ios }
+module.exports = (): ExpoConfig | undefined => {
   switch (releaseBranch) {
     case 'production':
       return {
         icon: './assets/images/icon.png',
-        ...dynamicConfig,
         ...common,
-        ios: ios,
+        name: 'swarm-plus',
+        slug: 'swarm-plus',
+        ios: { ...commonIos, bundleIdentifier: 'jp.symdit.swarm-plus' },
+        android: {
+          package: 'com.donchan.swarmplus',
+        },
         web: {
           config: {
             firebase: {
@@ -78,10 +73,14 @@ module.exports = (): ExpoConfig => {
       } as ExpoConfig
     case 'develop':
       return {
-        ...dynamicConfig,
         ...common,
+        name: 'swarm-plus',
+        slug: 'swarm-plus',
         icon: './assets/images/icon.png',
-        ios: ios,
+        ios: { ...commonIos, bundleIdentifier: 'jp.symdit.swarm-plus-dev' },
+        android: {
+          package: 'com.donchan.swarmplus-dev',
+        },
         web: {
           config: {
             firebase: {
