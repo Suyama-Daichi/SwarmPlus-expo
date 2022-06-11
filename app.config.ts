@@ -16,7 +16,6 @@ const dynamicConfig = {
 const common = {
   name: 'Swarm-Plus',
   slug: 'Swarm-Plus',
-  owner: 'suyama-daichi',
   orientation: 'portrait',
   splash: {
     image: './assets/images/splash.png',
@@ -28,6 +27,7 @@ const common = {
   },
   assetBundlePatterns: ['**/*'],
   ios: {
+    bundleIdentifier: 'jp.symdit.expo-swarm-plus',
     usesAppleSignIn: true,
     infoPlist: {
       CFBundleDevelopmentRegion: 'ja_JP',
