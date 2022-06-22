@@ -3,9 +3,11 @@
     "version": ">= 0.53.1"
   },
   "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
+    "develop": {
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
     },
     "preview": {
       "distribution": "internal"
@@ -13,6 +15,7 @@
     "production": {}
   },
   "submit": {
+    "develop": {},
     "production": {}
   }
 }
