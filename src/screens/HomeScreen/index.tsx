@@ -1,6 +1,6 @@
 import { StackActions, useNavigation } from '@react-navigation/native'
 import { Button, FlatList, View } from 'native-base'
-import { CardItem } from '@/components/CardItem'
+import { CheckinCard } from '@/components/CheckinCard'
 import { Modal } from '@/components/atoms/Modal'
 import { ActivityIndicator } from '@/components/atoms/ActivityIndicator'
 import { fetchUserCheckins } from '@/api/foursquareApi'
@@ -46,10 +46,8 @@ export const HomeScreen = () => {
           <Button onPress={logoutHandler}>ログアウト</Button>
           <FlatList
             data={checkins?.items}
-            horizontal={true}
-            renderItem={({ item }) => (
-              <CardItem imageUrl={generateImageUrl(item.photos.items[0])} title={item.venue.name} />
-            )}
+            numColumns={2}
+            renderItem={({ item }) => <CheckinCard checkin={item} />}
           />
         </View>
       )}
